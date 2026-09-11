@@ -1,0 +1,1125 @@
+﻿{
+  "Schema": 1,
+  "Apps": [
+    {
+      "FriendlyName": "Clipchamp",
+      "AppId": "Clipchamp.Clipchamp",
+      "Description": "Optional Windows application package: Clipchamp.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "3D Builder",
+      "AppId": "Microsoft.3DBuilder",
+      "Description": "Optional Windows application package: 3D Builder.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Cortana",
+      "AppId": "Microsoft.549981C3F5F10",
+      "Description": "Optional Windows application package: Cortana.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing Finance",
+      "AppId": "Microsoft.BingFinance",
+      "Description": "Optional Windows application package: Bing Finance.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing Food And Drink",
+      "AppId": "Microsoft.BingFoodAndDrink",
+      "Description": "Optional Windows application package: Bing Food And Drink.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing Health And Fitness",
+      "AppId": "Microsoft.BingHealthAndFitness",
+      "Description": "Optional Windows application package: Bing Health And Fitness.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing News",
+      "AppId": "Microsoft.BingNews",
+      "Description": "Optional Windows application package: Bing News.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing Sports",
+      "AppId": "Microsoft.BingSports",
+      "Description": "Optional Windows application package: Bing Sports.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing Translator",
+      "AppId": "Microsoft.BingTranslator",
+      "Description": "Optional Windows application package: Bing Translator.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing Travel",
+      "AppId": "Microsoft.BingTravel",
+      "Description": "Optional Windows application package: Bing Travel.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing Weather",
+      "AppId": "Microsoft.BingWeather",
+      "Description": "Optional Windows application package: Bing Weather.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft Copilot",
+      "AppId": "XP9CXNGPPJ97XX",
+      "Description": "Optional Windows application package: Microsoft Copilot.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "WinGet"
+    },
+    {
+      "FriendlyName": "Copilot+ AI Hub",
+      "AppId": "Microsoft.Windows.AIHub",
+      "Description": "Optional Windows application package: Copilot+ AI Hub.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft PC Manager",
+      "AppId": "Microsoft.PCManager",
+      "Description": "Optional Windows application package: Microsoft PC Manager.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Get Started",
+      "AppId": "Microsoft.Getstarted",
+      "Description": "Optional Windows application package: Get Started.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Messaging",
+      "AppId": "Microsoft.Messaging",
+      "Description": "Optional Windows application package: Messaging.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "3D Viewer",
+      "AppId": "Microsoft.Microsoft3DViewer",
+      "Description": "Optional Windows application package: 3D Viewer.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft Journal",
+      "AppId": "Microsoft.MicrosoftJournal",
+      "Description": "Optional Windows application package: Microsoft Journal.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Office Hub",
+      "AppId": "Microsoft.MicrosoftOfficeHub",
+      "Description": "Optional Windows application package: Office Hub.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Power BI",
+      "AppId": "Microsoft.MicrosoftPowerBIForWindows",
+      "Description": "Optional Windows application package: Power BI.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Solitaire Collection",
+      "AppId": "Microsoft.MicrosoftSolitaireCollection",
+      "Description": "Optional Windows application package: Solitaire Collection.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Sticky Notes",
+      "AppId": "Microsoft.MicrosoftStickyNotes",
+      "Description": "Optional Windows application package: Sticky Notes.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Mixed Reality Portal",
+      "AppId": "Microsoft.MixedReality.Portal",
+      "Description": "Optional Windows application package: Mixed Reality Portal.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Network Speed Test",
+      "AppId": "Microsoft.NetworkSpeedTest",
+      "Description": "Optional Windows application package: Network Speed Test.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft News",
+      "AppId": "Microsoft.News",
+      "Description": "Optional Windows application package: Microsoft News.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "OneNote",
+      "AppId": "Microsoft.Office.OneNote",
+      "Description": "Optional Windows application package: OneNote.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Sway",
+      "AppId": "Microsoft.Office.Sway",
+      "Description": "Optional Windows application package: Sway.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "One Connect",
+      "AppId": "Microsoft.OneConnect",
+      "Description": "Optional Windows application package: One Connect.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Print 3D",
+      "AppId": "Microsoft.Print3D",
+      "Description": "Optional Windows application package: Print 3D.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Power Automate",
+      "AppId": "Microsoft.PowerAutomateDesktop",
+      "Description": "Optional Windows application package: Power Automate.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Skype (UWP)",
+      "AppId": "Microsoft.SkypeApp",
+      "Description": "Optional Windows application package: Skype (UWP).",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft To Do",
+      "AppId": "Microsoft.Todos",
+      "Description": "Optional Windows application package: Microsoft To Do.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Dev Home",
+      "AppId": "Microsoft.Windows.DevHome",
+      "Description": "Optional Windows application package: Dev Home.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Alarms & Clock",
+      "AppId": "Microsoft.WindowsAlarms",
+      "Description": "Optional Windows application package: Alarms & Clock.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Feedback Hub",
+      "AppId": "Microsoft.WindowsFeedbackHub",
+      "Description": "Optional Windows application package: Feedback Hub.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Windows Maps",
+      "AppId": "Microsoft.WindowsMaps",
+      "Description": "Optional Windows application package: Windows Maps.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Sound Recorder",
+      "AppId": "Microsoft.WindowsSoundRecorder",
+      "Description": "Optional Windows application package: Sound Recorder.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Xbox Console Companion",
+      "AppId": "Microsoft.XboxApp",
+      "Description": "Optional Windows application package: Xbox Console Companion.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Movies & TV",
+      "AppId": "Microsoft.ZuneVideo",
+      "Description": "Optional Windows application package: Movies & TV.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Family Safety",
+      "AppId": "MicrosoftCorporationII.MicrosoftFamily",
+      "Description": "Optional Windows application package: Family Safety.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Quick Assist",
+      "AppId": "MicrosoftCorporationII.QuickAssist",
+      "Description": "Optional Windows application package: Quick Assist.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft Teams (Old)",
+      "AppId": "MicrosoftTeams",
+      "Description": "Optional Windows application package: Microsoft Teams (Old).",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft Teams (New)",
+      "AppId": "MSTeams",
+      "Description": "Optional Windows application package: Microsoft Teams (New).",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "ACG Media Player",
+      "AppId": "ACGMediaPlayer",
+      "Description": "Optional Windows application package: ACG Media Player.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Actipro Software",
+      "AppId": "ActiproSoftwareLLC",
+      "Description": "Optional Windows application package: Actipro Software.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Adobe Photoshop Express",
+      "AppId": "AdobeSystemsIncorporated.AdobePhotoshopExpress",
+      "Description": "Optional Windows application package: Adobe Photoshop Express.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Amazon",
+      "AppId": "Amazon.com.Amazon",
+      "Description": "Optional Windows application package: Amazon.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Prime Video",
+      "AppId": "AmazonVideo.PrimeVideo",
+      "Description": "Optional Windows application package: Prime Video.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Asphalt 8",
+      "AppId": "Asphalt8Airborne",
+      "Description": "Optional Windows application package: Asphalt 8.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Autodesk SketchBook",
+      "AppId": "AutodeskSketchBook",
+      "Description": "Optional Windows application package: Autodesk SketchBook.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Caesars Slots",
+      "AppId": "CaesarsSlotsFreeCasino",
+      "Description": "Optional Windows application package: Caesars Slots.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Cooking Fever",
+      "AppId": "COOKINGFEVER",
+      "Description": "Optional Windows application package: Cooking Fever.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "CyberLink Media Suite",
+      "AppId": "CyberLinkMediaSuiteEssentials",
+      "Description": "Optional Windows application package: CyberLink Media Suite.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Disney Magic Kingdoms",
+      "AppId": "DisneyMagicKingdoms",
+      "Description": "Optional Windows application package: Disney Magic Kingdoms.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Disney+",
+      "AppId": "Disney.37853FC22B2CE",
+      "Description": "Optional Windows application package: Disney+.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Drawboard PDF",
+      "AppId": "DrawboardPDF",
+      "Description": "Optional Windows application package: Drawboard PDF.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Duolingo",
+      "AppId": "Duolingo-LearnLanguagesforFree",
+      "Description": "Optional Windows application package: Duolingo.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Eclipse Manager",
+      "AppId": "EclipseManager",
+      "Description": "Optional Windows application package: Eclipse Manager.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Facebook",
+      "AppId": "FACEBOOK.FACEBOOK",
+      "Description": "Optional Windows application package: Facebook.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "FarmVille 2",
+      "AppId": "FarmVille2CountryEscape",
+      "Description": "Optional Windows application package: FarmVille 2.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Flipboard",
+      "AppId": "Flipboard",
+      "Description": "Optional Windows application package: Flipboard.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Hidden City",
+      "AppId": "HiddenCity",
+      "Description": "Optional Windows application package: Hidden City.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Hulu",
+      "AppId": "HULULLC.HULUPLUS",
+      "Description": "Optional Windows application package: Hulu.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "iHeartRadio",
+      "AppId": "iHeartRadio",
+      "Description": "Optional Windows application package: iHeartRadio.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Instagram",
+      "AppId": "Facebook.Instagram",
+      "Description": "Optional Windows application package: Instagram.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bubble Witch 3",
+      "AppId": "king.com.BubbleWitch3Saga",
+      "Description": "Optional Windows application package: Bubble Witch 3.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Candy Crush Saga",
+      "AppId": "king.com.CandyCrushSaga",
+      "Description": "Optional Windows application package: Candy Crush Saga.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Candy Crush Soda",
+      "AppId": "king.com.CandyCrushSodaSaga",
+      "Description": "Optional Windows application package: Candy Crush Soda.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "LinkedIn",
+      "AppId": "LinkedInforWindows",
+      "Description": "Optional Windows application package: LinkedIn.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "March of Empires",
+      "AppId": "MarchofEmpires",
+      "Description": "Optional Windows application package: March of Empires.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Netflix",
+      "AppId": "4DF9E0F8.Netflix",
+      "Description": "Optional Windows application package: Netflix.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "NYT Crossword",
+      "AppId": "NYTCrossword",
+      "Description": "Optional Windows application package: NYT Crossword.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "One Calendar",
+      "AppId": "OneCalendar",
+      "Description": "Optional Windows application package: One Calendar.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Pandora",
+      "AppId": "PandoraMediaInc",
+      "Description": "Optional Windows application package: Pandora.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Phototastic Collage",
+      "AppId": "PhototasticCollage",
+      "Description": "Optional Windows application package: Phototastic Collage.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "PicsArt",
+      "AppId": "PicsArt-PhotoStudio",
+      "Description": "Optional Windows application package: PicsArt.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Polarr Photo Editor",
+      "AppId": "PolarrPhotoEditorAcademicEdition",
+      "Description": "Optional Windows application package: Polarr Photo Editor.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Royal Revolt",
+      "AppId": "flaregamesGmbH.RoyalRevolt",
+      "Description": "Optional Windows application package: Royal Revolt.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Live Wallpaper",
+      "AppId": "Sidia.LiveWallpaper",
+      "Description": "Optional Windows application package: Live Wallpaper.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Sling TV",
+      "AppId": "SlingTV",
+      "Description": "Optional Windows application package: Sling TV.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Spotify",
+      "AppId": "SpotifyAB.SpotifyMusic",
+      "Description": "Optional Windows application package: Spotify.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "TikTok",
+      "AppId": "BytedancePte.Ltd.TikTok",
+      "Description": "Optional Windows application package: TikTok.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "TuneIn Radio",
+      "AppId": "TuneInRadio",
+      "Description": "Optional Windows application package: TuneIn Radio.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "WinZip",
+      "AppId": "WinZipUniversal",
+      "Description": "Optional Windows application package: WinZip.",
+      "SelectedByDefault": true,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Bing Search",
+      "AppId": "Microsoft.BingSearch",
+      "Description": "Optional Windows application package: Bing Search.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Xbox Gaming App",
+      "AppId": "Microsoft.GamingApp",
+      "Description": "Optional Windows application package: Xbox Gaming App.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Get Help",
+      "AppId": "Microsoft.GetHelp",
+      "Description": "Optional Windows application package: Get Help.",
+      "SelectedByDefault": false,
+      "Recommendation": "unsafe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft 365 Companions",
+      "AppId": "Microsoft.M365Companions",
+      "Description": "Optional Windows application package: Microsoft 365 Companions.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Paint 3D",
+      "AppId": "Microsoft.MSPaint",
+      "Description": "Optional Windows application package: Paint 3D.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "OneDrive",
+      "AppId": "Microsoft.OneDrive",
+      "Description": "Optional Windows application package: OneDrive.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "WinGet"
+    },
+    {
+      "FriendlyName": "Outlook for Windows",
+      "AppId": "Microsoft.OutlookForWindows",
+      "Description": "Optional Windows application package: Outlook for Windows.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Paint",
+      "AppId": "Microsoft.Paint",
+      "Description": "Optional Windows application package: Paint.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "People",
+      "AppId": "Microsoft.People",
+      "Description": "Optional Windows application package: People.",
+      "SelectedByDefault": false,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Remote Desktop",
+      "AppId": "Microsoft.RemoteDesktop",
+      "Description": "Optional Windows application package: Remote Desktop.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Snipping Tool",
+      "AppId": "Microsoft.ScreenSketch",
+      "Description": "Optional Windows application package: Snipping Tool.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Widgets Experience",
+      "AppId": "Microsoft.StartExperiencesApp",
+      "Description": "Optional Windows application package: Widgets Experience.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Whiteboard",
+      "AppId": "Microsoft.Whiteboard",
+      "Description": "Optional Windows application package: Whiteboard.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Photos",
+      "AppId": "Microsoft.Windows.Photos",
+      "Description": "Optional Windows application package: Photos.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Calculator",
+      "AppId": "Microsoft.WindowsCalculator",
+      "Description": "Optional Windows application package: Calculator.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Camera",
+      "AppId": "Microsoft.WindowsCamera",
+      "Description": "Optional Windows application package: Camera.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Mail & Calendar",
+      "AppId": "Microsoft.windowscommunicationsapps",
+      "Description": "Optional Windows application package: Mail & Calendar.",
+      "SelectedByDefault": false,
+      "Recommendation": "safe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Notepad",
+      "AppId": "Microsoft.WindowsNotepad",
+      "Description": "Optional Windows application package: Notepad.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Microsoft Store",
+      "AppId": "Microsoft.WindowsStore",
+      "Description": "Optional Windows application package: Microsoft Store.",
+      "SelectedByDefault": false,
+      "Recommendation": "unsafe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Windows Terminal",
+      "AppId": "Microsoft.WindowsTerminal",
+      "Description": "Optional Windows application package: Windows Terminal.",
+      "SelectedByDefault": false,
+      "Recommendation": "unsafe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Xbox TCUI Framework",
+      "AppId": "Microsoft.Xbox.TCUI",
+      "Description": "Optional Windows application package: Xbox TCUI Framework.",
+      "SelectedByDefault": false,
+      "Recommendation": "unsafe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Xbox Game Overlay",
+      "AppId": "Microsoft.XboxGameOverlay",
+      "Description": "Optional Windows application package: Xbox Game Overlay.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Xbox Gaming Overlay",
+      "AppId": "Microsoft.XboxGamingOverlay",
+      "Description": "Optional Windows application package: Xbox Gaming Overlay.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Xbox Identity Provider",
+      "AppId": "Microsoft.XboxIdentityProvider",
+      "Description": "Optional Windows application package: Xbox Identity Provider.",
+      "SelectedByDefault": false,
+      "Recommendation": "unsafe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Xbox Speech To Text",
+      "AppId": "Microsoft.XboxSpeechToTextOverlay",
+      "Description": "Optional Windows application package: Xbox Speech To Text.",
+      "SelectedByDefault": false,
+      "Recommendation": "unsafe",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Phone Link",
+      "AppId": "Microsoft.YourPhone",
+      "Description": "Optional Windows application package: Phone Link.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Media Player",
+      "AppId": "Microsoft.ZuneMusic",
+      "Description": "Optional Windows application package: Media Player.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Cross Device Experience",
+      "AppId": "MicrosoftWindows.CrossDevice",
+      "Description": "Optional Windows application package: Cross Device Experience.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Windows Web Experience Pack",
+      "AppId": "MicrosoftWindows.Client.WebExperience",
+      "Description": "Optional Windows application package: Windows Web Experience Pack.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Widgets Platform Runtime",
+      "AppId": "Microsoft.WidgetsPlatformRuntime",
+      "Description": "Optional Windows application package: Widgets Platform Runtime.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "LG Monitor App",
+      "AppId": "LGElectronics.LGMonitorApp",
+      "Description": "Optional Windows application package: LG Monitor App.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP AI Experience Center",
+      "AppId": "AD2F1837.HPAIExperienceCenter",
+      "Description": "Optional Windows application package: HP AI Experience Center.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Connected Music",
+      "AppId": "AD2F1837.HPConnectedMusic",
+      "Description": "Optional Windows application package: HP Connected Music.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Connected Photo",
+      "AppId": "AD2F1837.HPConnectedPhotopoweredbySnapfish",
+      "Description": "Optional Windows application package: HP Connected Photo.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Desktop Support Utilities",
+      "AppId": "AD2F1837.HPDesktopSupportUtilities",
+      "Description": "Optional Windows application package: HP Desktop Support Utilities.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Easy Clean",
+      "AppId": "AD2F1837.HPEasyClean",
+      "Description": "Optional Windows application package: HP Easy Clean.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP File Viewer",
+      "AppId": "AD2F1837.HPFileViewer",
+      "Description": "Optional Windows application package: HP File Viewer.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP JumpStarts",
+      "AppId": "AD2F1837.HPJumpStarts",
+      "Description": "Optional Windows application package: HP JumpStarts.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP PC Hardware Diagnostics",
+      "AppId": "AD2F1837.HPPCHardwareDiagnosticsWindows",
+      "Description": "Optional Windows application package: HP PC Hardware Diagnostics.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Power Manager",
+      "AppId": "AD2F1837.HPPowerManager",
+      "Description": "Optional Windows application package: HP Power Manager.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Printer Control",
+      "AppId": "AD2F1837.HPPrinterControl",
+      "Description": "Optional Windows application package: HP Printer Control.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Privacy Settings",
+      "AppId": "AD2F1837.HPPrivacySettings",
+      "Description": "Optional Windows application package: HP Privacy Settings.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP QuickDrop",
+      "AppId": "AD2F1837.HPQuickDrop",
+      "Description": "Optional Windows application package: HP QuickDrop.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP QuickTouch",
+      "AppId": "AD2F1837.HPQuickTouch",
+      "Description": "Optional Windows application package: HP QuickTouch.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Registration",
+      "AppId": "AD2F1837.HPRegistration",
+      "Description": "Optional Windows application package: HP Registration.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Support Assistant",
+      "AppId": "AD2F1837.HPSupportAssistant",
+      "Description": "Optional Windows application package: HP Support Assistant.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Sure Shield AI",
+      "AppId": "AD2F1837.HPSureShieldAI",
+      "Description": "Optional Windows application package: HP Sure Shield AI.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP System Information",
+      "AppId": "AD2F1837.HPSystemInformation",
+      "Description": "Optional Windows application package: HP System Information.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP Welcome",
+      "AppId": "AD2F1837.HPWelcome",
+      "Description": "Optional Windows application package: HP Welcome.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "HP WorkWell",
+      "AppId": "AD2F1837.HPWorkWell",
+      "Description": "Optional Windows application package: HP WorkWell.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "myHP",
+      "AppId": "AD2F1837.myHP",
+      "Description": "Optional Windows application package: myHP.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Lenovo Vantage",
+      "AppId": "E046963F.LenovoCompanion",
+      "Description": "Optional Windows application package: Lenovo Vantage.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Lenovo Vantage Service",
+      "AppId": "LenovoCompanyLimited.LenovoVantageService",
+      "Description": "Optional Windows application package: Lenovo Vantage Service.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Dell SupportAssist",
+      "AppId": "DellInc.DellSupportAssistforPCs",
+      "Description": "Optional Windows application package: Dell SupportAssist.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Dell Digital Delivery Services",
+      "AppId": "DellInc.DellDigitalDelivery",
+      "Description": "Optional Windows application package: Dell Digital Delivery Services.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    },
+    {
+      "FriendlyName": "Dell Mobile Connect",
+      "AppId": "DellInc.DellMobileConnect",
+      "Description": "Optional Windows application package: Dell Mobile Connect.",
+      "SelectedByDefault": false,
+      "Recommendation": "optional",
+      "RemovalMethod": "Appx"
+    }
+  ]
+}

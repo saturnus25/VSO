@@ -1,0 +1,163 @@
+{
+  "Schema": 1,
+  "Fixtures": [
+    {
+      "Id": "SystemResponsiveness_0",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "SystemResponsiveness",
+        "Value": 0
+      },
+      "Expect": {
+        "State": "Clamped",
+        "Effective": "20",
+        "Evidence": "E1"
+      }
+    },
+    {
+      "Id": "SystemResponsiveness_20",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "SystemResponsiveness",
+        "Value": 20
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "20",
+        "Evidence": "E1"
+      }
+    },
+    {
+      "Id": "NetworkThrottlingIndex_FFFFFFFF",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "NetworkThrottlingIndex",
+        "Value": "FFFFFFFF"
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "Unknown"
+      }
+    },
+    {
+      "Id": "LargeSystemCache_1",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "LargeSystemCache",
+        "Value": 1
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "Unknown"
+      }
+    },
+    {
+      "Id": "DisablePagingExecutive_1",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "DisablePagingExecutive",
+        "Value": 1
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "Unknown"
+      }
+    },
+    {
+      "Id": "PowerThrottlingOff_1",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "PowerThrottlingOff",
+        "Value": 1
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "DisabledGlobally"
+      }
+    },
+    {
+      "Id": "TCPNoDelay_1",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "TCPNoDelay",
+        "Value": 1
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "Unknown"
+      }
+    },
+    {
+      "Id": "TcpAckFrequency_1",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "TcpAckFrequency",
+        "Value": 1
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "Unknown"
+      }
+    },
+    {
+      "Id": "Disabledynamictick_yes",
+      "Input": {
+        "Kind": "BCD",
+        "Name": "disabledynamictick",
+        "Value": "Yes"
+      },
+      "Expect": {
+        "State": "LegacyOverride",
+        "Effective": "Unknown"
+      }
+    },
+    {
+      "Id": "useplatformtick_yes",
+      "Input": {
+        "Kind": "BCD",
+        "Name": "useplatformtick",
+        "Value": "Yes"
+      },
+      "Expect": {
+        "State": "DebugOverride",
+        "Effective": "Unknown"
+      }
+    },
+    {
+      "Id": "useplatformclock_yes",
+      "Input": {
+        "Kind": "BCD",
+        "Name": "useplatformclock",
+        "Value": "Yes"
+      },
+      "Expect": {
+        "State": "DebugOverride",
+        "Effective": "Unknown"
+      }
+    },
+    {
+      "Id": "HAGS_2",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "HwSchMode",
+        "Value": 2
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "UnknownUntilRuntime"
+      }
+    },
+    {
+      "Id": "MPO_5",
+      "Input": {
+        "Kind": "Registry",
+        "Name": "OverlayTestMode",
+        "Value": 5
+      },
+      "Expect": {
+        "State": "Configured",
+        "Effective": "Override"
+      }
+    }
+  ]
+}

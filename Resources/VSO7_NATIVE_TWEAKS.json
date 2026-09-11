@@ -1,0 +1,4672 @@
+{
+  "Schema": 5,
+  "Features": [
+    {
+      "FeatureId": "V7SP001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SP002",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SP003",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SP004",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SP005",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7PV001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo",
+          "Name": "Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Privacy",
+          "Name": "TailoredExperiencesWithDiagnosticDataEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Speech_OneCore\\Settings\\OnlineSpeechPrivacy",
+          "Name": "HasAccepted",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Input\\TIPC",
+          "Name": "Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\InputPersonalization",
+          "Name": "RestrictImplicitInkCollection",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\InputPersonalization",
+          "Name": "RestrictImplicitTextCollection",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\InputPersonalization\\TrainedDataStore",
+          "Name": "HarvestContacts",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Personalization\\Settings",
+          "Name": "AcceptedPrivacyPolicy",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection",
+          "Name": "AllowTelemetry",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Start_TrackProgs",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+          "Name": "PublishUserActivities",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Siuf\\Rules",
+          "Name": "NumberOfSIUFInPeriod",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Siuf\\Rules",
+          "Name": "PeriodInNanoSeconds"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "PersonalizationReportingEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "DiagnosticData",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo",
+          "Name": "Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Privacy",
+          "Name": "TailoredExperiencesWithDiagnosticDataEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Speech_OneCore\\Settings\\OnlineSpeechPrivacy",
+          "Name": "HasAccepted",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Input\\TIPC",
+          "Name": "Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\InputPersonalization",
+          "Name": "RestrictImplicitInkCollection"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\InputPersonalization",
+          "Name": "RestrictImplicitTextCollection"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\InputPersonalization\\TrainedDataStore",
+          "Name": "HarvestContacts",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Personalization\\Settings",
+          "Name": "AcceptedPrivacyPolicy",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Diagnostics\\DiagTrack",
+          "Name": "ShowedToastAtLevel",
+          "Kind": "DWord",
+          "Value": 3
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection",
+          "Name": "AllowTelemetry",
+          "Kind": "DWord",
+          "Value": 3
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection",
+          "Name": "MaxTelemetryAllowed",
+          "Kind": "DWord",
+          "Value": 3
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Start_TrackProgs",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+          "Name": "PublishUserActivities"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Siuf\\Rules",
+          "Name": "NumberOfSIUFInPeriod"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Siuf\\Rules",
+          "Name": "PeriodInNanoSeconds"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "PersonalizationReportingEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "DiagnosticData"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7PV002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-310093Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-338388Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SystemPaneSuggestionsEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Start_IrisRecommendations",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-338389Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SoftLandingEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-338393Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-353694Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-353696Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-353698Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\SystemSettings\\AccountNotifications",
+          "Name": "EnableAccountNotifications",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\UserProfileEngagement",
+          "Name": "ScoobeSystemSettingEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "ShowSyncProviderNotifications",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SilentInstalledAppsEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings\\Windows.SystemToast.Suggested",
+          "Name": "Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Mobility",
+          "Name": "OptedIn",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Start_AccountNotifications",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings\\Windows.SystemToast.BackupReminder",
+          "Name": "Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-310093Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-338388Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SystemPaneSuggestionsEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Start_IrisRecommendations",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-338389Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SoftLandingEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-338393Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-353694Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-353696Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-353698Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\SystemSettings\\AccountNotifications",
+          "Name": "EnableAccountNotifications",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\UserProfileEngagement",
+          "Name": "ScoobeSystemSettingEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "ShowSyncProviderNotifications",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SilentInstalledAppsEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings\\Windows.SystemToast.Suggested",
+          "Name": "Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Mobility",
+          "Name": "OptedIn",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Start_AccountNotifications",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings\\Windows.SystemToast.BackupReminder",
+          "Name": "Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsBackup",
+          "Name": "DisableMonitoring",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7PV003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\PushNotifications",
+          "Name": "ToastEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\PushNotifications",
+          "Name": "ToastEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7PV004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\LocationAndSensors",
+          "Name": "DisableLocation",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\LocationAndSensors",
+          "Name": "DisableLocation"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7PV005",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\FindMyDevice",
+          "Name": "AllowFindMyDevice",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\FindMyDevice",
+          "Name": "AllowFindMyDevice"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7PV006",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-338387Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "RotatingLockScreenOverlayEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "SubscribedContent-338387Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "Name": "RotatingLockScreenOverlayEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7UI001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\CloudContent",
+          "Name": "DisableSpotlightCollectionOnDesktop"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel",
+          "Name": "{2cc5ca98-6485-489a-920e-b3e88a6ccce3}"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7UI002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\CloudContent",
+          "Name": "DisableSpotlightCollectionOnDesktop",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel",
+          "Name": "{2cc5ca98-6485-489a-920e-b3e88a6ccce3}"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\CloudContent",
+          "Name": "DisableSpotlightCollectionOnDesktop"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel",
+          "Name": "{2cc5ca98-6485-489a-920e-b3e88a6ccce3}"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7UI003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\CloudContent",
+          "Name": "DisableSpotlightCollectionOnDesktop"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel",
+          "Name": "{2cc5ca98-6485-489a-920e-b3e88a6ccce3}",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel",
+          "Name": "{2cc5ca98-6485-489a-920e-b3e88a6ccce3}"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7PV007",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "NewTabPageContentEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "NewTabPageHideDefaultTopSites",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "EdgeShoppingAssistantEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "TabServicesEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "AlternateErrorPagesEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "UserFeedbackAllowed",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "ShowRecommendationsEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "WalletDonationEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "HideFirstRunExperience",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "DefaultBrowserSettingEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "DefaultBrowserSettingsCampaignEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "SpotlightExperiencesAndRecommendationsEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "ShowAcrobatSubscriptionButton",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "NewTabPageContentEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "NewTabPageHideDefaultTopSites"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "EdgeShoppingAssistantEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "TabServicesEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "AlternateErrorPagesEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "UserFeedbackAllowed"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "ShowRecommendationsEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "WalletDonationEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "HideFirstRunExperience"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "DefaultBrowserSettingEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "DefaultBrowserSettingsCampaignEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "SpotlightExperiencesAndRecommendationsEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "ShowAcrobatSubscriptionButton"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7AI001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "ShowCopilotButton",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+          "Name": "TurnOffWindowsCopilot",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+          "Name": "TurnOffWindowsCopilot",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "ShowCopilotButton",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+          "Name": "TurnOffWindowsCopilot"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+          "Name": "TurnOffWindowsCopilot"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7AI002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "DisableAIDataAnalysis",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "DisableAIDataAnalysis",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "AllowRecallEnablement",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "TurnOffSavingSnapshots",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\PolicyManager\\default\\WindowsAI\\DisableAIDataAnalysis",
+          "Name": "value",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "DisableAIDataAnalysis"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "DisableAIDataAnalysis"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "AllowRecallEnablement"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "TurnOffSavingSnapshots"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7AI003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "DisableClickToDo",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "DisableClickToDo",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "DisableClickToDo"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "Name": "DisableClickToDo"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7AI004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\WSAIFabricSvc",
+          "Name": "Start",
+          "Kind": "DWord",
+          "Value": 3
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\WSAIFabricSvc",
+          "Name": "Start",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7GM001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\System\\GameConfigStore",
+          "Name": "GameDVR_Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\GameDVR",
+          "Name": "AppCaptureEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
+          "Name": "AllowGameDVR",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\System\\GameConfigStore",
+          "Name": "GameDVR_Enabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\GameDVR",
+          "Name": "AppCaptureEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
+          "Name": "AllowGameDVR",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7GM002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\GameBar",
+          "Name": "UseNexusForGameBarEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebar",
+          "Name": "",
+          "Kind": "String",
+          "Value": "URL:ms-gamebar"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebar",
+          "Name": "URL Protocol",
+          "Kind": "String",
+          "Value": ""
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebar",
+          "Name": "NoOpenWith",
+          "Kind": "String",
+          "Value": ""
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebar\\shell\\open\\command",
+          "Name": "",
+          "Kind": "String",
+          "Value": "%SystemRoot%/System32/systray.exe"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebarservices",
+          "Name": "",
+          "Kind": "String",
+          "Value": "URL:ms-gamebarservices"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebarservices",
+          "Name": "URL Protocol",
+          "Kind": "String",
+          "Value": ""
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebarservices",
+          "Name": "NoOpenWith",
+          "Kind": "String",
+          "Value": ""
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebarservices\\shell\\open\\command",
+          "Name": "",
+          "Kind": "String",
+          "Value": "%SystemRoot%/System32/systray.exe"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\GameBar",
+          "Name": "UseNexusForGameBarEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebar",
+          "Name": "",
+          "Kind": "String",
+          "Value": "URL:ms-gamebar"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebar",
+          "Name": "URL Protocol",
+          "Kind": "String",
+          "Value": ""
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebar",
+          "Name": "NoOpenWith"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebar\\shell\\open\\command"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebarservices",
+          "Name": "",
+          "Kind": "String",
+          "Value": "URL:ms-gamebarservices"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebarservices",
+          "Name": "URL Protocol",
+          "Kind": "String",
+          "Value": ""
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebarservices",
+          "Name": "NoOpenWith"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\ms-gamebarservices\\shell\\open\\command"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7ST001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7ST002",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SP006",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SP007",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7ST003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+          "Name": "HideRecommendedSection",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+          "Name": "HideRecommendedSection",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+          "Name": "HideRecommendedSection",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Start",
+          "Name": "HideRecommendedSection",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Education",
+          "Name": "IsEducationEnvironment",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Start_Layout",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7ST004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoStartMenuMorePrograms",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoStartMenuMorePrograms"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoStartMenuMorePrograms"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7ST005",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Start\\Companions\\Microsoft.YourPhone_8wekyb3d8bbwe",
+          "Name": "IsEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Start\\Companions\\Microsoft.YourPhone_8wekyb3d8bbwe",
+          "Name": "IsEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7ST006",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\Explorer",
+          "Name": "DisableSearchBoxSuggestions",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+          "Name": "AllowCortana",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+          "Name": "CortanaConsent",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\Explorer",
+          "Name": "DisableSearchBoxSuggestions",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+          "Name": "AllowCortana"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+          "Name": "CortanaConsent"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7ST007",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "DisableSearchHighlights",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\SearchSettings",
+          "Name": "IsDynamicSearchBoxEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\SearchSettings",
+          "Name": "IsDynamicSearchBoxEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "DisableSearchHistory",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\SearchSettings",
+          "Name": "IsDeviceSearchHistoryEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\SearchSettings",
+          "Name": "IsDeviceSearchHistoryEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7PV008",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+          "Name": "DisableConsumerAccountStateContent",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+          "Name": "DisableConsumerAccountStateContent"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7OT001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "SettingsPageVisibility",
+          "Kind": "String",
+          "Value": "hide:home"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "SettingsPageVisibility"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7AI005",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "CopilotCDPPageContext",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "CopilotPageContext",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "HubsSidebarEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "EdgeEntraCopilotPageContext",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "EdgeHistoryAISearchEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "ComposeInlineEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "GenAILocalFoundationalModelSettings",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "NewTabPageBingChatEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "CopilotCDPPageContext"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "CopilotPageContext"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "HubsSidebarEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "EdgeEntraCopilotPageContext"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "EdgeHistoryAISearchEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "ComposeInlineEnabled"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "GenAILocalFoundationalModelSettings"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Edge",
+          "Name": "NewTabPageBingChatEnabled"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7AI006",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableCocreator",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableGenerativeFill",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableImageCreator",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableGenerativeErase",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableRemoveBackground",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableCocreator"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableGenerativeFill"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableImageCreator"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableGenerativeErase"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "Name": "DisableRemoveBackground"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7AI007",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\WindowsNotepad",
+          "Name": "DisableAIFeatures",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\WindowsNotepad",
+          "Name": "DisableAIFeatures"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7UI004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+          "Name": "AppsUseLightTheme",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+          "Name": "SystemUsesLightTheme",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+          "Name": "AppsUseLightTheme",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+          "Name": "SystemUsesLightTheme",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SY001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\CDP",
+          "Name": "DragTrayEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\CDP",
+          "Name": "DragTrayEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SY002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32",
+          "Name": "",
+          "Kind": "String",
+          "Value": ""
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SY003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Mouse",
+          "Name": "MouseSpeed",
+          "Kind": "String",
+          "Value": "0"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Mouse",
+          "Name": "MouseThreshold1",
+          "Kind": "String",
+          "Value": "0"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Mouse",
+          "Name": "MouseThreshold2",
+          "Kind": "String",
+          "Value": "0"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Mouse",
+          "Name": "MouseSpeed",
+          "Kind": "String",
+          "Value": "1"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Mouse",
+          "Name": "MouseThreshold1",
+          "Kind": "String",
+          "Value": "6"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Mouse",
+          "Name": "MouseThreshold2",
+          "Kind": "String",
+          "Value": "10"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SY004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Accessibility\\StickyKeys",
+          "Name": "Flags",
+          "Kind": "String",
+          "Value": "506"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Accessibility\\StickyKeys",
+          "Name": "Flags",
+          "Kind": "String",
+          "Value": "510"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7MT001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Desktop",
+          "Name": "WindowArrangementActive",
+          "Kind": "String",
+          "Value": "0"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Desktop",
+          "Name": "WindowArrangementActive",
+          "Kind": "String",
+          "Value": "1"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7MT002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "SnapAssist",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "SnapAssist",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7MT003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "EnableSnapBar",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "EnableSnapAssistFlyout",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "EnableSnapBar",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "EnableSnapAssistFlyout",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7MT004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MultiTaskingAltTabFilter",
+          "Kind": "DWord",
+          "Value": 3
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7MT005",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MultiTaskingAltTabFilter",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7MT006",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MultiTaskingAltTabFilter",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7MT007",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MultiTaskingAltTabFilter",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7TB001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarAl",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarAl"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Search",
+          "Name": "SearchboxTaskbarMode",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Search",
+          "Name": "SearchboxTaskbarMode",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Search",
+          "Name": "SearchboxTaskbarMode",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Search",
+          "Name": "SearchboxTaskbarMode",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Search",
+          "Name": "SearchboxTaskbarMode",
+          "Kind": "DWord",
+          "Value": 3
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Search",
+          "Name": "SearchboxTaskbarMode",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB005",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Search",
+          "Name": "SearchboxTaskbarMode",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7TB006",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "ShowTaskViewButton",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "ShowTaskViewButton",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB007",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7TB008",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarMn",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "HideSCAMeetNow",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarMn",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "HideSCAMeetNow",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SY005",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\StorageSense\\Parameters\\StoragePolicy",
+          "Name": "01",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\StorageSense\\Parameters\\StoragePolicy",
+          "Name": "01",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SY006",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power",
+          "Name": "HiberbootEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power",
+          "Name": "HiberbootEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SY007",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\BitLocker",
+          "Name": "PreventDeviceEncryption",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\BitLocker",
+          "Name": "PreventDeviceEncryption"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SY008",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\f15576e8-98b7-4186-b944-eafa664402d9",
+          "Name": "ACSettingIndex",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\f15576e8-98b7-4186-b944-eafa664402d9",
+          "Name": "DCSettingIndex",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\f15576e8-98b7-4186-b944-eafa664402d9",
+          "Name": "ACSettingIndex",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\f15576e8-98b7-4186-b944-eafa664402d9",
+          "Name": "DCSettingIndex",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB009",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\TaskbarDeveloperSettings",
+          "Name": "TaskbarEndTask",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\TaskbarDeveloperSettings",
+          "Name": "TaskbarEndTask",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB010",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LastActiveClick",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LastActiveClick"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB011",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7TB012",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7TB013",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB014",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB015",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "TaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB016",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarGlomLevel",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB017",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarMode",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7TB018",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarMode",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarMode",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7TB019",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarMode",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "MMTaskbarMode",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LaunchTo",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7FE002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LaunchTo",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LaunchTo",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LaunchTo",
+          "Kind": "DWord",
+          "Value": 3
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LaunchTo",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LaunchTo",
+          "Kind": "DWord",
+          "Value": 4
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "LaunchTo",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE005",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "HideFileExt",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "HideFileExt",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE006",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Hidden",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "Name": "Hidden",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE007",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\DelegateFolders\\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\DelegateFolders\\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}",
+          "Name": "",
+          "Kind": "String",
+          "Value": "Removable Drives"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE008",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}",
+          "Name": "",
+          "Kind": "String",
+          "Value": "CLSID_MSGraphHomeFolder"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}",
+          "Name": "System.IsPinnedToNameSpaceTree",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "CheckedValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "DefaultValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "HKeyRoot",
+          "Kind": "DWord",
+          "Value": 2147483649
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "Id",
+          "Kind": "DWord",
+          "Value": 13
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "RegPath",
+          "Kind": "String",
+          "Value": "Software\\Classes\\CLSID\\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "Text",
+          "Kind": "String",
+          "Value": "Show Home"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "Type",
+          "Kind": "String",
+          "Value": "checkbox"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "UncheckedValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "ValueName",
+          "Kind": "String",
+          "Value": "System.IsPinnedToNameSpaceTree"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}",
+          "Name": "",
+          "Kind": "String",
+          "Value": "CLSID_MSGraphHomeFolder"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}",
+          "Name": "System.IsPinnedToNameSpaceTree",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "CheckedValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "DefaultValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "HKeyRoot",
+          "Kind": "DWord",
+          "Value": 2147483649
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "Id",
+          "Kind": "DWord",
+          "Value": 13
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "RegPath",
+          "Kind": "String",
+          "Value": "Software\\Classes\\CLSID\\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "Text",
+          "Kind": "String",
+          "Value": "Show Home"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "Type",
+          "Kind": "String",
+          "Value": "checkbox"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "UncheckedValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowHome",
+          "Name": "ValueName",
+          "Kind": "String",
+          "Value": "System.IsPinnedToNameSpaceTree"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE009",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}",
+          "Name": "System.IsPinnedToNameSpaceTree",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "CheckedValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "DefaultValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "HKeyRoot",
+          "Kind": "DWord",
+          "Value": 2147483649
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "Id",
+          "Kind": "DWord",
+          "Value": 13
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "RegPath",
+          "Kind": "String",
+          "Value": "Software\\Classes\\CLSID\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "Text",
+          "Kind": "String",
+          "Value": "Show Gallery"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "Type",
+          "Kind": "String",
+          "Value": "checkbox"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "UncheckedValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "ValueName",
+          "Kind": "String",
+          "Value": "System.IsPinnedToNameSpaceTree"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}",
+          "Name": "System.IsPinnedToNameSpaceTree",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "CheckedValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "DefaultValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "HKeyRoot",
+          "Kind": "DWord",
+          "Value": 2147483649
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "Id",
+          "Kind": "DWord",
+          "Value": 13
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "RegPath",
+          "Kind": "String",
+          "Value": "Software\\Classes\\CLSID\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "Text",
+          "Kind": "String",
+          "Value": "Show Gallery"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "Type",
+          "Kind": "String",
+          "Value": "checkbox"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "UncheckedValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowGallery",
+          "Name": "ValueName",
+          "Kind": "String",
+          "Value": "System.IsPinnedToNameSpaceTree"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7UI005",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+          "Name": "EnableTransparency",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+          "Name": "EnableTransparency",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7UI006",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Desktop",
+          "Name": "UserPreferencesMask",
+          "Kind": "Binary",
+          "Value": [
+            144,
+            18,
+            7,
+            128,
+            16,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Control Panel\\Desktop",
+          "Name": "UserPreferencesMask",
+          "Kind": "Binary",
+          "Value": [
+            158,
+            30,
+            7,
+            128,
+            18,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7WU001",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\WindowsUpdate\\UX\\Settings",
+          "Name": "IsContinuousInnovationOptedIn",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\WindowsUpdate\\UX\\Settings",
+          "Name": "IsContinuousInnovationOptedIn",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7WU002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU",
+          "Name": "NoAutoRebootWithLoggedOnUsers",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU",
+          "Name": "NoAutoRebootWithLoggedOnUsers"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7WU003",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_USERS\\S-1-5-20\\Software\\Microsoft\\Windows\\CurrentVersion\\DeliveryOptimization\\Settings",
+          "Name": "DownloadMode",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_USERS\\S-1-5-20\\Software\\Microsoft\\Windows\\CurrentVersion\\DeliveryOptimization\\Settings",
+          "Name": "DownloadMode",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7WU004",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Device Metadata",
+          "Name": "PreventDeviceMetadataFromNetwork",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Device Metadata",
+          "Name": "PreventDeviceMetadataFromNetwork"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7SP008",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7FE010",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{018D5C66-4533-4307-9B53-224DE2ED1FE6}",
+          "Name": "System.IsPinnedToNameSpaceTree",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "CheckedValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "DefaultValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "HKeyRoot",
+          "Kind": "DWord",
+          "Value": 2147483649
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "Id",
+          "Kind": "DWord",
+          "Value": 13
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "RegPath",
+          "Kind": "String",
+          "Value": "Software\\Classes\\CLSID\\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "Text",
+          "Kind": "String",
+          "Value": "Show OneDrive"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "Type",
+          "Kind": "String",
+          "Value": "checkbox"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "UncheckedValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "ValueName",
+          "Kind": "String",
+          "Value": "System.IsPinnedToNameSpaceTree"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{018D5C66-4533-4307-9B53-224DE2ED1FE6}",
+          "Name": "System.IsPinnedToNameSpaceTree",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "CheckedValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "DefaultValue",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "HKeyRoot",
+          "Kind": "DWord",
+          "Value": 2147483649
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "Id",
+          "Kind": "DWord",
+          "Value": 13
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "RegPath",
+          "Kind": "String",
+          "Value": "Software\\Classes\\CLSID\\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "Text",
+          "Kind": "String",
+          "Value": "Show OneDrive"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "Type",
+          "Kind": "String",
+          "Value": "checkbox"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "UncheckedValue",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\NavPane\\ShowOneDrive",
+          "Name": "ValueName",
+          "Kind": "String",
+          "Value": "System.IsPinnedToNameSpaceTree"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE011",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7FE012",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7FE013",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}",
+          "Name": "HideIfEnabled"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{d3162b92-9365-467a-956b-92703aca08af}",
+          "Name": "HideIfEnabled"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{d3162b92-9365-467a-956b-92703aca08af}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{088e3905-0323-4b02-9826-5d99428e115f}",
+          "Name": "HideIfEnabled"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{088e3905-0323-4b02-9826-5d99428e115f}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}",
+          "Name": "HideIfEnabled"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{1CF1260C-4DD0-4ebb-811F-33C572699FDE}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}",
+          "Name": "HideIfEnabled"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}",
+          "Name": "HideIfEnabled"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}",
+          "Name": "HideIfEnabled",
+          "Kind": "DWord",
+          "Value": 36354489
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{d3162b92-9365-467a-956b-92703aca08af}",
+          "Name": "HideIfEnabled",
+          "Kind": "DWord",
+          "Value": 36354489
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{d3162b92-9365-467a-956b-92703aca08af}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{088e3905-0323-4b02-9826-5d99428e115f}",
+          "Name": "HideIfEnabled",
+          "Kind": "DWord",
+          "Value": 36354489
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{088e3905-0323-4b02-9826-5d99428e115f}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}",
+          "Name": "HideIfEnabled",
+          "Kind": "DWord",
+          "Value": 36354489
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{1CF1260C-4DD0-4ebb-811F-33C572699FDE}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}",
+          "Name": "HideIfEnabled",
+          "Kind": "DWord",
+          "Value": 36354489
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}",
+          "Name": "HideIfEnabled",
+          "Kind": "DWord",
+          "Value": 36354489
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}",
+          "Name": "HiddenByDefault",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE014",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\Folder\\ShellEx\\ContextMenuHandlers\\Library Location"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Folder\\ShellEx\\ContextMenuHandlers\\Library Location"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\Folder\\ShellEx\\ContextMenuHandlers\\Library Location",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Folder\\ShellEx\\ContextMenuHandlers\\Library Location",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE015",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\*\\shellex\\ContextMenuHandlers\\Sharing"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\Directory\\Background\\shellex\\ContextMenuHandlers\\Sharing"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\Directory\\shellex\\ContextMenuHandlers\\Sharing"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\Drive\\shellex\\ContextMenuHandlers\\Sharing"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\LibraryFolder\\background\\shellex\\ContextMenuHandlers\\Sharing"
+        },
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\UserLibraryFolder\\shellex\\ContextMenuHandlers\\Sharing"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\*\\shellex\\ContextMenuHandlers\\Sharing",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\Directory\\Background\\shellex\\ContextMenuHandlers\\Sharing",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\Directory\\shellex\\ContextMenuHandlers\\Sharing",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\Drive\\shellex\\ContextMenuHandlers\\Sharing",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\LibraryFolder\\background\\shellex\\ContextMenuHandlers\\Sharing",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\UserLibraryFolder\\shellex\\ContextMenuHandlers\\Sharing",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoInplaceSharing"
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Blocked",
+          "Name": "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE016",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_CLASSES_ROOT\\*\\shellex\\ContextMenuHandlers\\ModernSharing"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CLASSES_ROOT\\*\\shellex\\ContextMenuHandlers\\ModernSharing",
+          "Name": "",
+          "Kind": "String",
+          "Value": "{e2bf9676-5f8f-435c-97eb-11607a5bedf7}"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7OT002",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\Software\\Policies\\BraveSoftware\\Brave",
+          "Name": "BraveVPNDisabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\Software\\Policies\\BraveSoftware\\Brave",
+          "Name": "BraveWalletDisabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\Software\\Policies\\BraveSoftware\\Brave",
+          "Name": "BraveAIChatEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\Software\\Policies\\BraveSoftware\\Brave",
+          "Name": "BraveRewardsDisabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\Software\\Policies\\BraveSoftware\\Brave",
+          "Name": "BraveTalkDisabled",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\Software\\Policies\\BraveSoftware\\Brave",
+          "Name": "BraveNewsDisabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "DeleteKey",
+          "Path": "HKEY_LOCAL_MACHINE\\Software\\Policies\\BraveSoftware\\Brave"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7OF001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7OF002",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7FE017",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+          "Name": "ShowDriveLettersFirst",
+          "Kind": "DWord",
+          "Value": 4
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+          "Name": "ShowDriveLettersFirst",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE018",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+          "Name": "ShowDriveLettersFirst",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7FE019",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+          "Name": "ShowDriveLettersFirst",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+          "Name": "ShowDriveLettersFirst",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7FE020",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+          "Name": "ShowDriveLettersFirst",
+          "Kind": "DWord",
+          "Value": 2
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+          "Name": "ShowDriveLettersFirst",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7ST008",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Start",
+          "Name": "AllAppsViewMode",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoStartMenuMorePrograms"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7ST009",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Start",
+          "Name": "AllAppsViewMode",
+          "Kind": "DWord",
+          "Value": 1
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoStartMenuMorePrograms"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Start",
+          "Name": "AllAppsViewMode",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoStartMenuMorePrograms"
+        }
+      ]
+    },
+    {
+      "FeatureId": "V7ST010",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Start",
+          "Name": "AllAppsViewMode",
+          "Kind": "DWord",
+          "Value": 2
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoStartMenuMorePrograms"
+        }
+      ],
+      "Undo": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Start",
+          "Name": "AllAppsViewMode",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "Name": "NoStartMenuMorePrograms"
+        }
+      ]
+    },
+    {
+      "FeatureId": "EnableUsbSelectiveSuspend",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_USB",
+          "SettingAlias": "USBSELECTIVE",
+          "AC": 1,
+          "DC": 1
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnablePhysicalNicRss",
+      "Mode": "NetAdapterRss",
+      "Apply": [
+        {
+          "Action": "EnableRss",
+          "Scope": "ActivePhysicalSupportedDisabled"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "NormalizeClampedSystemResponsivenessOverride",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
+          "Name": "SystemResponsiveness",
+          "Kind": "DWord",
+          "Value": 20
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestorePhysicalNicChecksumOffloads",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*IPChecksumOffloadIPv4",
+              "RegistryValue": "3"
+            },
+            {
+              "RegistryKeyword": "*TCPChecksumOffloadIPv4",
+              "RegistryValue": "3"
+            },
+            {
+              "RegistryKeyword": "*UDPChecksumOffloadIPv4",
+              "RegistryValue": "3"
+            },
+            {
+              "RegistryKeyword": "*TCPChecksumOffloadIPv6",
+              "RegistryValue": "3"
+            },
+            {
+              "RegistryKeyword": "*UDPChecksumOffloadIPv6",
+              "RegistryValue": "3"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestorePhysicalNicLso",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*LsoV2IPv4",
+              "RegistryValue": "1"
+            },
+            {
+              "RegistryKeyword": "*LsoV2IPv6",
+              "RegistryValue": "1"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestorePhysicalNicRsc",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*RscIPv4",
+              "RegistryValue": "1"
+            },
+            {
+              "RegistryKeyword": "*RscIPv6",
+              "RegistryValue": "1"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "DisablePhysicalNicRscForLowLatency",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*RscIPv4",
+              "RegistryValue": "0"
+            },
+            {
+              "RegistryKeyword": "*RscIPv6",
+              "RegistryValue": "0"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreGlobalReceiveSideScaling",
+      "Mode": "NetOffloadGlobal",
+      "Apply": [
+        {
+          "Action": "SetGlobalOffload",
+          "Property": "ReceiveSideScaling",
+          "Value": "Enabled"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreGlobalReceiveSegmentCoalescing",
+      "Mode": "NetOffloadGlobal",
+      "Apply": [
+        {
+          "Action": "SetGlobalOffload",
+          "Property": "ReceiveSegmentCoalescing",
+          "Value": "Enabled"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreGlobalTaskOffload",
+      "Mode": "NetOffloadGlobal",
+      "Apply": [
+        {
+          "Action": "SetGlobalOffload",
+          "Property": "TaskOffload",
+          "Value": "Enabled"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreTcpAutoTuningNormal",
+      "Mode": "NetTcpSetting",
+      "Apply": [
+        {
+          "Action": "SetTcpSetting",
+          "Property": "AutoTuningLevelLocal",
+          "Value": "Normal",
+          "AllowedSourceValues": [
+            "Disabled",
+            "HighlyRestricted",
+            "Restricted"
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnablePhysicalNicInterruptModeration",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*InterruptModeration",
+              "RegistryValue": "1"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "DisablePhysicalNicInterruptModerationForLowLatency",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*InterruptModeration",
+              "RegistryValue": "0"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestorePhysicalNicEee",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*EEE",
+              "RegistryValue": "1"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnableProcessorBoostModeOnAcDesktop",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "PERFBOOSTMODE",
+          "AC": 1,
+          "DC": "Preserve"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreGameRecordingPolicyToUserControl",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
+          "Name": "AllowGameDVR"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "DisableBackgroundGameCapturePerUser",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\System\\GameConfigStore",
+          "Name": "GameDVR_Enabled",
+          "Kind": "DWord",
+          "Value": 0
+        },
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\GameDVR",
+          "Name": "AppCaptureEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnableNtfsTrimWhenDisabledNoReFs",
+      "Mode": "FsutilTrim",
+      "Apply": [
+        {
+          "Action": "EnableNtfsTrim"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnableScheduledDriveOptimization",
+      "Mode": "ScheduledTaskState",
+      "Apply": [
+        {
+          "Action": "EnableTask",
+          "TaskPath": "\\Microsoft\\Windows\\Defrag\\",
+          "TaskName": "ScheduledDefrag"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreStorageSensePolicyToUserControl",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense",
+          "Name": "AllowStorageSenseGlobal"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreStorageSenseTempCleanupPolicyToUserControl",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense",
+          "Name": "AllowStorageSenseTemporaryFilesCleanup"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestorePowerThrottlingToUserControl",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "DeleteValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Power\\PowerThrottling",
+          "Name": "PowerThrottlingOff"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreMaxProcessorStateOnAcDesktop",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "PROCTHROTTLEMAX",
+          "AC": 100,
+          "DC": "Preserve"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "SetProcessorEppPerformanceOnAcDesktop",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "PERFEPP",
+          "AC": 0,
+          "DC": "Preserve"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "SetProcessorEppBalancedOnAcDesktop",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "PERFEPP",
+          "AC": 50,
+          "DC": "Preserve"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "SetProcessorEppEfficiencyOnBatteryLaptop",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "PERFEPP",
+          "AC": "Preserve",
+          "DC": 80
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnableActiveCoolingOnAcLaptop",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "SYSCOOLPOL",
+          "AC": 1,
+          "DC": "Preserve"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnableWakeOnMagicPacketPhysicalNics",
+      "Mode": "NetAdapterPower",
+      "Apply": [
+        {
+          "Action": "SetPowerProperty",
+          "Property": "WakeOnMagicPacket",
+          "Value": "Enabled",
+          "OnlyUp": false
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreNicSelectiveSuspendOnLaptops",
+      "Mode": "NetAdapterPower",
+      "Apply": [
+        {
+          "Action": "SetPowerProperty",
+          "Property": "SelectiveSuspend",
+          "Value": "Enabled",
+          "OnlyUp": false
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreTcpEcnDefaultDisabled",
+      "Mode": "NetTcpSetting",
+      "Apply": [
+        {
+          "Action": "SetTcpSetting",
+          "Property": "EcnCapability",
+          "Value": "Disabled",
+          "AllowedSourceValues": [
+            "Enabled"
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnableTcpEcnForTesting",
+      "Mode": "NetTcpSetting",
+      "Apply": [
+        {
+          "Action": "SetTcpSetting",
+          "Property": "EcnCapability",
+          "Value": "Enabled",
+          "AllowedSourceValues": [
+            "Disabled"
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "RestoreTcpTimestampsAllowed",
+      "Mode": "NetTcpCimSetting",
+      "Apply": [
+        {
+          "Action": "SetTcpTimestampCim",
+          "Property": "Timestamps",
+          "Value": "Allowed",
+          "AllowedSourceValues": [
+            "Enabled",
+            "Disabled"
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "EnableWakeOnPatternPhysicalNics",
+      "Mode": "NetAdapterPower",
+      "Apply": [
+        {
+          "Action": "SetPowerProperty",
+          "Property": "WakeOnPattern",
+          "Value": "Enabled",
+          "OnlyUp": false
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GM101",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\GameBar",
+          "Name": "AutoGameModeEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GM102",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\GameBar",
+          "Name": "AutoGameModeEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GM103",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\GameBar",
+          "Name": "UseNexusForGameBarEnabled",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GM104",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_CURRENT_USER\\Software\\Microsoft\\GameBar",
+          "Name": "UseNexusForGameBarEnabled",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SR101",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense",
+          "Name": "AllowStorageSenseGlobal",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SR102",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense",
+          "Name": "AllowStorageSenseGlobal",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SR103",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense",
+          "Name": "AllowStorageSenseTemporaryFilesCleanup",
+          "Kind": "DWord",
+          "Value": 1
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SR104",
+      "Mode": "Registry",
+      "Apply": [
+        {
+          "Action": "SetValue",
+          "Path": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\StorageSense",
+          "Name": "AllowStorageSenseTemporaryFilesCleanup",
+          "Kind": "DWord",
+          "Value": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7PW101",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "PERFEPP",
+          "AC": 50,
+          "DC": "Preserve"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7PW102",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "PERFEPP",
+          "AC": 20,
+          "DC": "Preserve"
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7PW103",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PROCESSOR",
+          "SettingAlias": "PERFBOOSTMODE",
+          "AC": "Preserve",
+          "DC": 0
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7PW104",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PCIEXPRESS",
+          "SettingAlias": "ASPM",
+          "AC": "Preserve",
+          "DC": 1
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7PW105",
+      "Mode": "PowerSetting",
+      "Apply": [
+        {
+          "Action": "SetPowerSetting",
+          "SubGroupAlias": "SUB_PCIEXPRESS",
+          "SettingAlias": "ASPM",
+          "AC": "Preserve",
+          "DC": 2
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7NW101",
+      "Mode": "NetTcpCimSetting",
+      "Apply": [
+        {
+          "Action": "SetTcpTimestampCim",
+          "Property": "Timestamps",
+          "Value": "Enabled",
+          "AllowedSourceValues": [
+            "Allowed",
+            "Disabled"
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7NW102",
+      "Mode": "NetTcpCimSetting",
+      "Apply": [
+        {
+          "Action": "SetTcpTimestampCim",
+          "Property": "Timestamps",
+          "Value": "Disabled",
+          "AllowedSourceValues": [
+            "Allowed",
+            "Enabled"
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GP001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GP002",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GP003",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GP004",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7LT001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7LT002",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7LT003",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7LT004",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7LT005",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7IN001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7US001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7US002",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7AU001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7NW201",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7NW202",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7NW203",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7WF001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7ST201",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7DR001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7SV001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7FW001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7BM001",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7BM002",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GP101",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GP102",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7GP103",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7DI201",
+      "Mode": "Special",
+      "Apply": [],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7NW204",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*EEE",
+              "RegistryValue": "0"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7NW205",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*LsoV2IPv4",
+              "RegistryValue": "0"
+            },
+            {
+              "RegistryKeyword": "*LsoV2IPv6",
+              "RegistryValue": "0"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    },
+    {
+      "FeatureId": "V7NW206",
+      "Mode": "NetAdapterAdvanced",
+      "Apply": [
+        {
+          "Action": "SetAdvancedProperties",
+          "Scope": "ActivePhysical",
+          "Properties": [
+            {
+              "RegistryKeyword": "*IPChecksumOffloadIPv4",
+              "RegistryValue": "0"
+            },
+            {
+              "RegistryKeyword": "*TCPChecksumOffloadIPv4",
+              "RegistryValue": "0"
+            },
+            {
+              "RegistryKeyword": "*UDPChecksumOffloadIPv4",
+              "RegistryValue": "0"
+            },
+            {
+              "RegistryKeyword": "*TCPChecksumOffloadIPv6",
+              "RegistryValue": "0"
+            },
+            {
+              "RegistryKeyword": "*UDPChecksumOffloadIPv6",
+              "RegistryValue": "0"
+            }
+          ]
+        }
+      ],
+      "Undo": []
+    }
+  ]
+}
