@@ -12,7 +12,7 @@ The current public version uses the **console interface**.
 
 The graphical interface is still under development. It is not included as a supported launcher in this release and will probably not work correctly if invoked from the source code. Use `START VSO7.bat` to start the supported console version.
 
-### Install with PowerShell
+## Install with PowerShell
 
 VSO7 can also be downloaded and extracted directly with PowerShell:
 
