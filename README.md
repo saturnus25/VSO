@@ -12,6 +12,15 @@ The current public version uses the **console interface**.
 
 The graphical interface is still under development. It is not included as a supported launcher in this release and will probably not work correctly if invoked from the source code. Use `START VSO7.bat` to start the supported console version.
 
+### Install with PowerShell
+
+VSO7 can also be downloaded and extracted directly with PowerShell:
+
+```powershell
+$zip="$env:TEMP\VSO7-7.0.0.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO7/releases/download/v7.0.0/VSO7-7.0.0.zip" -OutFile $zip; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
+```
+This downloads the release package and extracts it into a VSO7 folder in the current directory.
+
 ## Features
 
 - Windows 11 performance optimization
@@ -111,6 +120,6 @@ Review the proposed changes before applying them. Use aggressive or experimental
 
 ## License
 
-VSO7 is licensed under the [MIT License](VSO7/LICENSE).
+VSO7 is licensed under the [MIT License](LICENSE).
 
-Third-party notices and licenses are documented in [THIRD_PARTY_NOTICES.md](VSO7/THIRD_PARTY_NOTICES.md) and [LICENSE.Win11Debloat.txt](VSO7/LICENSE.Win11Debloat.txt).
+Third-party notices and licenses are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [LICENSE.Win11Debloat.txt](LICENSE.Win11Debloat.txt).
