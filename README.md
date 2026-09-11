@@ -111,6 +111,6 @@ Review the proposed changes before applying them. Use aggressive or experimental
 
 ## License
 
-VSO7 is licensed under the [MIT License](LICENSE.txt).
+VSO7 is licensed under the [MIT License](VSO7/LICENSE.txt).
 
-Third-party notices and licenses are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [LICENSE.Win11Debloat.txt](LICENSE.Win11Debloat.txt).
+Third-party notices and licenses are documented in [THIRD_PARTY_NOTICES.md](VSO7/THIRD_PARTY_NOTICES.md) and [LICENSE.Win11Debloat.txt](VSO7/LICENSE.Win11Debloat.txt).
