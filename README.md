@@ -23,7 +23,7 @@ The graphical interface is still under development. It is not included as a supp
 VSO7 can also be downloaded and extracted directly with PowerShell:
 
 ```powershell
-$zip="$env:TEMP\VSO7-1.0.0.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO/releases/latest/download/VSO7-1.0.0.zip" -OutFile $zip -ErrorAction Stop; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
+$zip="$env:TEMP\VSO7-1.1.0.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO/releases/latest/download/VSO7-1.1.0.zip" -OutFile $zip -ErrorAction Stop; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
 ```
 This downloads the release package and extracts it into a VSO7 folder in the current directory.
 
