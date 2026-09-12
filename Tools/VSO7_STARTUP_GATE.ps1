@@ -10,6 +10,73 @@ function Write-VSO7StartupGateError {
     [Console]::Error.WriteLine(('[ERROR] STARTUP GATE: {0}'-f$Message))
 }
 
+
+function Show-VSO7SupportWindowBanner {
+    # Presentation only. No waits, child processes or changes to validation state.
+    # The original launcher still owns the lifetime and exit code of this window.
+    $width=80
+    try{$width=[int][Console]::WindowWidth}catch{}
+    if($width-lt1){$width=80}
+    $inner=[Math]::Max(1,[Math]::Min(78,$width-2))
+    $padding=' '*[Math]::Max(0,[int][Math]::Floor(($width-$inner-2)/2))
+    $trueColor=(-not[string]::IsNullOrWhiteSpace([string]$env:WT_SESSION))
+    try{if([Console]::IsOutputRedirected){$trueColor=$false}}catch{$trueColor=$false}
+
+    function Write-SupportLine {
+        param([string]$Text,[string]$Rgb='216;164;119',[string]$Fallback='Yellow',[switch]$Border)
+        if($Border){$shown=$padding+$Text}else{
+            if($Text.Length-gt$inner){$Text=$Text.Substring(0,$inner)}
+            $left=[int][Math]::Floor(($inner-$Text.Length)/2)
+            $shown=$padding+'│'+(' '*$left)+$Text+(' '*($inner-$left-$Text.Length))+'│'
+        }
+        if($trueColor){
+            $esc=[char]27
+            Write-Host ($esc+'[38;2;'+$Rgb+'m'+$shown+$esc+'[0m')
+        }else{
+            Write-Host $shown -ForegroundColor $Fallback
+        }
+    }
+
+    $logo=@(
+        '                             ████                  █████',
+        '████        ████         ████████████           ███████████',
+        '█████      ████         ████     ███          █████     █████',
+        ' ████     ████          █████                ████         ████',
+        '  ████    ███            ██████████          ███           ███',
+        '   ████  ████                ████████        ███           ███',
+        '    ████████                      ████       ████        █████',
+        '     ██████             ██████  █████         ██████   █████',
+        '      ████               ███████████            ██████████'
+    )
+    if($inner-lt61){
+        $logo=@('██╗   ██╗ ███████╗  ██████╗',
+                '██║   ██║ ██╔════╝ ██╔═══██╗',
+                '██║   ██║ ███████╗ ██║   ██║',
+                '╚██╗ ██╔╝ ╚════██║ ██║   ██║',
+                ' ╚████╔╝  ███████║ ╚██████╔╝',
+                '  ╚═══╝   ╚══════╝  ╚═════╝')
+    }
+    if($inner-lt27){$logo=@('VSO')}
+
+    Write-Host ''
+    Write-SupportLine -Text ('┌'+('─'*$inner)+'┐') -Border -Rgb '156;118;89' -Fallback DarkYellow
+    Write-SupportLine ''
+    foreach($row in $logo){Write-SupportLine -Text $row -Rgb '185;110;62' -Fallback DarkYellow}
+    Write-SupportLine ''
+    Write-SupportLine 'VICO SAFE OPTIMIZER · 1.1.0' -Rgb '216;164;119' -Fallback Yellow
+    Write-SupportLine ''
+    Write-SupportLine "DON'T CLOSE THIS WINDOW" -Rgb '235;206;174' -Fallback Yellow
+    Write-SupportLine ''
+    Write-SupportLine 'This support window stays open while VSO7 is running.' -Rgb '190;183;173' -Fallback Gray
+    Write-SupportLine 'Use the main VSO7 window to continue.' -Rgb '190;183;173' -Fallback Gray
+    Write-SupportLine 'This window closes automatically after a successful run.' -Rgb '190;183;173' -Fallback Gray
+    Write-SupportLine ''
+    Write-SupportLine 'Startup checks passed.' -Rgb '216;164;119' -Fallback Yellow
+    Write-SupportLine ''
+    Write-SupportLine -Text ('└'+('─'*$inner)+'┘') -Border -Rgb '156;118;89' -Fallback DarkYellow
+    Write-Host ''
+}
+
 try{
     if([Environment]::OSVersion.Platform-ne[PlatformID]::Win32NT){ throw 'VSO7 only works on Windows.' }
     if($PSVersionTable.PSEdition-ne'Desktop'-or[version]$PSVersionTable.PSVersion-lt[version]'5.1'){
@@ -48,7 +115,14 @@ try{
         $actual=(Get-FileHash -LiteralPath (Join-Path $fullRoot $relative) -Algorithm SHA256 -ErrorAction Stop).Hash.ToUpperInvariant()
         if($actual-cne[string]$expectedCatalogs[$relative]){ throw ('A locked catalog does not match its expected hash: {0}'-f$relative) }
     }
+    if($Mode-eq'CLI'){
+        # A presentation failure must not turn successful hard gates into a failure.
+        try{Show-VSO7SupportWindowBanner}catch{
+            Write-Host '[OK] Startup checks passed. Do not close this window while VSO7 is running.' -ForegroundColor Yellow
+        }
+    }else{
     Write-Host '[OK] STARTUP GATE: host, parser, versioned core, and essential catalogs verified.' -ForegroundColor Green
+    }
     exit 0
 }catch{
     Write-VSO7StartupGateError -Message $_.Exception.Message

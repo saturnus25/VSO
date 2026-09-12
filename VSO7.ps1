@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.1
 <#
-VSO7 - Vico Safe Optimizer 7.0.0 RC R80
+VSO7 - Vico Safe Optimizer 1.1.0
 ======================================
 Optimizador modular para Windows 10/11 centrado en cambios medibles, explicitos
 y reversibles. Incluye medicion A/B, VSO Score y sesiones Gaming temporales.
@@ -841,7 +841,9 @@ trap {
 
 }
 
-$script:Version = '7.0.0'
+# Visible product version is independent of the existing authenticated state format.
+$script:DisplayVersion = '1.1.0'
+$script:Version = '7.0.0' # Protected-state/Recovery compatibility identifier; not a UI label.
 $script:Release = 'RC R80'
 $script:NativeJournalRevision = 26
 $script:ProductName = 'VSO7'
@@ -2102,7 +2104,9 @@ foreach($legacyKey in @($script:TranslationsEn.Keys)){
 }
 $script:TranslationsEs = @{}
 $canonicalEnglish = @{}
-foreach($legacyKey in @($script:LegacyTranslationsEsToEn.Keys)){
+$legacyTranslationKeys=[string[]]@($script:LegacyTranslationsEsToEn.Keys)
+[Array]::Sort($legacyTranslationKeys,[StringComparer]::Ordinal)
+foreach($legacyKey in $legacyTranslationKeys){
     $englishValue=[string]$script:LegacyTranslationsEsToEn[$legacyKey]
     if(-not[string]::IsNullOrWhiteSpace($englishValue)){
         $canonicalEnglish[$englishValue]=$englishValue
@@ -2111,6 +2115,15 @@ foreach($legacyKey in @($script:LegacyTranslationsEsToEn.Keys)){
         }
     }
 }
+# Prefer stable, correctly spelled Spanish where legacy aliases share an English key.
+$script:TranslationsEs['VSO7 will continue from the current location.']='VSO7 continuará desde la ubicación actual.'
+$script:TranslationsEs['Gaming optimization completed.']='Optimización gaming terminada.'
+$script:TranslationsEs['Safe optimization']='Optimización segura'
+$script:TranslationsEs['Select all']='Seleccionar todos'
+$script:TranslationsEs['Disable transparency']='Desactivar transparencia'
+$script:TranslationsEs['Power plans could not be enumerated.']='No se pudieron enumerar los planes de energía.'
+$script:TranslationsEs['Safe optimization completed.']='Optimización segura terminada.'
+$script:TranslationsEs['The engine reported a failure; check Recovery and the logs.']='El motor reportó un fallo; revisa Recuperación y los logs.'
 $script:TranslationsEn=$canonicalEnglish
 
 function Convert-VSOText {
@@ -3008,7 +3021,7 @@ function Write-Title {
     if($script:GuiMode){
 
         Clear-VSO7GuiOutputVSO
-        Write-VSOHost ("VSO7 · {0}" -f $script:Version) -ForegroundColor Yellow
+        Write-VSOHost ("VSO7 · {0}" -f $script:DisplayVersion) -ForegroundColor Yellow
         Write-VSOHost ''
         return
 
@@ -3021,11 +3034,11 @@ function Write-Title {
     $logoRows = Get-VSOLogoRows
     $summary = if ($script:Language -eq 'en') {
 
-        ('Version {0} | Analysis, optimization, measurement and recovery.' -f $script:Version)
+        ('Version {0} | Analysis, optimization, measurement and recovery.' -f $script:DisplayVersion)
 
     } else {
 
-        ('Version {0} | Analisis, optimizacion, medicion y recuperacion.' -f $script:Version)
+        ('Version {0} | Analisis, optimizacion, medicion y recuperacion.' -f $script:DisplayVersion)
 
     }
 
@@ -4959,7 +4972,7 @@ function Invoke-FirstRunOrganization {
         if($mutexReleased-and$null-eq$script:InstanceMutex){
             [void](Enter-VSO7SingleInstance)
         }
-        Write-CenteredLineVSO -Text ((Convert-VSOText -Value 'No se pudo organizar automaticamente:')+' '+[string]$_.Exception.Message) -Color $script:ThemeDanger
+        Write-CenteredLineVSO -Text ((Convert-VSOText -Value $(Get-VSO7ConsoleTextVSO -Es 'No se pudo organizar automaticamente:' -En 'Could not organize VSO7 automatically:'))+' '+[string]$_.Exception.Message) -Color $script:ThemeDanger
         Write-CenteredLineVSO -Text 'VSO7 continuara desde la ubicacion actual.' -Color $script:ThemeWarning
         $script:Root=$here;
         Initialize-VSO7LocalFolders;
@@ -5434,7 +5447,7 @@ function Enter-VSO7SingleInstance {
 
     } catch {
 
-        Write-VSOHost ("No se pudo crear el bloqueo de instancia unica: {0}" -f $_.Exception.Message) -ForegroundColor Red
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'No se pudo crear el bloqueo de instancia unica: {0}' -En 'The single-instance lock could not be created: {0}') -f $_.Exception.Message) -ForegroundColor Red
         return $false
 
     }
@@ -6956,16 +6969,16 @@ function Show-PowerPlanManager {
 
             $plan=$schemes[$i]
             $marker=if($plan.Active){
-                ' [ACTIVO]'
+                $(Get-VSO7ConsoleTextVSO -Es ' [ACTIVO]' -En ' [ACTIVE]')
             }else{
                 ''
             }
             $type=if($plan.IsBuiltIn){
                 'Windows'
             }else{
-                'Personalizado/OEM'
+                $(Get-VSO7ConsoleTextVSO -Es 'Personalizado/OEM' -En 'Custom/OEM')
             }
-            $desc=("Tipo: {0}. Seleccionarlo solo cambia el plan activo; VSO7 no edita sus valores." -f $type)
+            $desc=($(Get-VSO7ConsoleTextVSO -Es "Tipo: {0}. Seleccionarlo solo cambia el plan activo; VSO7 no edita sus valores." -En "Type: {0}. Selecting it only changes the active plan; VSO7 does not edit its settings.") -f $type)
             $powerRows += [pscustomobject]@{
                 Text=("[{0}] {1}{2}" -f ($i+1),$plan.Name,$marker);
                 Color=$(if($plan.Active){
@@ -6982,7 +6995,7 @@ function Show-PowerPlanManager {
         $restoreNumber=$schemes.Count+1
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Restaurar el plan original" -f $restoreNumber);Color='Yellow';Description='Vuelve al plan que estaba activo antes del primer cambio realizado por VSO7.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Restaurar el plan original' -En '[{0}] Restore the original power plan') -f $restoreNumber);Color='Yellow';Description='Vuelve al plan que estaba activo antes del primer cambio realizado por VSO7.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Regresa al menu anterior sin cambiar el plan.';SeparatorBefore=$true
@@ -7021,7 +7034,7 @@ function Show-PowerPlanManager {
                 continue
             }
             Write-VSOHost ''
-            Write-CenteredLineVSO -Text ((Convert-VSOText -Value 'Vas a activar:')+' '+[string]$selected.Name) -Color $script:ThemeWarning
+            Write-CenteredLineVSO -Text ((Convert-VSOText -Value $(Get-VSO7ConsoleTextVSO -Es 'Vas a activar:' -En 'You are about to activate:'))+' '+[string]$selected.Name) -Color $script:ThemeWarning
             if(-not$selected.IsBuiltIn){
                 Write-CenteredLineVSO -Text 'Es un plan personalizado/OEM. VSO7 no modifica su contenido; solo lo selecciona.' -Color 'Cyan'
             }
@@ -8943,7 +8956,7 @@ function Show-StartupRestoreMenuVSO {
         Write-CenteredLineVSO -Text 'RESTAURAR APLICACIONES DE INICIO' -Color 'Yellow'
         Write-CenteredLineVSO -Text 'Aqui solo se muestran entradas que VSO7 deshabilito anteriormente y sabe como restaurar.' -Color $script:ThemeText
         if($pending.Count-gt0){
-            Write-CenteredLineVSO -Text 'Hay operaciones de inicio pendientes o ambiguas. VSO7 no las restaurara automaticamente.' -Color $script:ThemeDanger;
+            Write-CenteredLineVSO -Text $(Get-VSO7ConsoleTextVSO -Es 'Hay operaciones de inicio pendientes o ambiguas. VSO7 no las restaurara automaticamente.' -En 'Some startup operations are pending or ambiguous. VSO7 will not restore them automatically.') -Color $script:ThemeDanger;
             Write-CenteredLineVSO -Text 'Revisa startup-state.json y los logs antes de intervenir manualmente.' -Color $script:ThemeWarning;
             Write-VSOHost ''
         }
@@ -8957,14 +8970,14 @@ function Show-StartupRestoreMenuVSO {
             $rows += [pscustomobject]@{
                 Text=("[{0}] {1}"-f($i+1),$items[$i].Name);
                 Color='Gray';
-                Description=("Tipo: {0}. Restaura esta entrada a su ubicacion de inicio original guardada por VSO7."-f$items[$i].Type)
+                Description=($(Get-VSO7ConsoleTextVSO -Es 'Tipo: {0}. Restaura esta entrada a su ubicacion de inicio original guardada por VSO7.' -En 'Type: {0}. Restores this entry to its original startup location saved by VSO7.')-f$items[$i].Type)
             }
         }
         Write-VSO7TwoColumnOptionsVSO -Items $rows
         $allNumber=$items.Count+1
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Restaurar todas las entradas"-f$allNumber);Color='Green';Description='Intenta restaurar de una vez todas las entradas de inicio que VSO7 tiene registradas como deshabilitadas.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Restaurar todas las entradas' -En '[{0}] Restore all entries')-f$allNumber);Color='Green';Description='Intenta restaurar de una vez todas las entradas de inicio que VSO7 tiene registradas como deshabilitadas.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Regresa sin restaurar ninguna entrada adicional.';SeparatorBefore=$true
@@ -9100,9 +9113,9 @@ function Show-StartupAnalysis {
                 'Origen'
             }
             $startupRows += [pscustomobject]@{
-                Text=("[{0}] [{1}] {2} - {3}"-f($i+1),$mark,$class,$entry.Name);
+                Text=("[{0}] [{1}] {2} - {3}"-f($i+1),$mark,$(if($isEn){switch($class){'MANTENER'{'KEEP'}'CANDIDATO'{'CANDIDATE'}default{'REVIEW'}}}else{$class}),$entry.Name);
                 Color=$color;
-                Description=(("{0} {1}: {2} · Class: {3}"-f$meaning,$sourceLabel,$entry.Location,$tech))
+                Description=(($(Get-VSO7ConsoleTextVSO -Es "{0} {1}: {2} · Clase: {3}" -En "{0} {1}: {2} · Class: {3}")-f$meaning,$sourceLabel,$entry.Location,$tech))
             }
 
         }
@@ -9115,19 +9128,19 @@ function Show-StartupAnalysis {
         $restoreDisabled=$entries.Count+5
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Seleccionar todos los CANDIDATOS"-f$selectCandidates);Color='Yellow';Description='Marca automaticamente solo las entradas que VSO7 considera normalmente prescindibles al iniciar Windows.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Seleccionar todos los CANDIDATOS' -En '[{0}] Select all CANDIDATES')-f$selectCandidates);Color='Yellow';Description='Marca automaticamente solo las entradas que VSO7 considera normalmente prescindibles al iniciar Windows.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Quitar toda la seleccion"-f$clearSelection);Color='Gray';Description='Desmarca todo. No cambia Windows.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Quitar toda la seleccion' -En '[{0}] Clear the selection')-f$clearSelection);Color='Gray';Description='Desmarca todo. No cambia Windows.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Ver detalles y comando de una entrada"-f$showCommand);Color='Gray';Description='Muestra de donde sale una entrada y el comando que ejecuta, sin modificarla.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Ver detalles y comando de una entrada' -En '[{0}] View entry details and command')-f$showCommand);Color='Gray';Description='Muestra de donde sale una entrada y el comando que ejecuta, sin modificarla.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Deshabilitar las entradas seleccionadas"-f$disableSelected);Color='Yellow';Description='Crea recuperacion y evita que las seleccionadas arranquen automaticamente; no desinstala los programas.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Deshabilitar las entradas seleccionadas' -En '[{0}] Disable selected startup entries')-f$disableSelected);Color='Yellow';Description='Crea recuperacion y evita que las seleccionadas arranquen automaticamente; no desinstala los programas.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Restaurar entradas deshabilitadas por VSO7"-f$restoreDisabled);Color='Green';Description='Abre el historial de entradas que VSO7 deshabilito para poder restaurarlas.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Restaurar entradas deshabilitadas por VSO7' -En '[{0}] Restore startup entries disabled by VSO7')-f$restoreDisabled);Color='Green';Description='Abre el historial de entradas que VSO7 deshabilito para poder restaurarlas.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Regresa al menu anterior sin aplicar cambios pendientes.';SeparatorBefore=$true
@@ -9175,10 +9188,10 @@ function Show-StartupAnalysis {
             if([int]::TryParse($raw,[ref]$detailNumber)-and$detailNumber-ge1-and$detailNumber-le$entries.Count){
                 $entry=$entries[$detailNumber-1];
                 Write-VSOHost '';
-                Write-VSOHost ((Convert-VSOText -Value 'Nombre :')+' '+$entry.Name);
-                Write-VSOHost ((Convert-VSOText -Value 'Origen :')+' '+$entry.Location);
-                Write-VSOHost ((Convert-VSOText -Value 'Comando:')+' '+$entry.Command);
-                Write-VSOHost ('Class  : '+(Get-VSO7StartupTechnicalClassVSO -Entry $entry));
+                Write-VSOHost ((Convert-VSOText -Value $(Get-VSO7ConsoleTextVSO -Es 'Nombre :' -En 'Name   :'))+' '+$entry.Name);
+                Write-VSOHost ((Convert-VSOText -Value $(Get-VSO7ConsoleTextVSO -Es 'Origen :' -En 'Source :'))+' '+$entry.Location);
+                Write-VSOHost ((Convert-VSOText -Value $(Get-VSO7ConsoleTextVSO -Es 'Comando:' -En 'Command:'))+' '+$entry.Command);
+                Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Clase  : ' -En 'Class  : ')+(Get-VSO7StartupTechnicalClassVSO -Entry $entry));
                 Pause-Vico
             }
             continue
@@ -9255,7 +9268,7 @@ function Show-OverlayProcessManagerVSO {
             $rows += [pscustomobject]@{
                 Text=("[{0}] [{1}] {2}"-f($i+1),$mark,$entry.Process);
                 Color='Gray';
-                Description=("PID {0} | RAM aproximada: {1} MB. Marcarlo solo lo prepara para el cierre; todavia no se cierra."-f$entry.Id,$entry.RAM_MB)
+                Description=($(Get-VSO7ConsoleTextVSO -Es 'PID {0} | RAM aproximada: {1} MB. Marcarlo solo lo prepara para el cierre; todavia no se cierra.' -En 'PID {0} | Approximate RAM: {1} MB. Selecting it prepares it for closure; it is not closed yet.')-f$entry.Id,$entry.RAM_MB)
             }
         }
         Write-VSO7TwoColumnOptionsVSO -Items $rows
@@ -9264,13 +9277,13 @@ function Show-OverlayProcessManagerVSO {
         $closeNumber=$items.Count+3
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Seleccionar todos"-f$allNumber);Color='Gray';Description='Marca todos los procesos mostrados. No los cierra todavia.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Seleccionar todos' -En '[{0}] Select all')-f$allNumber);Color='Gray';Description='Marca todos los procesos mostrados. No los cierra todavia.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Quitar toda la seleccion"-f$clearNumber);Color='Gray';Description='Desmarca todos los procesos sin hacer cambios.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Quitar toda la seleccion' -En '[{0}] Clear the selection')-f$clearNumber);Color='Gray';Description='Desmarca todos los procesos sin hacer cambios.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Cerrar los procesos seleccionados"-f$closeNumber);Color='Yellow';Description='Pide confirmacion y cierra solo los procesos que hayas marcado y cuya identidad siga coincidiendo.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Cerrar los procesos seleccionados' -En '[{0}] Close selected processes')-f$closeNumber);Color='Yellow';Description='Pide confirmacion y cierra solo los procesos que hayas marcado y cuya identidad siga coincidiendo.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Regresa sin cerrar procesos pendientes.';SeparatorBefore=$true
@@ -9362,13 +9375,13 @@ function Show-QuickHealthChecks {
     Write-VSOHost ''
     Write-CenteredMenuVSO -Items @(
         [pscustomobject]@{
-        Text='[1] Comprobar el almacen de componentes de Windows';Color='Gray';Description='Ejecuta una comprobacion rapida de DISM. Solo detecta si Windows ve corrupcion; no repara nada.'
+        Text=$(Get-VSO7ConsoleTextVSO -Es '[1] Comprobar el almacen de componentes de Windows' -En '[1] Check the Windows component store');Color='Gray';Description='Ejecuta una comprobacion rapida de DISM. Solo detecta si Windows ve corrupcion; no repara nada.'
     },
         [pscustomobject]@{
-        Text='[2] Verificar archivos del sistema';Color='Gray';Description='Comprueba con SFC si hay archivos protegidos dañados. Usa modo de solo verificacion y no repara.'
+        Text=$(Get-VSO7ConsoleTextVSO -Es '[2] Verificar archivos del sistema' -En '[2] Verify system files');Color='Gray';Description='Comprueba con SFC si hay archivos protegidos dañados. Usa modo de solo verificacion y no repara.'
     },
         [pscustomobject]@{
-        Text='[3] Abrir / localizar Seguridad de Windows';Color='Gray';Description='Te lleva a las herramientas de seguridad de Windows; VSO7 no cambia antivirus ni exclusiones.'
+        Text=$(Get-VSO7ConsoleTextVSO -Es '[3] Abrir / localizar Seguridad de Windows' -En '[3] Open / locate Windows Security');Color='Gray';Description='Te lleva a las herramientas de seguridad de Windows; VSO7 no cambia antivirus ni exclusiones.'
     },
         [pscustomobject]@{
         Text='[0] Volver';Color='Gray';SeparatorBefore=$true
@@ -9506,12 +9519,12 @@ function Show-RamDetails {
     Write-CenteredTableVSO -Rows @($ram.Modules) -Properties @('DeviceLocator','BankLabel','CapacityGB','ConfiguredMTs','RatedMTs','Manufacturer','PartNumber')
 
     Write-VSOHost ''
-    Write-VSOHost ("Módulos detectados : {0}" -f $ram.ModuleCount)
-    Write-VSOHost ("Capacidad detectada: {0} GB" -f $ram.TotalGB)
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Módulos detectados : {0}' -En 'Detected modules : {0}') -f $ram.ModuleCount)
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Capacidad detectada: {0} GB' -En 'Detected capacity: {0} GB') -f $ram.TotalGB)
 
     if ($null -ne $ram.LowestConfiguredMTs) {
 
-        Write-VSOHost ("Velocidad configurada mínima: {0} MT/s" -f $ram.LowestConfiguredMTs)
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Velocidad configurada mínima: {0} MT/s' -En 'Minimum configured speed: {0} MT/s') -f $ram.LowestConfiguredMTs)
 
     }
 
@@ -10410,7 +10423,7 @@ function Get-VSO7RecommendedOptimizationPlanVSO {
     param(
         [ValidateSet('Balanced','Performance','Gaming','Privacy','Responsiveness','PowerEfficiency')][string]$Objective='Balanced',
         [switch]$IncludeOptional,
-        [AllowNull()][string[]]$ExplicitFeatureIds
+        [AllowNull()][AllowEmptyCollection()][string[]]$ExplicitFeatureIds
     )
     $catalog=@(Get-VSO7FeatureCatalogVSO|Sort-Object FeatureId)
     $planMode=if($IncludeOptional){
@@ -10429,6 +10442,15 @@ function Get-VSO7RecommendedOptimizationPlanVSO {
         throw ('Recommendation catalog AutoSelection validation failed closed. Invalid='+[string]$autoValidation.Invalid+'; Inconsistent='+[string]$autoValidation.Inconsistent)
 
     }
+    # Omitted scope keeps the historical global behavior; explicit null/empty is empty.
+    $allCatalog=$catalog
+    if($PSBoundParameters.ContainsKey('ExplicitFeatureIds')){
+        $allowed=New-Object 'Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
+        foreach($id in @($ExplicitFeatureIds)){
+            if(-not[string]::IsNullOrWhiteSpace([string]$id)){[void]$allowed.Add([string]$id)}
+        }
+        $catalog=@($catalog|Where-Object{$allowed.Contains([string]$_.FeatureId)})
+    }
     $selectedCandidates=New-Object System.Collections.Generic.List[object]
     $already=New-Object System.Collections.Generic.List[object]
     $optional=New-Object System.Collections.Generic.List[object]
@@ -10442,9 +10464,6 @@ function Get-VSO7RecommendedOptimizationPlanVSO {
     foreach($f in $catalog){
 
         $id=[string]$f.FeatureId
-        if($null-ne$ExplicitFeatureIds-and@($ExplicitFeatureIds).Count-gt0-and@($ExplicitFeatureIds)-notcontains$id){
-            continue
-        }
         $rec=[string]$f.Recommendation
         if($rec-eq'Diagnostic'-or[string]$f.FeatureType-eq'Diagnostic'){
             $diagnostic++;
@@ -10582,7 +10601,7 @@ function Get-VSO7RecommendedOptimizationPlanVSO {
     }
     # Resolve Requires with AlreadyOptimal-aware semantics, then fail closed
     # on cycles. Dependency-only AlreadyOptimal items are surfaced in preview.
-    $depResolved=Resolve-VSO7RecommendationDependenciesVSO -Selected @($resolved.Selected) -AlreadyOptimal $already.ToArray() -Catalog $catalog -IncludeOptional:$IncludeOptional
+    $depResolved=Resolve-VSO7RecommendationDependenciesVSO -Selected @($resolved.Selected) -AlreadyOptimal $already.ToArray() -Catalog $allCatalog -IncludeOptional:$IncludeOptional
     foreach($s in @($depResolved.Skipped)){
         [void]$skipped.Add($s)
     }
@@ -11378,7 +11397,7 @@ function Show-VSO7RecommendedPlanVSO {
     }else{
         'OPTIMIZACION RECOMENDADA PARA ESTE EQUIPO'
     }) -Color $script:ThemeCopper
-    Write-CenteredLineVSO -Text (("{0} selected ({1} Recommended + {2} Optional) · {3} already optimal · {4} manual · {5} advanced · {6} experimental · {7} diagnostics"-f$c.Selected,$c.SelectedRecommended,$c.SelectedOptional,$c.AlreadyOptimal,$c.ManualAvailable,$c.AdvancedNotSelected,$c.ExperimentalNotSelected,$c.Diagnostics)) -Color $script:ThemeText
+    Write-CenteredLineVSO -Text (($(Get-VSO7ConsoleTextVSO -Es '{0} seleccionados ({1} recomendados + {2} opcionales) · {3} ya optimos · {4} manuales · {5} avanzados · {6} experimentales · {7} diagnosticos' -En '{0} selected ({1} Recommended + {2} Optional) · {3} already optimal · {4} manual · {5} advanced · {6} experimental · {7} diagnostics')-f$c.Selected,$c.SelectedRecommended,$c.SelectedOptional,$c.AlreadyOptimal,$c.ManualAvailable,$c.AdvancedNotSelected,$c.ExperimentalNotSelected,$c.Diagnostics)) -Color $script:ThemeText
     if([string]$Plan.PlanMode-eq'RecommendedPlusOptional'-and[int]$c.SelectedOptional-eq0){
 
         Write-CenteredLineVSO -Text $(if($isEn){
@@ -11403,7 +11422,7 @@ function Show-VSO7RecommendedPlanVSO {
     foreach($g in $groups){
 
         Write-VSOHost '';
-        Write-VSOHost ('['+$g.Name+']') -ForegroundColor Cyan
+        Write-VSOHost ('['+$(if($isEn){[string]$g.Name}else{[string]$g.Group[0].Feature.CategoryEs})+']') -ForegroundColor Cyan
         foreach($x in @($g.Group)){
 
             $f=$x.Feature;
@@ -11412,7 +11431,7 @@ function Show-VSO7RecommendedPlanVSO {
             }else{
                 [string]$f.NameEs
             }
-            Write-VSOHost ("  + {0}  {1}  [Risk {2} / {3} / {4}]"-f$f.FeatureId,$name,$f.Risk,$f.Evidence,$f.Maturity) -ForegroundColor Green
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es '  + {0}  {1}  [Riesgo {2} / {3} / {4}]' -En '  + {0}  {1}  [Risk {2} / {3} / {4}]')-f$f.FeatureId,$name,$f.Risk,$f.Evidence,$f.Maturity) -ForegroundColor Green
             Write-VSOHost ("      "+[string]$x.Reason) -ForegroundColor DarkGray
 
         }
@@ -11509,11 +11528,11 @@ function Show-VSO7RecommendedRunSummaryVSO {
 
     param([Parameter(Mandatory=$true)]$Summary)
     Write-VSOHost '';
-    Write-VSOHost ('Selected {0} | Applied {1} | AlreadyOptimal {2} | Partial {3} | Pending {4} | Failed {5}'-f$Summary.Selected,$Summary.Applied,$Summary.AlreadyOptimal,$Summary.Partial,$Summary.Pending,$Summary.Failed) -ForegroundColor Cyan
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Seleccionados {0} | Aplicados {1} | Ya optimos {2} | Parciales {3} | Pendientes {4} | Fallidos {5}' -En 'Selected {0} | Applied {1} | AlreadyOptimal {2} | Partial {3} | Pending {4} | Failed {5}')-f$Summary.Selected,$Summary.Applied,$Summary.AlreadyOptimal,$Summary.Partial,$Summary.Pending,$Summary.Failed) -ForegroundColor Cyan
     if(@($Summary.RestartRequirements).Count-gt0){
-        Write-VSOHost ('Restart requirements: '+(@($Summary.RestartRequirements)-join', ')) -ForegroundColor Yellow
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Reinicios necesarios: ' -En 'Restart requirements: ')+(@($Summary.RestartRequirements)-join', ')) -ForegroundColor Yellow
     }
-    Write-VSOHost ('Batch status: '+[string]$Summary.BatchStatus) -ForegroundColor DarkGray
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Estado del lote: ' -En 'Batch status: ')+[string]$Summary.BatchStatus) -ForegroundColor DarkGray
 
 }
 
@@ -11574,12 +11593,12 @@ function Invoke-VSO7RecommendedOptimizationVSO {
 
 function Select-VSO7RecommendedObjectiveVSO {
 
-    param([ValidateSet('Balanced','Performance','Gaming','Privacy','Responsiveness','PowerEfficiency')][string]$Current='Balanced')
+    param([ValidateSet('Balanced','Performance','Gaming','Privacy','Responsiveness','PowerEfficiency')][string]$Current='Balanced',[switch]$NoPrivacyReview)
     while($true){
 
         Write-Title
         Write-CenteredLineVSO -Text 'OBJETIVO · OPTIMIZACION RECOMENDADA' -Color $script:ThemeCopper
-        Write-CenteredLineVSO -Text ('Actual: '+$Current) -Color $script:ThemeText
+        Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Actual: ' -En 'Current: ')+$Current) -Color $script:ThemeText
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
             Text='[1] Equilibrada';Color='Green';Description='Solo normalizaciones generales, seguras y poco controvertidas marcadas explicitamente Balanced.'
@@ -11597,13 +11616,13 @@ function Select-VSO7RecommendedObjectiveVSO {
             Text='[5] Eficiencia energetica';Color='Cyan';Description='Politicas explicitamente PowerEfficiency y hardware-aware, con AC/DC preservado cuando aplica.'
         },
             [pscustomobject]@{
-            Text='[6] Privacidad (revision manual)';Color='Gray';Description='No tiene AutoSelection automatico en R44: abre una revision manual basada exclusivamente en metadata Privacy del catalogo.'
+            Text='[6] Privacidad (revision manual)';Color='Gray';Description=$(if($NoPrivacyReview){Get-VSO7ConsoleTextVSO 'Privacidad sigue siendo manual. Mantiene el objetivo actual y la seleccion; no abre otro selector.' 'Privacy remains manual. Keeps the current objective and selection; does not open another selector.'}else{'No tiene AutoSelection automatico en R44: abre una revision manual basada exclusivamente en metadata Privacy del catalogo.'})
         },
             [pscustomobject]@{
             Text='[0] Mantener / volver';Color='Gray';SeparatorBefore=$true
         }
         )
-        switch(Read-CenteredPromptVSO -Text 'Objetivo'){
+        switch(Read-CenteredPromptVSO -Text $(Get-VSO7ConsoleTextVSO -Es 'Objetivo' -En 'Objective')){
 
             '1'{
                 return 'Balanced'
@@ -11623,7 +11642,7 @@ function Select-VSO7RecommendedObjectiveVSO {
             '6'{
                 Write-VSOHost 'Privacy permanece manual-only: revisa conscientemente las features Privacy declaradas por el catalogo.' -ForegroundColor Yellow;
                 Pause-Vico;
-                Show-VSO7PrivacyReviewVSO;
+                if(-not$NoPrivacyReview){Show-VSO7PrivacyReviewVSO}
                 return $Current
             }
             '0'{
@@ -11669,7 +11688,7 @@ function Show-VSO7RecommendedOptimizationVSO {
 
         Write-Title
         Write-CenteredLineVSO -Text 'OPTIMIZACION RECOMENDADA · ANALYZE → RECOMMEND → PREVIEW → APPLY → RESTORE' -Color $script:ThemeCopper
-        Write-CenteredLineVSO -Text ('Objetivo actual: '+$objective) -Color $script:ThemeText
+        Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Objetivo actual: ' -En 'Current objective: ')+$objective) -Color $script:ThemeText
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
             Text='[1] Elegir objetivo';Color='Cyan';Description='Equilibrada, Rendimiento, Gaming, Responsiveness o Eficiencia; Privacidad se revisa manualmente.'
@@ -11878,7 +11897,7 @@ function Invoke-SmartDiagnostics {
 
     }
 
-    Write-Section 'Discos'
+    Write-Section $(Get-VSO7ConsoleTextVSO -Es 'Discos' -En 'Drives')
     $disk = Get-DiskDiagnostics
     if ($disk.Physical.Count -gt 0) {
 
@@ -11887,7 +11906,7 @@ function Invoke-SmartDiagnostics {
     }
     if ($null -ne $disk.SystemDrive) {
 
-        Write-VSOHost ("Sistema: {0} GB libres de {1} GB ({2}% libre)" -f $disk.SystemDrive.FreeGB, $disk.SystemDrive.SizeGB, $disk.SystemDrive.FreePct)
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Sistema: {0} GB libres de {1} GB ({2}% libre)' -En 'System drive: {0} GB free of {1} GB ({2}% free)') -f $disk.SystemDrive.FreeGB, $disk.SystemDrive.SizeGB, $disk.SystemDrive.FreePct)
 
     }
 
@@ -11937,37 +11956,37 @@ function Show-SpecificTools {
             Text='[1]  Activar Modo de juego';Color='Gray';Description='Hace que Windows priorice la experiencia de juego cuando detecta un juego. No cambia drivers ni overclock.'
         },
             [pscustomobject]@{
-            Text='[2]  Desactivar grabacion/captura de juegos';Color='Gray';Description='Reduce actividad de grabacion de Windows en segundo plano. Util si no usas la captura integrada.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[2]  Desactivar grabacion/captura de juegos' -En '[2]  Disable game recording/capture');Color='Gray';Description='Reduce actividad de grabacion de Windows en segundo plano. Util si no usas la captura integrada.'
         },
             [pscustomobject]@{
             Text='[3]  Desactivar transparencia';Color='Gray';Description='Quita transparencias decorativas; cambio visual reversible.'
         },
             [pscustomobject]@{
-            Text='[4]  Reducir animaciones y efectos';Color='Gray';Description='Hace la interfaz mas inmediata reduciendo animaciones; no aumenta la potencia del hardware.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[4]  Reducir animaciones y efectos' -En '[4]  Reduce animations and effects');Color='Gray';Description='Hace la interfaz mas inmediata reduciendo animaciones; no aumenta la potencia del hardware.'
         },
             [pscustomobject]@{
-            Text='[5]  Limpiar temporales antiguos';Color='Gray';Description='Elimina temporales de mas de 7 dias con exclusiones; muestra el resultado al terminar.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[5]  Limpiar temporales antiguos' -En '[5]  Clean up old temporary files');Color='Gray';Description='Elimina temporales de mas de 7 dias con exclusiones; muestra el resultado al terminar.'
         },
             [pscustomobject]@{
             Text='[6]  Gestionar planes de energia';Color='Gray';Description='Muestra los planes disponibles y permite cambiar/restaurar de forma controlada.'
         },
             [pscustomobject]@{
-            Text='[7]  Gestionar aplicaciones de inicio';Color='Cyan';Description='Lista el autoarranque para que elijas que deshabilitar. Guarda informacion para restaurarlo.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[7]  Gestionar aplicaciones de inicio' -En '[7]  Manage startup applications');Color='Cyan';Description='Lista el autoarranque para que elijas que deshabilitar. Guarda informacion para restaurarlo.'
         },
             [pscustomobject]@{
-            Text='[8]  Ver CPU y RAM por proceso';Color='Gray';Description='Solo lectura: muestra que procesos consumen CPU y memoria ahora mismo.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[8]  Ver CPU y RAM por proceso' -En '[8]  View CPU and RAM by process');Color='Gray';Description='Solo lectura: muestra que procesos consumen CPU y memoria ahora mismo.'
         },
             [pscustomobject]@{
-            Text='[9]  Salud de Windows';Color='Gray';Description='Comprobaciones de sistema y mantenimiento; no repara nada sin una accion explicita.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[9]  Salud de Windows' -En '[9]  Windows health');Color='Gray';Description='Comprobaciones de sistema y mantenimiento; no repara nada sin una accion explicita.'
         },
             [pscustomobject]@{
-            Text='[10] Ver modulos y frecuencia de RAM';Color='Gray';Description='Solo lectura: informacion de los modulos de memoria detectados por Windows.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[10] Ver modulos y frecuencia de RAM' -En '[10] View RAM modules and frequency');Color='Gray';Description='Solo lectura: informacion de los modulos de memoria detectados por Windows.'
         },
             [pscustomobject]@{
-            Text='[11] Ver GPU y controlador';Color='Gray';Description='Solo lectura: modelo de GPU, version y fecha del controlador.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[11] Ver GPU y controlador' -En '[11] View GPU and driver');Color='Gray';Description='Solo lectura: modelo de GPU, version y fecha del controlador.'
         },
             [pscustomobject]@{
-            Text='[12] Configuracion grafica de Windows';Color='DarkGray';Description='Te indica donde esta la pagina de Graficos. VSO7 no fuerza opciones sin una API estable.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[12] Configuracion grafica de Windows' -En '[12] Windows graphics settings');Color='DarkGray';Description='Te indica donde esta la pagina de Graficos. VSO7 no fuerza opciones sin una API estable.'
         },
             [pscustomobject]@{
             Text='[13] Analisis profundo de almacenamiento';Color='Gray';Description='Calcula uso de espacio y zonas relevantes. No borra archivos por entrar.'
@@ -11976,10 +11995,10 @@ function Show-SpecificTools {
             Text='[14] Abrir Optimizacion EXTREMA';Color='Red';Description='Abre el selector de tweaks de alto riesgo. Entrar no aplica ninguno.'
         },
             [pscustomobject]@{
-            Text='[15] Cerrar overlays/launchers';Color='Cyan';Description='Muestra procesos compatibles y tu eliges cuales cerrar solo para esta sesion.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[15] Cerrar overlays/launchers' -En '[15] Close overlays/launchers');Color='Cyan';Description='Muestra procesos compatibles y tu eliges cuales cerrar solo para esta sesion.'
         },
             [pscustomobject]@{
-            Text='[16] Limpieza guiada';Color='Cyan';Description='Selector de caches y temporales: eliges primero y VSO7 limpia despues.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[16] Limpieza guiada' -En '[16] Guided cleanup');Color='Cyan';Description='Selector de caches y temporales: eliges primero y VSO7 limpia despues.'
         },
             [pscustomobject]@{
             Text='[0]  Volver';Color='Gray';SeparatorBefore=$true
@@ -12275,13 +12294,13 @@ function Show-CleanupManagerVSO {
         $cleanNumber=$all.Count+3
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Seleccionar todas"-f$allNumber);Color='Gray';Description='Marca todas las categorias disponibles. Todavia no borra archivos.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Seleccionar todas' -En '[{0}] Select all')-f$allNumber);Color='Gray';Description='Marca todas las categorias disponibles. Todavia no borra archivos.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Quitar toda la seleccion"-f$clearNumber);Color='Gray';Description='Desmarca todo sin limpiar nada.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Quitar toda la seleccion' -En '[{0}] Clear the selection')-f$clearNumber);Color='Gray';Description='Desmarca todo sin limpiar nada.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Limpiar la seleccion"-f$cleanNumber);Color='Yellow';Description='Muestra lo seleccionado y pide confirmacion antes de comenzar a borrar caches o temporales.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Limpiar la seleccion' -En '[{0}] Clean up selected items')-f$cleanNumber);Color='Yellow';Description='Muestra lo seleccionado y pide confirmacion antes de comenzar a borrar caches o temporales.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Regresa sin ejecutar la limpieza pendiente.';SeparatorBefore=$true
@@ -12348,7 +12367,7 @@ function Show-CleanupManagerVSO {
             $freed=Get-VSO7FreedBytesFromSnapshots -Before $before -After $after;
             if($freed-gt0){
                 Add-VSO7CleanupHistory -BytesFreed $freed -Tweaks $selection;
-                Write-VSOHost ("Espacio recuperado en esta ejecucion: {0}"-f(Format-BytesVSO $freed)) -ForegroundColor Green
+                Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Espacio recuperado en esta ejecucion: {0}' -En 'Space recovered in this run: {0}')-f(Format-BytesVSO $freed)) -ForegroundColor Green
             };
             $selected=@{};
             Pause-Vico;
@@ -12399,7 +12418,7 @@ function Show-StorageDeepAnalysis {
         [IO.Path]::GetPathRoot([string]$script:WindowsRoot).TrimEnd('\')
     }
     $systemDriveRoot = $systemDrive.TrimEnd('\') + '\'
-    Write-VSOHost ("`nArchivos individuales > 1 GB en {0} (hasta 30):" -f $systemDrive) -ForegroundColor Cyan
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es "`nArchivos individuales > 1 GB en {0} (hasta 30):" -En "`nIndividual files > 1 GB in {0} (up to 30):") -f $systemDrive) -ForegroundColor Cyan
     $largeFiles=@(Get-ChildItem -LiteralPath $systemDriveRoot -File -Force -Recurse -ErrorAction SilentlyContinue |
         Where-Object Length -gt 1GB |
         Sort-Object Length -Descending |
@@ -12414,7 +12433,7 @@ function Show-StorageDeepAnalysis {
     try {
 
         "Analisis mostrado en consola: $(Get-Date)" | Set-Content -LiteralPath $report -Encoding UTF8
-        Write-VSOHost ("Informe base: {0}" -f $report) -ForegroundColor DarkGray
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Informe base: {0}' -En 'Base report: {0}') -f $report) -ForegroundColor DarkGray
 
     } catch {}
     Pause-Vico
@@ -15298,7 +15317,7 @@ function Confirm-UnvalidatedBuildIfNeeded {
         return $true
     }
     Write-VSOHost ''
-    Write-VSOHost ("Esta build de Windows ({0}) es posterior a la ultima build validada por VSO7 ({1})." -f $build,$script:ValidatedBuildMax) -ForegroundColor Red
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Esta build de Windows ({0}) es posterior a la ultima build validada por VSO7 ({1}).' -En 'This Windows build ({0}) is newer than the latest build validated by VSO7 ({1}).') -f $build,$script:ValidatedBuildMax) -ForegroundColor Red
     Write-VSOHost 'VSO7 bloquea ALTO/MUCHO PELIGRO en builds posteriores hasta validarlas de forma real.' -ForegroundColor Yellow
     Write-VSOHost 'Los modos de diagnostico y los cambios de menor riesgo siguen disponibles cuando sus preflight individuales lo permiten.' -ForegroundColor DarkGray
     return $false
@@ -18027,7 +18046,7 @@ function Invoke-RestoreFromBundleVSO {
     Write-Title
     Write-VSOHost 'RECUPERACION DESDE PAQUETE VSO7' -ForegroundColor Red
     Write-VSOHost '--------------------------------'
-    Write-VSOHost ("Paquete: {0}" -f $Bundle)
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Paquete: {0}' -En 'Bundle: {0}') -f $Bundle)
     Write-VSOHost ''
     if(-not(Test-Path -LiteralPath $Bundle -PathType Container)){
         Write-VSOHost 'No existe el paquete.' -ForegroundColor Red;
@@ -18047,7 +18066,7 @@ function Invoke-RestoreFromBundleVSO {
     }catch{
 
         Write-VSO7Log ("Recovery rechazado antes de modificar Windows: {0}"-f$_.Exception.Message) 'ERROR'
-        Write-VSOHost ("Recovery rechazado antes de modificar Windows: {0}"-f$_.Exception.Message) -ForegroundColor Red
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Recovery rechazado antes de modificar Windows: {0}' -En 'Recovery was rejected before Windows was changed: {0}')-f$_.Exception.Message) -ForegroundColor Red
         return $false
 
     }
@@ -18062,7 +18081,7 @@ function Invoke-RestoreFromBundleVSO {
     }catch{
 
         Write-VSO7Log ("Recovery rechazado antes de modificar Windows porque no pudo publicarse el journal de reconciliacion: {0}"-f$_.Exception.Message) 'ERROR'
-        Write-VSOHost ("Recovery rechazado antes de modificar Windows: no se pudo publicar el journal transaccional: {0}"-f$_.Exception.Message) -ForegroundColor Red
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Recovery rechazado antes de modificar Windows: no se pudo publicar el journal transaccional: {0}' -En 'Recovery was rejected before Windows was changed because the transaction journal could not be published: {0}')-f$_.Exception.Message) -ForegroundColor Red
         try{
 
             $stageFull=[IO.Path]::GetFullPath($workingBundle).TrimEnd('\')
@@ -18205,7 +18224,7 @@ function Invoke-RestoreFromBundleVSO {
     }else{
 
         Write-VSOHost 'Recuperacion INCOMPLETA. VSO7 ha conservado el estado pendiente y no afirmara que todo se restauro.' -ForegroundColor Red
-        Write-VSOHost ("Staging protegido conservado para diagnostico/reintento: {0}"-f$workingBundle) -ForegroundColor Yellow
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Staging protegido conservado para diagnostico/reintento: {0}' -En 'Protected staging was preserved for diagnostics or retry: {0}')-f$workingBundle) -ForegroundColor Yellow
         Write-VSOHost 'El paquete original no se modifica durante Recovery.' -ForegroundColor Yellow
 
     }
@@ -18233,15 +18252,15 @@ function Invoke-ExtremeDryRun {
         if(-not$SuppressPresentation){
             Write-VSOHost ("[{0}] {1}" -f $risk,$t.Name) -ForegroundColor (Get-RiskColorVSO $t.Risk)
             Write-VSOHost ("    {0}" -f $t.Desc) -ForegroundColor Gray
-            if($info){Write-VSOHost ("    Detectado: {0}" -f $info) -ForegroundColor DarkGray}
-            if(-not$ok){Write-VSOHost ("    Error de deteccion: {0}" -f $err) -ForegroundColor Yellow}
+            if($info){Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es '    Detectado: {0}' -En '    Detected: {0}') -f $info) -ForegroundColor DarkGray}
+            if(-not$ok){Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es '    Error de deteccion: {0}' -En '    Detection error: {0}') -f $err) -ForegroundColor Yellow}
         }
     }
     if(-not$SuppressPresentation){
         $report=Join-Path $script:ReportRoot ("dryrun_extremo_{0}.txt" -f (Get-Date -Format 'yyyyMMdd_HHmmss'))
         try{
             $items | Select-Object Id,Name,@{N='Riesgo';E={Get-RiskNameVSO $_.Risk}},Restart,Reversible,Desc | Format-Table -AutoSize | Out-String | Set-Content $report -Encoding UTF8
-            Write-VSOHost ("`nInforme: {0}" -f $report) -ForegroundColor DarkGray
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es "`nInforme: {0}" -En "`nReport: {0}") -f $report) -ForegroundColor DarkGray
         }catch{}
         Pause-Vico
     }
@@ -18345,8 +18364,8 @@ function Show-ExtremeTweakInfo {
     Write-VSOHost $Tweak.Name -ForegroundColor (Get-RiskColorVSO $Tweak.Risk)
     Write-VSOHost ('-' * $Tweak.Name.Length)
     Write-VSOHost ("ID          : {0}" -f $Tweak.Id)
-    Write-VSOHost ("Riesgo      : {0}" -f (Get-RiskNameVSO $Tweak.Risk))
-    Write-VSOHost ("Disponible  : {0}" -f $(if($available){
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Riesgo      : {0}' -En 'Risk        : {0}') -f (Get-RiskNameVSO $Tweak.Risk))
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Disponible  : {0}' -En 'Available   : {0}') -f $(if($available){
         'SI'
     }else{
         'NO'
@@ -18356,26 +18375,26 @@ function Show-ExtremeTweakInfo {
         'Yellow'
     })
     if(-not$available){
-        Write-VSOHost ("Motivo      : {0}" -f (Get-TweakUnavailableReasonVSO $Tweak)) -ForegroundColor Yellow
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Motivo      : {0}' -En 'Reason      : {0}') -f (Get-TweakUnavailableReasonVSO $Tweak)) -ForegroundColor Yellow
     }
-    Write-VSOHost ("Reversible  : {0}" -f $(if($Tweak.Reversible){
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Reversible  : {0}' -En 'Reversible  : {0}') -f $(if($Tweak.Reversible){
         'SI'
     }else{
-        'NO (limpieza)'
+        $(Get-VSO7ConsoleTextVSO -Es 'NO (limpieza)' -En 'NO (cleanup)')
     }))
-    Write-VSOHost ("Reinicio    : {0}" -f $(if($Tweak.Restart){
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Reinicio    : {0}' -En 'Restart     : {0}') -f $(if($Tweak.Restart){
         'SI'
     }else{
-        'No normalmente'
+        $(Get-VSO7ConsoleTextVSO -Es 'No normalmente' -En 'Not normally')
     }))
-    Write-VSOHost ("Que hace    : {0}" -f $Tweak.Desc)
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Que hace    : {0}' -En 'What it does: {0}') -f $Tweak.Desc)
     $tech=Get-VSOTweakTechnicalDetails -Id $Tweak.Id;
     if($tech){
-        Write-VSOHost ("Tecnico     : {0}" -f $tech) -ForegroundColor DarkGray
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Tecnico     : {0}' -En 'Technical   : {0}') -f $tech) -ForegroundColor DarkGray
     }
     $d=Get-TweakDetectInfo $Tweak.Id;
     if($d){
-        Write-VSOHost ("Detectado   : {0}" -f $d)
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Detectado   : {0}' -En 'Detected    : {0}') -f $d)
     }
     Pause-Vico
 
@@ -18415,7 +18434,7 @@ function Invoke-ApplyExtremeSelection {
     Write-Title
     Write-VSOHost 'APLICAR SELECCION EXTREMA' -ForegroundColor Red
     Write-VSOHost '-------------------------'
-    Write-VSOHost ("Tweaks: {0} | Riesgo maximo: {1}" -f $items.Count,(Get-RiskNameVSO $maxRisk))
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Tweaks: {0} | Riesgo maximo: {1}' -En 'Tweaks: {0} | Maximum risk: {1}') -f $items.Count,(Get-RiskNameVSO $maxRisk))
     Write-VSOHost 'VSO7 exigira un punto de restauracion NUEVO y creara Recuperacion antes de tocar Windows.' -ForegroundColor Yellow
     Write-VSOHost ''
     foreach($tweak in $items){Write-VSOHost (" - [{0}] {1}" -f (Get-RiskNameVSO $tweak.Risk),$tweak.Name) -ForegroundColor (Get-RiskColorVSO $tweak.Risk)}
@@ -18473,7 +18492,7 @@ function Invoke-ApplyExtremeSelection {
     }
     $status=if($failCount-eq0){'Success'}elseif($okCount-gt0){'Partial'}else{'Failed'}
     if($finalizeFailed-and$rollbackStatus-eq'NotApplicable'){$rollbackStatus='NotAttempted'}
-    Write-VSOHost '';Write-VSOHost ("Aplicados: {0} | Fallos: {1}" -f$okCount,$failCount) -ForegroundColor $(if($failCount){'Yellow'}else{'Green'});Write-VSOHost ("Recuperacion: {0}" -f$bundle) -ForegroundColor Cyan
+    Write-VSOHost '';Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Aplicados: {0} | Fallos: {1}' -En 'Applied: {0} | Failed: {1}') -f$okCount,$failCount) -ForegroundColor $(if($failCount){'Yellow'}else{'Green'});Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Recuperacion: {0}' -En 'Recovery: {0}') -f$bundle) -ForegroundColor Cyan
     if(@($items|Where-Object{$_.Restart}).Count){Write-VSOHost 'Hay cambios que requieren REINICIAR Windows.' -ForegroundColor Yellow};Pause-Vico
     $err=if($failCount){(@($steps|Where-Object{$_.Status-eq'Failed'}|ForEach-Object{[string]$_.Id+': '+[string]$_.Error})-join'; ')}else{''}
     return New-VSO7OperationOutcomeR76VSO -Operation 'Extreme.Apply' -Status $status -Steps @($steps.ToArray()) -AppliedCount $okCount -FailedCount $failCount -RollbackStatus $rollbackStatus -RecoveryBundle ([string]$bundle) -Error $err
@@ -18510,7 +18529,7 @@ function Show-ExtremeRevertMenu {
         $allNumber=$items.Count+1
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Revertir TODOS los cambios extremos reversibles"-f$allNumber);Color='Red';Description='Intenta devolver todos los tweaks extremos registrados a su estado anterior. Requiere confirmacion escrita.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Revertir TODOS los cambios extremos reversibles' -En '[{0}] Revert ALL reversible extreme changes')-f$allNumber);Color='Red';Description='Intenta devolver todos los tweaks extremos registrados a su estado anterior. Requiere confirmacion escrita.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Regresa sin revertir nada.';SeparatorBefore=$true
@@ -18562,7 +18581,7 @@ function Show-ExtremeOptimizer {
         Write-CenteredLineVSO -Text 'Nada se aplica al entrar. Selecciona ajustes individualmente o usa un nivel de riesgo como atajo.' -Color $script:ThemeText
         Write-CenteredLineVSO -Text 'Antes de aplicar: pre-flight, punto de restauracion, Recuperacion, backup y verificacion.' -Color 'Green'
         $build=Get-WindowsBuildVSO;
-        Write-CenteredLineVSO -Text ("Build actual: {0} | Validado hasta: {1} ({2})"-f$build,$script:ValidatedBuildMax,$script:ValidatedOn) -Color $script:ThemeMuted;
+        Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Build actual: {0} | Validado hasta: {1} ({2})' -En 'Current build: {0} | Validated up to: {1} ({2})')-f$build,$script:ValidatedBuildMax,$script:ValidatedOn) -Color $script:ThemeMuted;
         Write-VSOHost ''
 
         $extremeRows=@()
@@ -18584,7 +18603,7 @@ function Show-ExtremeOptimizer {
             $suffix=if($available){
                 ''
             }else{
-                ' [NO DISPONIBLE]'
+                $(Get-VSO7ConsoleTextVSO -Es ' [NO DISPONIBLE]' -En ' [UNAVAILABLE]')
             };
             $color=if($available){
                 Get-RiskColorVSO -Risk $tweak.Risk
@@ -18605,7 +18624,7 @@ function Show-ExtremeOptimizer {
         $selection=@($all|Where-Object{
             $selected.ContainsKey($_.Id)
         })
-        Write-CenteredLineVSO -Text ("Seleccionados: {0} | Leve {1} | Medio {2} | Alto {3} | Mucho peligro {4}" -f $selection.Count,@($selection|Where-Object{
+        Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Seleccionados: {0} | Leve {1} | Medio {2} | Alto {3} | Mucho peligro {4}' -En 'Selected: {0} | Low {1} | Medium {2} | High {3} | Very dangerous {4}') -f $selection.Count,@($selection|Where-Object{
             $_.Risk-eq1
         }).Count,@($selection|Where-Object{
             $_.Risk-eq2
@@ -18626,31 +18645,31 @@ function Show-ExtremeOptimizer {
         $revert=$all.Count+9
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Seleccionar solo riesgo LEVE"-f$leve);Color='Green';Description='Marca de una vez los cambios de menor riesgo disponibles. Todavia no aplica nada.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Seleccionar solo riesgo LEVE' -En '[{0}] Select LOW-risk items only')-f$leve);Color='Green';Description='Marca de una vez los cambios de menor riesgo disponibles. Todavia no aplica nada.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Seleccionar hasta riesgo MEDIO"-f$medio);Color='Yellow';Description='Marca los cambios leves y medios disponibles. Revisa la lista antes de aplicar.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Seleccionar hasta riesgo MEDIO' -En '[{0}] Select up to MEDIUM risk')-f$medio);Color='Yellow';Description='Marca los cambios leves y medios disponibles. Revisa la lista antes de aplicar.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Seleccionar hasta riesgo ALTO"-f$alto);Color='DarkYellow';Description='Incluye cambios que pueden alterar comportamiento importante de Windows; requiere mas cuidado.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Seleccionar hasta riesgo ALTO' -En '[{0}] Select up to HIGH risk')-f$alto);Color='DarkYellow';Description='Incluye cambios que pueden alterar comportamiento importante de Windows; requiere mas cuidado.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Seleccionar TODO / MUCHO PELIGRO"-f$todo);Color='Red';Description='Marca todo lo disponible, incluidos cambios con mayor posibilidad de efectos secundarios. No los aplica todavia.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Seleccionar TODO / MUCHO PELIGRO' -En '[{0}] Select ALL / VERY DANGEROUS')-f$todo);Color='Red';Description='Marca todo lo disponible, incluidos cambios con mayor posibilidad de efectos secundarios. No los aplica todavia.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Quitar toda la seleccion"-f$clear);Color='Gray';Description='Desmarca todos los tweaks sin modificar Windows.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Quitar toda la seleccion' -En '[{0}] Clear the selection')-f$clear);Color='Gray';Description='Desmarca todos los tweaks sin modificar Windows.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Ver informacion detallada de un tweak"-f$info);Color='Gray';Description='Explica un ajuste concreto, su riesgo, disponibilidad y reversibilidad.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Ver informacion detallada de un tweak' -En '[{0}] View detailed tweak information')-f$info);Color='Gray';Description='Explica un ajuste concreto, su riesgo, disponibilidad y reversibilidad.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Simular seleccion (Dry Run)"-f$dry);Color='Cyan';Description='Comprueba que haria VSO7 y que requisitos faltan sin aplicar los tweaks.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Simular seleccion (Dry Run)' -En '[{0}] Preview selection (Dry Run)')-f$dry);Color='Cyan';Description='Comprueba que haria VSO7 y que requisitos faltan sin aplicar los tweaks.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Aplicar la seleccion"-f$apply);Color='Red';Description='Solo aqui comienza la modificacion real, con comprobaciones, recuperacion y confirmaciones.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Aplicar la seleccion' -En '[{0}] Apply the selection')-f$apply);Color='Red';Description='Solo aqui comienza la modificacion real, con comprobaciones, recuperacion y confirmaciones.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Revertir cambios extremos registrados"-f$revert);Color='Yellow';Description='Abre el selector de recuperacion de tweaks extremos aplicados anteriormente.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Revertir cambios extremos registrados' -En '[{0}] Revert recorded extreme changes')-f$revert);Color='Yellow';Description='Abre el selector de recuperacion de tweaks extremos aplicados anteriormente.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Sale de esta pantalla sin aplicar la seleccion pendiente.';SeparatorBefore=$true
@@ -24802,44 +24821,44 @@ function Show-VSO7PerAppGraphicsMenuVSO {
         }
         Write-VSOHost '';
         Write-VSOHost ('EXE: '+$exe) -ForegroundColor Gray;
-        Write-VSOHost ('Current: GpuPreference={0} | SwapEffectUpgradeEnable={1} | AutoHDREnable={2}'-f$gpu,$win,$hdr) -ForegroundColor Gray;
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Actual: GpuPreference={0} | SwapEffectUpgradeEnable={1} | AutoHDREnable={2}' -En 'Current: GpuPreference={0} | SwapEffectUpgradeEnable={1} | AutoHDREnable={2}')-f$gpu,$win,$hdr) -ForegroundColor Gray;
         $nativePref=(Get-VSO7GraphicsNativeStateVSO).PreferenceMapping;
         if([string]$nativePref.MinimumPowerStatus-eq'Resolved'){
-            Write-VSOHost ('Power saving adapter: '+[string]$nativePref.MinimumPower.Description) -ForegroundColor DarkGray
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Adaptador de ahorro energetico: ' -En 'Power saving adapter: ')+[string]$nativePref.MinimumPower.Description) -ForegroundColor DarkGray
         }else{
-            Write-VSOHost ('Power saving adapter: '+[string]$nativePref.MinimumPowerStatus) -ForegroundColor DarkGray
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Adaptador de ahorro energetico: ' -En 'Power saving adapter: ')+[string]$nativePref.MinimumPowerStatus) -ForegroundColor DarkGray
         };
         if([string]$nativePref.HighPerformanceStatus-eq'Resolved'){
-            Write-VSOHost ('High performance adapter: '+[string]$nativePref.HighPerformance.Description) -ForegroundColor DarkGray
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Adaptador de alto rendimiento: ' -En 'High performance adapter: ')+[string]$nativePref.HighPerformance.Description) -ForegroundColor DarkGray
         }else{
-            Write-VSOHost ('High performance adapter: '+[string]$nativePref.HighPerformanceStatus) -ForegroundColor DarkGray
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Adaptador de alto rendimiento: ' -En 'High performance adapter: ')+[string]$nativePref.HighPerformanceStatus) -ForegroundColor DarkGray
         };
-        Write-VSOHost 'Effective verification after change: PendingAppRestart' -ForegroundColor Yellow;
+        Write-VSOHost $(Get-VSO7ConsoleTextVSO -Es 'Verificacion efectiva tras el cambio: pendiente de reiniciar la aplicacion' -En 'Effective verification after change: PendingAppRestart') -ForegroundColor Yellow;
         Write-VSOHost ''
         $items=@(
           [pscustomobject]@{
-            Text='[1] Windows decide / Windows decides';Color='Green';Description='Removes only the explicit GpuPreference token · AppRestart'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[1] Windows decide' -En '[1] Let Windows decide');Color='Green';Description=$(Get-VSO7ConsoleTextVSO -Es 'Elimina solo el token GpuPreference explicito · Reiniciar aplicacion' -En 'Removes only the explicit GpuPreference token · AppRestart')
         },
           [pscustomobject]@{
-            Text='[2] Ahorro / Power saving';Color='Green';Description='GpuPreference=1 · AppRestart'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[2] Ahorro energetico' -En '[2] Power saving');Color='Green';Description=$(Get-VSO7ConsoleTextVSO -Es 'GpuPreference=1 · Reiniciar aplicacion' -En 'GpuPreference=1 · AppRestart')
         },
           [pscustomobject]@{
-            Text='[3] Alto rendimiento / High performance';Color='Yellow';Description='GpuPreference=2 · AppRestart'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[3] Alto rendimiento' -En '[3] High performance');Color='Yellow';Description=$(Get-VSO7ConsoleTextVSO -Es 'GpuPreference=2 · Reiniciar aplicacion' -En 'GpuPreference=2 · AppRestart')
         },
           [pscustomobject]@{
-            Text='[4] Windowed optimizations ON';Color='Green';Description='SwapEffectUpgradeEnable=1 · AppRestart'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[4] Activar optimizaciones para juegos en ventana' -En '[4] Windowed optimizations ON');Color='Green';Description=$(Get-VSO7ConsoleTextVSO -Es 'SwapEffectUpgradeEnable=1 · Reiniciar aplicacion' -En 'SwapEffectUpgradeEnable=1 · AppRestart')
         },
           [pscustomobject]@{
-            Text='[5] Windowed optimizations OFF';Color='Yellow';Description='Blocked if an Auto HDR token is present · AppRestart'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[5] Desactivar optimizaciones para juegos en ventana' -En '[5] Windowed optimizations OFF');Color='Yellow';Description=$(Get-VSO7ConsoleTextVSO -Es 'Bloqueado si existe un token Auto HDR · Reiniciar aplicacion' -En 'Blocked if an Auto HDR token is present · AppRestart')
         },
           [pscustomobject]@{
-            Text='[6] Reset GPU preference';Color='Gray';Description='Removes only the GpuPreference token · AppRestart'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[6] Restablecer preferencia de GPU' -En '[6] Reset GPU preference');Color='Gray';Description=$(Get-VSO7ConsoleTextVSO -Es 'Elimina solo el token GpuPreference · Reiniciar aplicacion' -En 'Removes only the GpuPreference token · AppRestart')
         },
           [pscustomobject]@{
-            Text='[7] Reset windowed override';Color='Gray';Description='Removes only the SwapEffectUpgradeEnable token · AppRestart'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[7] Restablecer preferencia de juegos en ventana' -En '[7] Reset windowed override');Color='Gray';Description=$(Get-VSO7ConsoleTextVSO -Es 'Elimina solo el token SwapEffectUpgradeEnable · Reiniciar aplicacion' -En 'Removes only the SwapEffectUpgradeEnable token · AppRestart')
         },
           [pscustomobject]@{
-            Text='[0] Back';Color='Gray';Description='No changes';SeparatorBefore=$true
+            Text='[0] Back';Color='Gray';Description=$(Get-VSO7ConsoleTextVSO -Es 'Sin cambios' -En 'No changes');SeparatorBefore=$true
         }
         );
         Write-CenteredMenuVSO -Items $items
@@ -28104,17 +28123,66 @@ function Show-VSO7ManualAppSelectorVSO {
 
 }
 
+function Get-VSO7ScopedFeatureProposalVSO {
+    param(
+        [Parameter(Mandatory=$true)][AllowEmptyCollection()][AllowNull()][string[]]$FeatureIds,
+        [ValidateSet('Balanced','Performance','Gaming','Privacy','Responsiveness','PowerEfficiency')][string]$Objective='Balanced',
+        [switch]$IncludeOptional
+    )
+    $ids=@($FeatureIds|Where-Object{-not[string]::IsNullOrWhiteSpace([string]$_)}|Sort-Object -Unique)
+    $allowed=New-Object 'Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
+    foreach($id in $ids){[void]$allowed.Add([string]$id)}
+    $plan=Get-VSO7RecommendedOptimizationPlanVSO -Objective $Objective -IncludeOptional:$IncludeOptional -ExplicitFeatureIds $ids
+    $selected=@($plan.Selected|ForEach-Object{[string]$_.Feature.FeatureId}|Sort-Object -Unique)
+    foreach($id in $selected){
+        if(-not$allowed.Contains($id)){throw ('Recommendation escaped the permitted feature scope: '+$id)}
+    }
+    $details=@{}
+    # Later groups take precedence, keeping the selected/already-optimal explanation.
+    foreach($entry in (@($plan.Skipped)+@($plan.Optional)+@($plan.AlreadyOptimal)+@($plan.Selected))){
+        $id=[string]$entry.Feature.FeatureId
+        if($allowed.Contains($id)){$details[$id]=$entry}
+    }
+    return [pscustomobject]@{
+        Schema='VSO7.ScopedFeatureProposal.v1';Objective=$Objective;AllowedFeatureIds=$ids
+        SelectedFeatureIds=$selected;DetailsById=$details;Recommendation=$plan
+    }
+}
+
+function Get-VSO7FeatureProposalExplanationVSO {
+    param([Parameter(Mandatory=$true)]$Entry)
+    $text=switch([string]$Entry.Status){
+        'Selected' {Get-VSO7ConsoleTextVSO 'VSO recomienda esta opcion.' 'VSO recommends this item.';break}
+        'AlreadyOptimal' {Get-VSO7ConsoleTextVSO 'Ya configurada/optima; no se selecciona para ejecutar.' 'Already configured/optimal; not selected for execution.';break}
+        'ObjectiveMismatch' {Get-VSO7ConsoleTextVSO 'VSO no la selecciono automaticamente: no corresponde al objetivo.' 'VSO did not select this automatically: outside the objective.';break}
+        'Preference' {Get-VSO7ConsoleTextVSO 'VSO no la selecciono automaticamente: es una preferencia personal.' 'VSO did not select this automatically: personal preference.';break}
+        'Optional' {Get-VSO7ConsoleTextVSO 'VSO no la selecciono automaticamente: opcion para revision manual.' 'VSO did not select this automatically: option for manual review.';break}
+        'OptionalNotRequested' {Get-VSO7ConsoleTextVSO 'VSO no la selecciono automaticamente: opcion adicional.' 'VSO did not select this automatically: optional addition.';break}
+        'ConflictSkipped' {Get-VSO7ConsoleTextVSO 'VSO no la selecciono automaticamente: conflicto con otra recomendacion.' 'VSO did not select this automatically: conflicts with another recommendation.';break}
+        'DependencySkipped' {Get-VSO7ConsoleTextVSO 'VSO no la selecciono automaticamente: falta un requisito.' 'VSO did not select this automatically: a requirement is not satisfied.';break}
+        'DependencyCycle' {Get-VSO7ConsoleTextVSO 'VSO no la selecciono automaticamente: dependencias incompatibles.' 'VSO did not select this automatically: incompatible dependencies.';break}
+        'NotApplicable' {Get-VSO7ConsoleTextVSO 'No aplicable; VSO no la selecciono automaticamente.' 'Not applicable; VSO did not select this automatically.';break}
+        'Ambiguous' {Get-VSO7ConsoleTextVSO 'No verificable; VSO no la selecciono automaticamente.' 'Could not verify; VSO did not select this automatically.';break}
+        default {Get-VSO7ConsoleTextVSO 'VSO no la selecciono automaticamente: requiere una decision manual o queda excluida por la politica actual.' 'VSO did not select this automatically: requires a manual decision or is excluded by current policy.'}
+    }
+    if($Entry.PSObject.Properties.Name-contains'Applicability'-and$null-ne$Entry.Applicability){
+        $reason=if($script:Language-eq'en'){[string]$Entry.Applicability.ReasonEn}else{[string]$Entry.Applicability.ReasonEs}
+        if(-not[string]::IsNullOrWhiteSpace($reason)){$text+=' '+$reason}
+    }
+    return $text
+}
+
 function Show-VSO7FeatureCategoryVSO {
 
     param(
         [string[]]$Categories,
-        [string[]]$FeatureIds
+        [AllowEmptyCollection()][AllowNull()][string[]]$FeatureIds
     )
-    if(($null-eq$Categories-or$Categories.Count-eq0)-and($null-eq$FeatureIds-or$FeatureIds.Count-eq0)){
+    if(-not$PSBoundParameters.ContainsKey('FeatureIds')-and($null-eq$Categories-or$Categories.Count-eq0)){
         throw 'Show-VSO7FeatureCategoryVSO requiere Categories o FeatureIds.'
     }
     $allCatalog=@(Get-VSO7FeatureCatalogVSO)
-    if($null-ne$FeatureIds-and$FeatureIds.Count-gt0){
+    if($PSBoundParameters.ContainsKey('FeatureIds')){
 
         $wanted=@{};
         foreach($id in @($FeatureIds)){
@@ -28141,6 +28209,10 @@ function Show-VSO7FeatureCategoryVSO {
         return
     }
     $selected=@()
+    $automatic=@{}
+    $objective='Balanced'
+    $proposal=$null
+    $scopeIds=@($catalog|ForEach-Object{[string]$_.FeatureId}|Sort-Object -Unique)
     while($true){
 
         $isEn=($script:Language-eq'en')
@@ -28165,6 +28237,15 @@ function Show-VSO7FeatureCategoryVSO {
             }) -Color $script:ThemeDanger;
             Write-VSOHost ''
         }
+        Write-CenteredLineVSO -Text ((Get-VSO7ConsoleTextVSO 'Objetivo para el siguiente calculo: ' 'Objective for the next calculation: ')+$objective) -Color $script:ThemeText
+        Write-CenteredLineVSO -Text (Get-VSO7ConsoleTextVSO '[A] Seleccion automatica · [X] Seleccion manual · R reemplaza la seleccion actual.' '[A] Automatic selection · [X] Manual selection · R replaces the current selection.') -Color $script:ThemeMuted
+        if($null-ne$proposal-and[string]$proposal.Objective-cne$objective){
+            Write-CenteredLineVSO -Text ((Get-VSO7ConsoleTextVSO 'La propuesta visible usa ' 'The visible proposal uses ')+$proposal.Objective+(Get-VSO7ConsoleTextVSO '. Pulsa R para recalcular; cambiar objetivo conserva tu seleccion.' '. Press R to recalculate; changing objective preserves your selection.')) -Color $script:ThemeWarning
+        }
+        if($null-ne$proposal-and@($proposal.SelectedFeatureIds).Count-eq0){
+            Write-CenteredLineVSO -Text (Get-VSO7ConsoleTextVSO 'VSO no tiene recomendaciones automaticas pendientes para esta seccion y objetivo. Puedes seleccionar manualmente.' 'VSO currently has no pending automatic recommendations for this section and objective. Manual selection remains available.') -Color $script:ThemeMuted
+        }
+        Write-VSOHost ''
         $rows=@();
         $states=@();
         $i=1
@@ -28181,7 +28262,7 @@ function Show-VSO7FeatureCategoryVSO {
             $on=($selected-contains$id);
             $appStatus=[string]$app.Status
             $mark=if($on){
-                '[X]'
+                if($automatic.ContainsKey($id)){'[A]'}else{'[X]'}
             }else{
                 switch($appStatus){
                     'ALREADY_OPTIMAL' {'[OK]'}
@@ -28232,6 +28313,12 @@ function Show-VSO7FeatureCategoryVSO {
                 }
                 $desc+=' · '+$prefix+$reason
             }
+            if($on-and-not$automatic.ContainsKey($id)){
+                $desc+=' · '+(Get-VSO7ConsoleTextVSO 'Seleccionada manualmente.' 'Selected manually.')
+            }
+            if($null-ne$proposal-and$proposal.DetailsById.ContainsKey($id)){
+                $desc+=' · '+(Get-VSO7FeatureProposalExplanationVSO -Entry $proposal.DetailsById[$id])
+            }
             $color=if($on){
                 'Green'
             }elseif([string]$app.Status-eq'ALREADY_OPTIMAL'){
@@ -28256,6 +28343,18 @@ function Show-VSO7FeatureCategoryVSO {
         $apply=$i;
         $clear=$i+1
         Write-CenteredMenuVSO -Items @(
+            [pscustomobject]@{
+                Text=Get-VSO7ConsoleTextVSO '[R] Seleccionar recomendadas para esta seccion' '[R] Select recommended for this section'
+                Color='Cyan';Description=Get-VSO7ConsoleTextVSO 'Reemplaza la seleccion con recomendaciones del objetivo actual, solo dentro de este catalogo. No aplica nada.' 'Replaces the selection with recommendations for the current objective, only within this catalog. Applies nothing.'
+            },
+            [pscustomobject]@{
+                Text=Get-VSO7ConsoleTextVSO '[O] Cambiar objetivo' '[O] Change objective'
+                Color='Cyan';Description=Get-VSO7ConsoleTextVSO 'Conserva la seleccion; el nuevo objetivo se usa cuando pulses R.' 'Preserves the selection; the new objective is used when you press R.'
+            },
+            [pscustomobject]@{
+                Text=Get-VSO7ConsoleTextVSO '[X] Quitar seleccion' '[X] Clear selection'
+                Color='Gray';Description=Get-VSO7ConsoleTextVSO 'Desmarca todo sin modificar Windows.' 'Clears all selections without changing Windows.'
+            },
             [pscustomobject]@{
             Text=("[{0}] "-f$apply)+$(if($isEn){
                 'Apply selection'
@@ -28295,6 +28394,27 @@ function Show-VSO7FeatureCategoryVSO {
         if($c-eq'0'){
             return
         };
+        if($c-ieq'O'){
+            $objective=Select-VSO7RecommendedObjectiveVSO -Current $objective -NoPrivacyReview
+            continue
+        }
+        if($c-ieq'X'){
+            $selected=@();$automatic=@{}
+            continue
+        }
+        if($c-ieq'R'){
+            try{
+                $nextProposal=Get-VSO7ScopedFeatureProposalVSO -FeatureIds $scopeIds -Objective $objective
+                $selected=@($nextProposal.SelectedFeatureIds)
+                $automatic=@{}
+                foreach($id in $selected){$automatic[[string]$id]=$true}
+                $proposal=$nextProposal
+            }catch{
+                Write-CenteredLineVSO -Text ((Get-VSO7ConsoleTextVSO 'No se pudo calcular la recomendacion. Se conserva la seleccion anterior: ' 'Could not calculate recommendations. The previous selection is preserved: ')+$_.Exception.Message) -Color $script:ThemeDanger
+                Pause-Vico
+            }
+            continue
+        }
         if(-not[int]::TryParse($c,[ref]$n)){
             continue
         }
@@ -28311,6 +28431,7 @@ function Show-VSO7FeatureCategoryVSO {
                 Start-Sleep -Milliseconds 650;
                 continue
             };
+            $automatic.Remove($id)
             if($selected-contains$id){
                 $selected=@($selected|Where-Object{
                     $_-ine$id
@@ -28321,7 +28442,7 @@ function Show-VSO7FeatureCategoryVSO {
             continue
         }
         if($n-eq$clear){
-            $selected=@();
+            $selected=@();$automatic=@{}
             continue
         }
         if($n-eq$apply){
@@ -28335,13 +28456,14 @@ function Show-VSO7FeatureCategoryVSO {
                 Start-Sleep -Milliseconds 650;
                 continue
             }
+            $reviewedIds=@($selected|Sort-Object -Unique)
             Write-VSOHost '';
             Write-CenteredLineVSO -Text $(if($isEn){
                 'Exactly these features will be applied:'
             }else{
                 'Se aplicaran exactamente estas features:'
             }) -Color $script:ThemeWarning
-            foreach($id in $selected){
+            foreach($id in $reviewedIds){
                 $f=$catalog|Where-Object{
                     $_.FeatureId-eq$id
                 }|Select-Object -First 1;
@@ -28365,14 +28487,26 @@ function Show-VSO7FeatureCategoryVSO {
             }))-notmatch'^[sSyY]$'){
                 continue
             }
-            if(-not(Confirm-VSO7HighRiskFeatureSelectionVSO -FeatureIds @($selected) -Catalog $catalog)){
+            if(-not(Confirm-VSO7HighRiskFeatureSelectionVSO -FeatureIds $reviewedIds -Catalog $catalog)){
                 continue
             }
-            if(-not(Require-RestorePoint)){
-                Pause-Vico;
+            try{
+                $finalPlan=Get-VSO7FeatureSelectionPlanR75VSO -Operation Windows -FeatureIds $reviewedIds -Objective $objective
+                # Standard preserves this selector's execution path, including manual/Special items.
+                $execution=Invoke-VSO7FeaturePlanExecutionR75VSO -Plan $finalPlan -Mode Apply -ExecutionKind Standard
+            }catch{
+                Write-CenteredLineVSO -Text $_.Exception.Message -Color $script:ThemeDanger
+                Pause-Vico
                 continue
             }
-            $ok=[bool](Invoke-VSO7NativeTweaksVSO -Features @($selected))
+            if([string]$execution.Status-ceq'Cancelled'){
+                Pause-Vico
+                continue
+            }
+            $ok=([string]$execution.Status-ceq'Succeeded')
+            if(-not$ok-and-not[string]::IsNullOrWhiteSpace([string]$execution.Error)){
+                Write-CenteredLineVSO -Text ([string]$execution.Error) -Color $script:ThemeDanger
+            }
             if($ok){
                 Write-CenteredLineVSO -Text $(if($isEn){
                     'Selection applied and verified.'
@@ -31340,7 +31474,7 @@ function Get-VSO7GuiBackgroundScriptContextR77VSO {
     # R80: explicit worker state contract. Keep this list aligned with the transitive `$script:*`
     # dependencies of Start-VSO7GuiBackgroundFunctionR52VSO targets. WPF/UI objects are never shared.
     $names=@(
-        'AppData','BuiltInPowerSchemes','ConfigRoot',
+        'AppData','BuiltInPowerSchemes','ConfigRoot','DisplayVersion',
         'ExpectedVSO7AppCatalogSha256','ExpectedVSO7FeatureCatalogSha256','ExpectedVSO7NativeTweaksSha256',
         'ExtremeState','ExtremeStateFile','Language','LastRecoveryBundle','LegacyTranslationsEsToEn','LogFile',
         'NativeJournalRevision','ProgramData','ProtectedProcessesFile','RecoveryAuthKeyFile','RecoveryRoot','RecoveryRunnerHash',
@@ -32474,7 +32608,7 @@ namespace VSO7.Interop {
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Margin="0,0,0,16">
       <TextBlock Text="VSO7" FontSize="36" FontWeight="Bold" Foreground="#E3A35D"/>
-      <TextBlock Text="VICO SAFE OPTIMIZER · 7.0.0 RC R80" FontSize="14" Foreground="#BDA98D"/>
+      <TextBlock Text="VICO SAFE OPTIMIZER · 1.1.0" FontSize="14" Foreground="#BDA98D"/>
       <TextBlock Name="HomeSubtitle" Margin="0,8,0,0" Foreground="#D8C7AE" FontSize="14"/>
     </StackPanel>
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><WrapPanel Name="Cards" Orientation="Horizontal"/></ScrollViewer>
@@ -34114,13 +34248,13 @@ function Install-VSO7PresentMon {
 
     param([switch]$Force)
     Write-Title;
-    Write-CenteredLineVSO -Text 'PRESENTMON - INSTALACION PROTEGIDA' -Color $script:ThemeCopper
+    Write-CenteredLineVSO -Text $(Get-VSO7ConsoleTextVSO -Es 'PRESENTMON - INSTALACION PROTEGIDA' -En 'PRESENTMON - PROTECTED INSTALLATION') -Color $script:ThemeCopper
     Write-CenteredLineVSO -Text 'Fuente: GitHub oficial GameTechDev/PresentMon. No se instala nada globalmente.' -Color $script:ThemeText
     Write-CenteredLineVSO -Text 'El binario se guarda en el almacenamiento protegido de VSO7 dentro de ProgramData.' -Color $script:ThemeMuted;
     Write-VSOHost ''
     $existing=Find-VSO7PresentMon
     if($existing-and-not$Force){
-        Write-VSOHost ("PresentMon ya esta disponible y verificado: {0}"-f$existing) -ForegroundColor Green;
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'PresentMon ya esta disponible y verificado: {0}' -En 'PresentMon is already available and verified: {0}')-f$existing) -ForegroundColor Green;
         return $existing
     }
     $root=$null;
@@ -34199,7 +34333,7 @@ function Install-VSO7PresentMon {
             throw 'PresentMon no supero la revalidacion final de confianza.'
         }
         Write-VSOHost '';
-        Write-VSOHost ("[OK] PresentMon {0} instalado y revalidado en almacenamiento protegido."-f$info.Tag) -ForegroundColor Green;
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es '[OK] PresentMon {0} instalado y revalidado en almacenamiento protegido.' -En '[OK] PresentMon {0} was installed and revalidated in protected storage.')-f$info.Tag) -ForegroundColor Green;
         Write-VSOHost ("SHA256: {0}"-f$actualHash) -ForegroundColor DarkGray;
         Write-VSO7Log ("PresentMon {0} instalado en ProgramData protegido; SHA256 {1}."-f$info.Tag,$actualHash) 'CHANGE';
         return $script:PresentMonExe
@@ -34216,7 +34350,7 @@ function Install-VSO7PresentMon {
             }
         }catch{}
         Write-VSOHost '';
-        Write-VSOHost ("No se pudo instalar PresentMon: {0}"-f$installError) -ForegroundColor Red;
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'No se pudo instalar PresentMon: {0}' -En 'PresentMon could not be installed: {0}')-f$installError) -ForegroundColor Red;
         Write-VSO7Log ("Fallo instalando PresentMon: {0}"-f$installError) 'ERROR';
         return $null
 
@@ -34253,9 +34387,9 @@ function Show-VSO7PresentMonManager {
         $meta = Get-VSO7PresentMonMetadata
         if ($pm) {
 
-            Write-CenteredLineVSO -Text ("Estado: INSTALADO | {0}" -f $pm) -Color 'Green'
+            Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Estado: INSTALADO | {0}' -En 'Status: INSTALLED | {0}') -f $pm) -Color 'Green'
             if ($meta -and $meta.Release) {
-                Write-CenteredLineVSO -Text ("Release registrada: {0}" -f $meta.Release) -Color $script:ThemeText
+                Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Release registrada: {0}' -En 'Registered release: {0}') -f $meta.Release) -Color $script:ThemeText
             }
 
         } else {
@@ -34269,7 +34403,7 @@ function Show-VSO7PresentMonManager {
             Text='[1] Descargar e instalar la ultima release estable de PresentMon';Color='Cyan';Description='Descarga PresentMon desde su fuente configurada, verifica lo esperado y lo prepara para mediciones de FPS.'
         },
             [pscustomobject]@{
-            Text='[2] Comprobar si hay una version nueva de PresentMon';Color='Green';Description='Compara la version instalada y solo ofrece actualizar si hay una release mas reciente.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[2] Comprobar si hay una version nueva de PresentMon' -En '[2] Check for a new PresentMon version');Color='Green';Description='Compara la version instalada y solo ofrece actualizar si hay una release mas reciente.'
         },
             [pscustomobject]@{
             Text='[3] Ver version y SHA-256 de PresentMon';Color='Gray';Description='Solo lectura: muestra que binario tiene VSO7 y su huella SHA-256.'
@@ -34295,11 +34429,11 @@ function Show-VSO7PresentMonManager {
                 $current = Get-VSO7PresentMonMetadata
                 if ((Find-VSO7PresentMon) -and $current -and ([string]$current.Release -eq [string]$latest.Tag)) {
 
-                    Write-VSOHost ("Ya tienes la release mas reciente: {0}." -f $latest.Tag) -ForegroundColor Green
+                    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Ya tienes la release mas reciente: {0}.' -En 'You already have the latest release: {0}.') -f $latest.Tag) -ForegroundColor Green
 
                 } else {
 
-                    Write-VSOHost ("Release disponible: {0}." -f $latest.Tag) -ForegroundColor Cyan
+                    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Release disponible: {0}.' -En 'Available release: {0}.') -f $latest.Tag) -ForegroundColor Cyan
                     if ((Read-VSOHost '¿Descargar/verificar/actualizar ahora? [S/N]') -match '^[sSyY]$') {
                         [void](Install-VSO7PresentMon -Force)
                     }
@@ -34321,7 +34455,7 @@ function Show-VSO7PresentMonManager {
             }
             else {
 
-                Write-VSOHost ("Ruta: {0}" -f $pm) -ForegroundColor Gray
+                Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Ruta: {0}' -En 'Path: {0}') -f $pm) -ForegroundColor Gray
                 try {
                     Write-VSOHost ((Get-FileHash -LiteralPath $pm -Algorithm SHA256|Format-List|Out-String -Width 220).TrimEnd())
                 } catch {}
@@ -35570,41 +35704,41 @@ function Show-VSO7LatencyHardwareLabVSO {
     while($true){
 
         Write-Title
-        Write-CenteredLineVSO -Text 'LATENCY / HARDWARE LAB - R44' -Color $script:ThemeCopper
+        Write-CenteredLineVSO -Text $(Get-VSO7ConsoleTextVSO -Es 'LABORATORIO DE LATENCIA / HARDWARE - R44' -En 'LATENCY / HARDWARE LAB - R44') -Color $script:ThemeCopper
         Write-CenteredLineVSO -Text 'Diagnostico first: no convierte una metrica indirecta en "input lag".' -Color 'Yellow'
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text='[1] CPU topology / P-E classes';Color='Cyan';Description='CPU Sets, grupos, SMT y EfficiencyClass cuando Windows lo expone.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[1] Topologia de CPU / clases P-E' -En '[1] CPU topology / P-E classes');Color='Cyan';Description='CPU Sets, grupos, SMT y EfficiencyClass cuando Windows lo expone.'
         },
             [pscustomobject]@{
-            Text='[2] DPC / ISR system overview';Color='Cyan';Description='Muestrea contadores del sistema; attribution por driver requiere ETW.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[2] Resumen del sistema DPC / ISR' -En '[2] DPC / ISR system overview');Color='Cyan';Description='Muestrea contadores del sistema; attribution por driver requiere ETW.'
         },
             [pscustomobject]@{
-            Text='[3] MSI/MSI-X + interrupt affinity';Color='Cyan';Description='Distingue capability NIC de overrides Registry explicitos/inherited.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[3] MSI/MSI-X + afinidad de interrupciones' -En '[3] MSI/MSI-X + interrupt affinity');Color='Cyan';Description='Distingue capability NIC de overrides Registry explicitos/inherited.'
         },
             [pscustomobject]@{
-            Text='[4] USB topology';Color='Cyan';Description='Controlador -> dispositivo y clasificacion funcional aproximada.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[4] Topologia USB' -En '[4] USB topology');Color='Cyan';Description='Controlador -> dispositivo y clasificacion funcional aproximada.'
         },
             [pscustomobject]@{
-            Text='[5] Storage health / reliability';Color='Cyan';Description='Salud, temperatura, wear y contadores si el driver los expone.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[5] Salud / fiabilidad del almacenamiento' -En '[5] Storage health / reliability');Color='Cyan';Description='Salud, temperatura, wear y contadores si el driver los expone.'
         },
             [pscustomobject]@{
-            Text='[6] Driver advisor inventory';Color='Cyan';Description='Version/fecha/provider/firma. No afirma que exista una version mas nueva.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[6] Inventario de controladores' -En '[6] Driver advisor inventory');Color='Cyan';Description='Version/fecha/provider/firma. No afirma que exista una version mas nueva.'
         },
             [pscustomobject]@{
-            Text='[7] NIC + Wi-Fi capabilities';Color='Cyan';Description='Keywords y valores que el propio driver anuncia como validos.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[7] Capacidades de NIC + Wi-Fi' -En '[7] NIC + Wi-Fi capabilities');Color='Cyan';Description='Keywords y valores que el propio driver anuncia como validos.'
         },
             [pscustomobject]@{
-            Text='[8] Network local quality';Color='Cyan';Description='Gateway ping/jitter/loss y link speed; separa LAN de Internet/ISP.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[8] Calidad de la red local' -En '[8] Network local quality');Color='Cyan';Description='Gateway ping/jitter/loss y link speed; separa LAN de Internet/ISP.'
         },
             [pscustomobject]@{
-            Text='[9] Audio / input context';Color='Cyan';Description='Dispositivos/controladores y preferencias; no los vende como latency magic.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[9] Contexto de audio / entrada' -En '[9] Audio / input context');Color='Cyan';Description='Dispositivos/controladores y preferencias; no los vende como latency magic.'
         },
             [pscustomobject]@{
-            Text='[10] Firmware / service dependencies';Color='Cyan';Description='BIOS/UEFI read-only y dependencias de servicios.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[10] Firmware / dependencias de servicios' -En '[10] Firmware / service dependencies');Color='Cyan';Description='BIOS/UEFI read-only y dependencias de servicios.'
         },
             [pscustomobject]@{
-            Text='[11] QoS/DSCP active policy inventory';Color='Cyan';Description='Lee politicas activas. DSCP no implica menor ping si la red no respeta QoS.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[11] Inventario de politicas activas QoS/DSCP' -En '[11] QoS/DSCP active policy inventory');Color='Cyan';Description='Lee politicas activas. DSCP no implica menor ping si la red no respeta QoS.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';SeparatorBefore=$true
@@ -35634,10 +35768,10 @@ function Show-VSO7LatencyHardwareLabVSO {
                     $nic=@(Get-VSO7NicInterruptCapabilityVSO);
                     $dev=@(Get-VSO7InterruptDeviceInventoryVSO);
                     if($nic.Count){
-                        Write-VSOHost 'NIC hardware interrupt capabilities:' -ForegroundColor Cyan;
+                        Write-VSOHost $(Get-VSO7ConsoleTextVSO -Es 'Capacidades de interrupcion del hardware NIC:' -En 'NIC hardware interrupt capabilities:') -ForegroundColor Cyan;
                         Write-CenteredTableVSO -Rows $nic -Properties @('Name','MsiSupported','MsiEnabled','MsiXSupported','MsiXEnabled','NumMsiMessages','NumMsixTableEntries','NumaNode')
                     };
-                    Write-VSOHost 'Explicit/inherited device interrupt policy:' -ForegroundColor Cyan;
+                    Write-VSOHost $(Get-VSO7ConsoleTextVSO -Es 'Politica explicita/heredada de interrupciones del dispositivo:' -En 'Explicit/inherited device interrupt policy:') -ForegroundColor Cyan;
                     Write-CenteredTableVSO -Rows $dev -Properties @('Name','Class','MsiOverrideState','MessageNumberLimit','AffinityOverrideState','AffinityDevicePolicy')
                 }
                 '4'{
@@ -35658,7 +35792,7 @@ function Show-VSO7LatencyHardwareLabVSO {
                     $n=@(Get-VSO7NetAdapterCapabilityInventoryVSO);
                     Write-CenteredTableVSO -Rows $n -Properties @('Name','InterfaceDescription','Status','LinkSpeed');
                     $w=@(Get-VSO7WifiCapabilityInventoryVSO);
-                    Write-VSOHost ("Wi-Fi adapters: {0}"-f$w.Count) -ForegroundColor Cyan;
+                    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Adaptadores Wi-Fi: {0}' -En 'Wi-Fi adapters: {0}')-f$w.Count) -ForegroundColor Cyan;
                     foreach($a in $w){
                         Write-VSOHost ("{0} - {1}"-f$a.Name,$a.InterfaceDescription) -ForegroundColor Gray;
                         Write-CenteredTableVSO -Rows @($a.AdvancedProperties) -Properties @('RegistryKeyword','RegistryValue','ValidRegistryValues','DisplayValue')
@@ -35689,7 +35823,7 @@ function Show-VSO7LatencyHardwareLabVSO {
             }
 
         }catch{
-            Write-VSOHost ("Diagnostico no disponible: {0}"-f$_.Exception.Message) -ForegroundColor Yellow
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Diagnostico no disponible: {0}' -En 'Diagnostics unavailable: {0}')-f$_.Exception.Message) -ForegroundColor Yellow
         }
         Pause-Vico
 
@@ -36042,7 +36176,7 @@ function Invoke-VSO7PresentMonCapture {
     };
     Write-CenteredMenuVSO -Items $rows
     $n=0;
-    $raw=Read-CenteredPromptVSO 'Juego';
+    $raw=Read-CenteredPromptVSO $(Get-VSO7ConsoleTextVSO -Es 'Juego' -En 'Game');
     if(-not([int]::TryParse($raw,[ref]$n))-or$n-lt1-or$n-gt[math]::Min($games.Count,25)){
         return $null
     }
@@ -36070,7 +36204,7 @@ function Invoke-VSO7PresentMonCapture {
 
     }
     $csv=Join-Path $script:BenchmarkRoot ("presentmon_{0}_{1}_{2}.csv"-f(Get-Date -Format 'yyyyMMdd_HHmmss'),$Label,$g.ProcessName)
-    Write-VSOHost ("Capturando {0} s..."-f$Seconds) -ForegroundColor Cyan
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Capturando {0} s...' -En 'Capturing for {0} s...')-f$Seconds) -ForegroundColor Cyan
     if(-not(Test-VSO7PresentMonTrusted -RequireGitHubDigest)){
         throw 'PresentMon no supero la revalidacion SHA-256 contra GitHub justo antes de ejecutarse. Comprueba Internet o actualizalo desde VSO7.'
     }
@@ -36295,19 +36429,19 @@ function Compare-VSO7PresentMonResults {
     )
     Write-CenteredTableVSO -Rows @($rows) -Properties @('Metrica','Antes','Despues','CambioPct')
     $verdict=Get-VSO7PresentMonABVerdictVSO -Before $Before -After $After
-    Write-VSOHost ("Resultado A/B: {0} - {1}"-f$verdict.Verdict,$verdict.Reason) -ForegroundColor $(if($verdict.Verdict-eq'Improved'){
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Resultado A/B: {0} - {1}' -En 'A/B result: {0} - {1}')-f$verdict.Verdict,$verdict.Reason) -ForegroundColor $(if($verdict.Verdict-eq'Improved'){
         'Green'
     }elseif($verdict.Verdict-eq'Regressed'){
         'Red'
     }else{
         'Yellow'
     })
-    Write-VSOHost ("Noise gate: {0}"-f$verdict.Policy) -ForegroundColor DarkGray
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Umbral de ruido: {0}' -En 'Noise gate: {0}')-f$verdict.Policy) -ForegroundColor DarkGray
     $path=Join-Path $script:ReportRoot ("VSO7_FPS_AB_{0}.html"-f(Get-Date -Format 'yyyyMMdd_HHmmss'))
     $frag=$rows|ConvertTo-Html -Fragment;
     $html="<html><head><meta charset='utf-8'><style>body{background:#0b0907;color:#eadbc8;font-family:Segoe UI,Arial;margin:36px}h1{color:#c58b52}table{border-collapse:collapse}td,th{padding:8px 14px;border-bottom:1px solid #4b3424}</style></head><body><h1>VSO7 - FPS A/B</h1><p>$($Before.Game) | BASELINE $($Before.Timestamp) | POST $($After.Timestamp)</p><p><strong>Verdict:</strong> $($verdict.Verdict) - $($verdict.Reason)</p><p>$($verdict.Policy)</p>$frag</body></html>";
     Set-Content $path $html -Encoding UTF8 -Force
-    Write-VSOHost ("Informe: {0}"-f$path) -ForegroundColor Green
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Informe: {0}' -En 'Report: {0}')-f$path) -ForegroundColor Green
 
 }
 
@@ -36333,10 +36467,10 @@ function Show-VSO7BenchmarkMenu {
         Write-VSOHost ''
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text='[1] Crear medicion BASELINE (10 s)';Color='Cyan';Description='Guarda una referencia de actividad de fondo antes de optimizar para poder comparar despues.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[1] Crear medicion BASELINE (10 s)' -En '[1] Create a BASELINE measurement (10 s)');Color='Cyan';Description='Guarda una referencia de actividad de fondo antes de optimizar para poder comparar despues.'
         },
             [pscustomobject]@{
-            Text='[2] Medir POST y comparar con el ultimo BASELINE';Color='Green';Description='Mide de nuevo y compara procesos, CPU y actividad con la referencia anterior.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[2] Medir POST y comparar con el ultimo BASELINE' -En '[2] Measure POST and compare with the latest BASELINE');Color='Green';Description='Mide de nuevo y compara procesos, CPU y actividad con la referencia anterior.'
         },
             [pscustomobject]@{
             Text='[3] Medicion manual (10 s)';Color='Gray';Description='Hace una captura aislada de actividad sin guardarla como baseline ni aplicar cambios.'
@@ -36348,10 +36482,10 @@ function Show-VSO7BenchmarkMenu {
             Text='[5] FPS BASELINE con PresentMon (opcional)';Color='Cyan';Description='Captura FPS y frametimes como referencia antes de cambiar ajustes. Requiere PresentMon.'
         },
             [pscustomobject]@{
-            Text='[6] FPS POST y comparar lows (opcional)';Color='Green';Description='Captura otra muestra y compara FPS, 1% lows y frametimes contra el baseline.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[6] FPS POST y comparar lows (opcional)' -En '[6] Measure POST FPS and compare lows (optional)');Color='Green';Description='Captura otra muestra y compara FPS, 1% lows y frametimes contra el baseline.'
         },
             [pscustomobject]@{
-            Text='[7] Gestionar instalacion de PresentMon';Color='Yellow';Description='Abre el gestor de PresentMon; no lo descarga simplemente por entrar.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[7] Gestionar instalacion de PresentMon' -En '[7] Manage the PresentMon installation');Color='Yellow';Description='Abre el gestor de PresentMon; no lo descarga simplemente por entrar.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';SeparatorBefore=$true
@@ -36365,7 +36499,7 @@ function Show-VSO7BenchmarkMenu {
 
             $b=Measure-VSO7Performance -Seconds 10 -Label BASELINE;
             $p=Save-VSO7Benchmark $b
-            Write-VSOHost ("Baseline guardado: {0}" -f $p) -ForegroundColor Green;
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Baseline guardado: {0}' -En 'Baseline saved: {0}') -f $p) -ForegroundColor Green;
             Pause-Vico;
             continue
 
@@ -36384,7 +36518,7 @@ function Show-VSO7BenchmarkMenu {
             Write-VSOHost '';
             Write-CenteredTableVSO -Rows @($rows) -Properties @('Metrica','Antes','Despues','CambioPct')
             $html=Export-VSO7BenchmarkHtml -Rows $rows -Before $base.Data -After $post
-            Write-VSOHost ("POST: {0}`nInforme HTML: {1}" -f $pp,$html) -ForegroundColor Green;
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es "POST: {0}`nInforme HTML: {1}" -En "POST: {0}`nHTML report: {1}") -f $pp,$html) -ForegroundColor Green;
             Pause-Vico;
             continue
 
@@ -36394,7 +36528,7 @@ function Show-VSO7BenchmarkMenu {
             $m=Measure-VSO7Performance -Seconds 10 -Label MANUAL;
             $p=Save-VSO7Benchmark $m;
             Write-VSOHost (($m|Select-Object CpuAvgPct,CpuMaxPct,DpcAvgPct,DpcMaxPct,ContextSwitchesAvg,InterruptsAvg,RamUsedAvgPct,ProcessCountAvg|Format-List|Out-String -Width 220).TrimEnd())
-            Write-VSOHost ("Guardado: {0}" -f $p) -ForegroundColor Green;
+            Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Guardado: {0}' -En 'Saved: {0}') -f $p) -ForegroundColor Green;
             Pause-Vico;
             continue
 
@@ -36843,7 +36977,7 @@ function Show-VSO7Score {
     Save-VSO7ScoreHistory $s
 
     Write-VSOHost ''
-    Write-CenteredLineVSO -Text ("CONFIGURACION : {0}/100" -f $s.ConfigurationScore) -Color $(if($s.ConfigurationScore-ge85){
+    Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'CONFIGURACION : {0}/100' -En 'CONFIGURATION : {0}/100') -f $s.ConfigurationScore) -Color $(if($s.ConfigurationScore-ge85){
         'Green'
     }elseif($s.ConfigurationScore-ge65){
         'Yellow'
@@ -36853,7 +36987,7 @@ function Show-VSO7Score {
     Write-CenteredTableVSO -Rows @($s.ConfigurationChecks) -Properties @('Comprobacion','Puntos','Max','Detalle')
 
     Write-VSOHost ''
-    Write-CenteredLineVSO -Text ("ESTADO ACTUAL : {0}/100" -f $s.StateScore) -Color $(if($s.StateScore-ge85){
+    Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'ESTADO ACTUAL : {0}/100' -En 'CURRENT STATUS: {0}/100') -f $s.StateScore) -Color $(if($s.StateScore-ge85){
         'Green'
     }elseif($s.StateScore-ge65){
         'Yellow'
@@ -36968,7 +37102,7 @@ function Show-VSO7CleanupHistory {
     foreach($i in $items){
         $sum += [int64]$i.BytesFreed
     }
-    Write-VSOHost ("Total recuperado medido por VSO7: {0}" -f (Format-BytesVSO $sum)) -ForegroundColor Green
+    Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'Total recuperado medido por VSO7: {0}' -En 'Total recovered space measured by VSO7: {0}') -f (Format-BytesVSO $sum)) -ForegroundColor Green
     Write-CenteredTableVSO -Rows @($items|Select-Object -Last 20 @{
         N='Fecha';E={
             $_.Timestamp
@@ -37090,10 +37224,10 @@ function Show-VSO7ProtectionManager {
         $removeNumber=$names.Count+2
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Anadir proceso protegido"-f$addNumber);Color='Cyan';Description='Añade un nombre de proceso para que VSO7 no lo toque durante sesiones gaming.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Anadir proceso protegido' -En '[{0}] Add a protected process')-f$addNumber);Color='Cyan';Description='Añade un nombre de proceso para que VSO7 no lo toque durante sesiones gaming.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Quitar una proteccion del usuario"-f$removeNumber);Color='Yellow';Description='Permite quitar una exclusion que hayas añadido; las protecciones de sistema no se pueden borrar.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Quitar una proteccion del usuario' -En '[{0}] Remove a user-added protection')-f$removeNumber);Color='Yellow';Description='Permite quitar una exclusion que hayas añadido; las protecciones de sistema no se pueden borrar.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Regresa sin cambiar mas exclusiones.';SeparatorBefore=$true
@@ -37771,7 +37905,7 @@ function Select-VSO7ProcessInstance {
     }
 
     Write-Title;
-    Write-CenteredLineVSO -Text ("Hay varias instancias de {0}. Elige la correcta."-f$ProcessName) -Color 'Yellow'
+    Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Hay varias instancias de {0}. Elige la correcta.' -En 'Several instances of {0} are running. Choose the correct one.')-f$ProcessName) -Color 'Yellow'
     $rows=@();
     for($i=0;$i-lt$candidates.Count;$i++){
         $rows += [pscustomobject]@{
@@ -38088,7 +38222,7 @@ function Invoke-VSO7GamingSession {
         while($true){
 
             Write-Title;
-            Write-CenteredLineVSO -Text ("SESION GAMING: {0}"-f$gameName) -Color $script:ThemeCopper;
+            Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'SESION GAMING: {0}' -En 'GAMING SESSION: {0}')-f$gameName) -Color $script:ThemeCopper;
             Write-CenteredLineVSO -Text 'Selecciona procesos para bajar temporalmente a prioridad BelowNormal.' -Color $script:ThemeText
             $br=@();
             for($i=0;$i-lt$cands.Count;$i++){
@@ -38111,9 +38245,9 @@ function Invoke-VSO7GamingSession {
             $allBackground=$cands.Count+1;
             $continueBackground=$cands.Count+2
             Write-CenteredMenuVSO -Items @([pscustomobject]@{
-                Text=("[{0}] Seleccionar todos los candidatos"-f$allBackground);Color='Gray';Description='Marca todos los procesos de fondo mostrados; todavia no cambia prioridades.'
+                Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Seleccionar todos los candidatos' -En '[{0}] Select all candidates')-f$allBackground);Color='Gray';Description='Marca todos los procesos de fondo mostrados; todavia no cambia prioridades.'
             },[pscustomobject]@{
-                Text=("[{0}] Continuar con esta seleccion"-f$continueBackground);Color='Green';Description='Pasa a la confirmacion de energia y perfil con los procesos que hayas marcado.'
+                Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Continuar con esta seleccion' -En '[{0}] Continue with this selection')-f$continueBackground);Color='Green';Description='Pasa a la confirmacion de energia y perfil con los procesos que hayas marcado.'
             },[pscustomobject]@{
                 Text='[0] Cancelar';Color='Gray';Description='Cancela la creacion de esta sesion gaming sin aplicar cambios.';SeparatorBefore=$true
             });
@@ -38155,7 +38289,7 @@ function Invoke-VSO7GamingSession {
 
     $game=Select-VSO7ProcessInstance -ProcessName $gameName -ExecutablePath $gameExe -ExpectedIdentity $preferredIdentity
     if($null-eq$game){
-        Write-VSOHost ("No se encontro una instancia inequívoca de {0}. VSO7 no inicia ejecutables desde perfiles elevados: inicia el juego normalmente y vuelve a intentarlo."-f$gameName) -ForegroundColor Red;
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es 'No se encontro una instancia inequívoca de {0}. VSO7 no inicia ejecutables desde perfiles elevados: inicia el juego normalmente y vuelve a intentarlo.' -En 'No unambiguous instance of {0} was found. VSO7 does not launch executables from an elevated process; start the game normally and try again.')-f$gameName) -ForegroundColor Red;
         Pause-Vico;
         return
     }
@@ -38391,7 +38525,7 @@ function Invoke-VSO7GamingSession {
             return [pscustomobject]@{Started=$true;GameIdentity=$gameIdentity}
         }
         Write-Title;
-        Write-CenteredLineVSO -Text ("SESION GAMING ACTIVA: {0}"-f$gameName) -Color 'Green';
+        Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'SESION GAMING ACTIVA: {0}' -En 'ACTIVE GAMING SESSION: {0}')-f$gameName) -Color 'Green';
         Write-CenteredLineVSO -Text 'VSO7 restaurara prioridades y energia cuando cierre el proceso.' -Color $script:ThemeText
         while($true){
 
@@ -38440,9 +38574,9 @@ function Show-VSO7GamingSessionMenu {
         $rows=@()
         for($i=0;$i-lt$profiles.Count;$i++){
             $rows += [pscustomobject]@{
-                Text=("[{0}] Perfil: {1}"-f($i+1),$profiles[$i].Data.Name);
+                Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Perfil: {1}' -En '[{0}] Profile: {1}')-f($i+1),$profiles[$i].Data.Name);
                 Color='Gray';
-                Description=("Usa el perfil guardado para el proceso {0}; podras revisar la sesion antes de iniciarla."-f$profiles[$i].Data.GameProcessName)
+                Description=($(Get-VSO7ConsoleTextVSO -Es 'Usa el perfil guardado para el proceso {0}; podras revisar la sesion antes de iniciarla.' -En 'Uses the saved profile for process {0}; you can review the session before starting it.')-f$profiles[$i].Data.GameProcessName)
             }
         }
         if($rows.Count){
@@ -38452,10 +38586,10 @@ function Show-VSO7GamingSessionMenu {
         $protectNumber=$profiles.Count+2
         Write-CenteredMenuVSO -Items @(
             [pscustomobject]@{
-            Text=("[{0}] Nueva sesion desde un proceso activo"-f$newNumber);Color='Cyan';Description='Eliges un juego que ya este abierto y VSO7 prepara una sesion temporal para ese proceso.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Nueva sesion desde un proceso activo' -En '[{0}] New session from a running process')-f$newNumber);Color='Cyan';Description='Eliges un juego que ya este abierto y VSO7 prepara una sesion temporal para ese proceso.'
         },
             [pscustomobject]@{
-            Text=("[{0}] Gestionar exclusiones y procesos protegidos"-f$protectNumber);Color='Gray';Description='Define procesos que VSO7 no debe cerrar ni reducir durante una sesion gaming.'
+            Text=($(Get-VSO7ConsoleTextVSO -Es '[{0}] Gestionar exclusiones y procesos protegidos' -En '[{0}] Manage exclusions and protected processes')-f$protectNumber);Color='Gray';Description='Define procesos que VSO7 no debe cerrar ni reducir durante una sesion gaming.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';Description='Regresa sin iniciar ninguna sesion nueva.';SeparatorBefore=$true
@@ -39110,7 +39244,7 @@ function Show-VSO7AdvancedTuningDiagnostics {
         $internet=@(Get-NetTCPSetting -SettingName Internet -ErrorAction Stop|Select-Object SettingName,CongestionProvider,AutoTuningLevelLocal,AutoTuningLevelEffective,EcnCapability,Timestamps,ScalingHeuristics);
         Write-CenteredTableVSO -Rows $internet -Properties @('SettingName','CongestionProvider','AutoTuningLevelLocal','AutoTuningLevelEffective','EcnCapability','Timestamps','ScalingHeuristics')
     }catch{
-        Write-VSOHost ('<no disponible: {0}>'-f$_.Exception.Message) -ForegroundColor DarkGray
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es '<no disponible: {0}>' -En '<unavailable: {0}>')-f$_.Exception.Message) -ForegroundColor DarkGray
     }
     Write-VSOHost '';
     Write-VSOHost $(if($isEn){
@@ -39165,7 +39299,7 @@ function Show-VSO7AdvancedTuningDiagnostics {
         $dpc=Get-VSO7DpcIsrOverviewVSO -Samples 3 -IntervalMs 150;
         Write-VSOHost (('DPC avg/max={0}/{1}% | ISR avg/max={2}/{3}% | Driver attribution={4}'-f$dpc.DpcAvgPct,$dpc.DpcMaxPct,$dpc.IsrAvgPct,$dpc.IsrMaxPct,$dpc.DriverAttribution)) -ForegroundColor DarkGray
     }catch{
-        Write-VSOHost ('<no disponible: {0}>'-f$_.Exception.Message) -ForegroundColor DarkGray
+        Write-VSOHost ($(Get-VSO7ConsoleTextVSO -Es '<no disponible: {0}>' -En '<unavailable: {0}>')-f$_.Exception.Message) -ForegroundColor DarkGray
     }
     Write-VSOHost '';
     Write-VSOHost $(if($isEn){
@@ -39290,7 +39424,7 @@ function Open-VSO7RootFolder {
     } catch {
 
         Write-VSOHost ''
-        Write-VSOHost ((Convert-VSOText -Value 'No se pudo abrir la carpeta de VSO7:') + ' ' + $_.Exception.Message) -ForegroundColor Red
+        Write-VSOHost ((Convert-VSOText -Value $(Get-VSO7ConsoleTextVSO -Es 'No se pudo abrir la carpeta de VSO7:' -En 'Could not open the VSO7 folder:')) + ' ' + $_.Exception.Message) -ForegroundColor Red
         Pause-Vico
 
     }
@@ -39568,7 +39702,7 @@ function Show-VSO7ConfigurationProfilePreviewVSO {
     }else{
         'PERFIL DE CONFIGURACION VSO7'
     }) -Color $script:ThemeCopper
-    Write-CenteredLineVSO -Text ("Schema: {0} · Features: {1} · Apps: {2} · Language: {3}"-f$Profile.SchemaVersion,@($Profile.Features).Count,@($Profile.Apps).Count,$Profile.Preferences.Language) -Color $script:ThemeText
+    Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Esquema: {0} · Ajustes: {1} · Apps: {2} · Idioma: {3}' -En 'Schema: {0} · Features: {1} · Apps: {2} · Language: {3}')-f$Profile.SchemaVersion,@($Profile.Features).Count,@($Profile.Apps).Count,$Profile.Preferences.Language) -Color $script:ThemeText
     foreach($id in @($Profile.Features)){
         $f=Get-VSO7FeatureCatalogVSO|Where-Object{
             [string]$_.FeatureId-ceq$id
@@ -39655,7 +39789,7 @@ function Show-VSO7ConfigurationProfilesVSO {
                     continue
                 }
                 $saved=Save-VSO7ConfigurationProfileVSO -Path $path -Features @($last.Features) -Apps @($last.Apps);
-                Write-CenteredLineVSO -Text ('Perfil guardado: '+$saved) -Color $script:ThemeSuccess;
+                Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Perfil guardado: ' -En 'Profile saved: ')+$saved) -Color $script:ThemeSuccess;
                 Pause-Vico;
                 continue
 
@@ -39670,7 +39804,7 @@ function Show-VSO7ConfigurationProfilesVSO {
                     continue
                 }
                 $saved=Save-VSO7ConfigurationProfileVSO -Path $path -Features $features -Apps $apps;
-                Write-CenteredLineVSO -Text ('Perfil guardado: '+$saved) -Color $script:ThemeSuccess;
+                Write-CenteredLineVSO -Text ($(Get-VSO7ConsoleTextVSO -Es 'Perfil guardado: ' -En 'Profile saved: ')+$saved) -Color $script:ThemeSuccess;
                 Pause-Vico;
                 continue
 
@@ -39702,7 +39836,7 @@ function Show-VSO7ConfigurationProfilesVSO {
                     throw ('El perfil contiene features no aplicables: '+[string]::Join(', ',$notApplicable))
                 }
                 Write-VSOHost '';
-                if((Read-CenteredPromptVSO -Text '¿Aplicar exactamente este perfil? [S/N]')-notmatch'^[sSyY]$'){
+                if((Read-CenteredPromptVSO -Text $(Get-VSO7ConsoleTextVSO -Es '¿Aplicar este perfil, incluido su idioma guardado? [S/N]' -En 'Apply this profile, including its saved language? [Y/N]'))-notmatch'^[sSyY]$'){
                     continue
                 }
                 $profileCatalog=@(Get-VSO7FeatureCatalogVSO)
@@ -39794,7 +39928,7 @@ function Show-VSO7SystemTools {
             Text='[9] Perfiles de configuracion VSO7';Color='Cyan';Description='Exporta/importa perfiles JSON de solo datos con schema y validacion estricta.'
         },
             [pscustomobject]@{
-            Text='[10] Latency / Hardware Lab R44';Color='Cyan';Description='CPU topology, DPC/ISR, interrupciones, USB, storage, drivers, NIC/Wi-Fi, audio, firmware y QoS; diagnostico conservador.'
+            Text=$(Get-VSO7ConsoleTextVSO -Es '[10] Laboratorio de latencia / hardware R44' -En '[10] Latency / Hardware Lab R44');Color='Cyan';Description='CPU topology, DPC/ISR, interrupciones, USB, storage, drivers, NIC/Wi-Fi, audio, firmware y QoS; diagnostico conservador.'
         },
             [pscustomobject]@{
             Text='[0] Volver';Color='Gray';SeparatorBefore=$true
@@ -39963,8 +40097,9 @@ function Show-Menu {
 # protected Recovery runner continue to authenticate one complete source file.
 function Get-VSO7ConsoleTextVSO {
     param([string]$Es,[string]$En)
-    if($script:Language-eq'en'){return $En}
-    return $Es
+    # Match Convert-VSOText: Spanish is explicit; English is the default.
+    if([string]$script:Language-ieq'es'){return $Es}
+    return $En
 }
 
 function Get-VSO7ConsoleAutomaticAppRowsVSO {
@@ -40018,7 +40153,12 @@ function Show-VSO7ConsoleAutomaticPlanVSO {
     param([Parameter(Mandatory=$true)]$Plan)
     Write-Title
     Write-CenteredLineVSO -Text (Get-VSO7ConsoleTextVSO 'SELECCION AUTOMATICA' 'AUTOMATIC SELECTION') -Color $script:ThemeCopper
-    Write-CenteredLineVSO -Text ((Get-VSO7ConsoleTextVSO 'Objetivo: ' 'Objective: ')+$Plan.Objective) -Color $script:ThemeText
+    if($Plan.Scope-ne'Apps'){
+        Write-CenteredLineVSO -Text ((Get-VSO7ConsoleTextVSO 'Objetivo de tweaks: ' 'Tweak objective: ')+$Plan.Objective) -Color $script:ThemeText
+    }
+    if($Plan.Scope-ne'Tweaks'){
+        Write-CenteredLineVSO -Text (Get-VSO7ConsoleTextVSO 'Apps: seleccion safe/default de Appx detectadas; no usa el objetivo de optimizacion.' 'Apps: safe/default selection of detected Appx packages; does not use the optimization objective.') -Color $script:ThemeMuted
+    }
     Write-VSOHost ''
     $displayRows=New-Object 'Collections.Generic.List[object]'
     $index=0
