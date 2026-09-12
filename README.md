@@ -6,6 +6,12 @@ It brings Windows tweaks, diagnostics, cleanup tools, app management, and recove
 
 The idea behind VSO7 is simple: improve Windows without blindly disabling everything.
 
+## AI Development Notice
+
+VSO has been developed in large part with the assistance of AI.
+
+AI tools have been used for code generation, debugging, testing, documentation, and development support throughout the project. The final decisions, testing, integration, and maintenance of VSO are handled by the project owner.
+
 ## Current interface
 
 The current public version uses the **console interface**.
