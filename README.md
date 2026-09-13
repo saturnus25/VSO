@@ -1,4 +1,5 @@
-<img width="1918" height="1027" alt="image" src="https://github.com/user-attachments/assets/6cc2c480-0aa9-442f-8c10-cfccc03bffb1" />
+<img width="1918" height="1027" alt="image" src="https://github.com/user-attachments/assets/2c4aa5b7-23c0-44a3-9470-7bd7a27532ae" />
+
 
 # VSO7 — Vico Safe Optimizer
 
