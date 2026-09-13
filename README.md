@@ -1,3 +1,5 @@
+<img width="1918" height="1027" alt="image" src="https://github.com/user-attachments/assets/6cc2c480-0aa9-442f-8c10-cfccc03bffb1" />
+
 # VSO7 — Vico Safe Optimizer
 
 **VSO7** is a Windows 11 optimization tool focused on performance, responsiveness, and giving users more control over their systems.
