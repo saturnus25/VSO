@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.1
 <#
-VSO7 - Vico Safe Optimizer 1.1.1
+VSO7 - Vico Safe Optimizer 1.2.0
 ======================================
 Optimizador modular para Windows 10/11 centrado en cambios medibles, explicitos
 y reversibles. Incluye medicion A/B, VSO Score y sesiones Gaming temporales.
@@ -237,22 +237,56 @@ function ConvertTo-VSOCommandLineArgBootstrap {
 
 }
 
+function Test-VSO7WindowsTerminalCandidateVSO {
+    param([Parameter(Mandatory=$true)][string]$PowerShellExe)
+
+    # Decide this in the visible parent process. A machine without Windows Terminal
+    # must never be sent to a hidden broker and then depend on that broker being able
+    # to reveal a classic console window.
+    try{
+        $exe=[IO.Path]::GetFullPath($PowerShellExe)
+        $exe=$exe -replace '(?i)\\Sysnative\\','\System32\'
+        $modules=Join-Path ([IO.Path]::GetDirectoryName($exe)) 'Modules'
+        $appx=Join-Path $modules 'Appx\Appx.psd1'
+        if(-not[IO.File]::Exists($appx)){return $false}
+        Import-Module -Name $appx -ErrorAction Stop
+        $package=Appx\Get-AppxPackage -Name Microsoft.WindowsTerminal -ErrorAction Stop |
+            Where-Object {$_.PackageFamilyName-ceq'Microsoft.WindowsTerminal_8wekyb3d8bbwe'} |
+            Select-Object -First 1
+        if($null-eq$package-or[string]::IsNullOrWhiteSpace([string]$package.InstallLocation)){return $false}
+        $terminal=[IO.Path]::GetFullPath((Join-Path ([string]$package.InstallLocation) 'WindowsTerminal.exe'))
+        $apps=Join-Path ([Environment]::GetFolderPath('ProgramFiles')) 'WindowsApps'
+        if(-not$terminal.StartsWith($apps.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase)){return $false}
+        $item=Get-Item -LiteralPath $terminal -Force -ErrorAction Stop
+        if($item.PSIsContainer-or($item.Attributes-band[IO.FileAttributes]::ReparsePoint)-ne0){return $false}
+        return $true
+    }catch{
+        return $false
+    }
+}
+
+
 function New-VSO7TerminalBootstrapCommandVSO {
     param(
         [Parameter(Mandatory=$true)][string]$Wrapper,
         [Parameter(Mandatory=$true)][string]$PowerShellExe,
         [Parameter(Mandatory=$true)][string]$ExpectedUserSid
     )
-    # The UAC child is a broker. Only the final PowerShell in Terminal invokes
-    # the existing hash-verified payload; wt.exe is never used as its lifetime.
     $template=@'
 $ErrorActionPreference='Stop'
 function D([string]$v){[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($v))}
 $ProgressPreference='SilentlyContinue'
 $payload='__PAYLOAD__';$exe=D('__EXE__');$sid=D('__SID__')
-# Sysnative was used by a 32-bit entry host to create this native broker.
 $exe=$exe -replace '(?i)\\Sysnative\\','\System32\'
-$pipe=$null;$client=$null;$launcher=$null
+$pipe=$null;$client=$null;$launcher=$null;$released=$false;$stage='identity'
+function F([string]$reason){
+    Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class VSO7ClassicWindow{[DllImport("kernel32.dll")]public static extern IntPtr GetConsoleWindow();[DllImport("user32.dll")]public static extern bool ShowWindow(IntPtr h,int n);}' -ErrorAction Stop
+    [void][VSO7ClassicWindow]::ShowWindow([VSO7ClassicWindow]::GetConsoleWindow(),5)
+    [Console]::Error.WriteLine(('[WARN] Windows Terminal unavailable at {0}: {1}'-f$stage,$reason))
+    [Console]::WriteLine('[INFO] Continuing in the built-in Windows console.')
+    $global:LASTEXITCODE=0;& ([ScriptBlock]::Create($payload))
+    $code=if($null-ne$LASTEXITCODE){[int]$LASTEXITCODE}else{0};exit $code
+}
 try{
     $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
     try{if($identity.User.Value-cne$sid){throw 'UAC used a different Windows account; VSO7 startup was cancelled.'}}finally{$identity.Dispose()}
@@ -266,13 +300,7 @@ try{
             Where-Object {$_.PackageFamilyName-ceq'Microsoft.WindowsTerminal_8wekyb3d8bbwe'} |
             Select-Object -First 1
     }
-    if($null-eq$package){
-        Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class VSO7ClassicWindow{[DllImport("kernel32.dll")]public static extern IntPtr GetConsoleWindow();[DllImport("user32.dll")]public static extern bool ShowWindow(IntPtr h,int n);}' -ErrorAction Stop
-        [void][VSO7ClassicWindow]::ShowWindow([VSO7ClassicWindow]::GetConsoleWindow(),5)
-        [Console]::WriteLine('[INFO] Windows Terminal is not installed. Using the classic console; scrolling or selecting text may pause the background.')
-        & ([ScriptBlock]::Create($payload))
-        exit 0
-    }
+    if($null-eq$package){F 'The stable Windows Terminal package is not installed.'}
     $terminal=[IO.Path]::GetFullPath((Join-Path ([string]$package.InstallLocation) 'WindowsTerminal.exe'))
     $apps=Join-Path ([Environment]::GetFolderPath('ProgramFiles')) 'WindowsApps'
     if(-not$terminal.StartsWith($apps.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase)){
@@ -290,48 +318,52 @@ try{
     $security.SetAccessRuleProtection($true,$false)
     $security.AddAccessRule((New-Object IO.Pipes.PipeAccessRule((New-Object Security.Principal.SecurityIdentifier($sid)),[IO.Pipes.PipeAccessRights]::ReadWrite,[Security.AccessControl.AccessControlType]::Allow)))
     $pipe=New-Object IO.Pipes.NamedPipeServerStream($name,[IO.Pipes.PipeDirection]::InOut,1,[IO.Pipes.PipeTransmissionMode]::Byte,[IO.Pipes.PipeOptions]::Asynchronous,4096,4096,$security)
-    # The final child must receive ACK after the broker has acquired its process
-    # handle. A failed/abandoned launch therefore cannot start the VSO lifecycle.
     $greeting=@"
 `$ErrorActionPreference='Stop'
 `$p=New-Object IO.Pipes.NamedPipeClientStream('.','$name',[IO.Pipes.PipeDirection]::InOut,[IO.Pipes.PipeOptions]::Asynchronous)
+`$r=`$null
 try{
     `$p.Connect(60000)
-    `$b=New-Object byte[] 1;`$r=`$p.BeginRead(`$b,0,1,`$null,`$null)
-    try{if(-not`$r.AsyncWaitHandle.WaitOne(60000)){throw 'VSO7 Terminal broker acknowledgement timed out.'};if(`$p.EndRead(`$r)-ne1-or`$b[0]-ne1){throw 'VSO7 Terminal broker closed before startup.'}}finally{`$r.AsyncWaitHandle.Close()}
-}finally{`$p.Dispose()}
+    `$b=New-Object byte[] 1;`$r=`$p.ReadAsync(`$b,0,1)
+    if(-not`$r.Wait(60000)){throw 'VSO7 Terminal broker acknowledgement timed out.'}
+    if(`$r.GetAwaiter().GetResult()-ne1-or`$b[0]-ne1){throw 'VSO7 Terminal broker closed before startup.'}
+}finally{`$p.Dispose();if(`$null-ne`$r){try{[void]`$r.GetAwaiter().GetResult()}catch{}}}
 "@
     $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($greeting+[Environment]::NewLine+$payload))
     $info=New-Object Diagnostics.ProcessStartInfo
     $info.FileName=$terminal
-    $info.Arguments='-w new new-tab --title "VSO7 1.1.1" "'+$exe+'" -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded
+    $info.Arguments='-w new new-tab --title "VSO7 1.2.0" "'+$exe+'" -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded
     $info.WorkingDirectory=[IO.Path]::GetDirectoryName($exe)
     $info.UseShellExecute=$false
     $info.CreateNoWindow=$true
-    # The GUI launcher must not inherit the broker's support-window/test pipes.
     $info.RedirectStandardInput=$true
     $info.RedirectStandardOutput=$true
     $info.RedirectStandardError=$true
     if($info.Arguments.Length-gt30000){throw 'The Windows Terminal bootstrap command is too long.'}
-    $connection=$pipe.BeginWaitForConnection($null,$null)
+    $cancel=New-Object Threading.CancellationTokenSource;$connection=$null
     try{
-        $launcher=[Diagnostics.Process]::Start($info)
+        $connection=$pipe.WaitForConnectionAsync($cancel.Token)
+        $stage='terminal-launch';$launcher=[Diagnostics.Process]::Start($info)
         if($null-eq$launcher){throw 'Windows Terminal did not start.'}
         $launcher.StandardInput.Close();$launcher.StandardOutput.Close();$launcher.StandardError.Close()
-        if(-not$connection.AsyncWaitHandle.WaitOne(60000)){throw 'Windows Terminal did not open the protected PowerShell host within 60 seconds.'}
-        $pipe.EndWaitForConnection($connection)
-    }finally{$connection.AsyncWaitHandle.Close()}
+        $stage='terminal-connect';if(-not$connection.Wait(60000)){throw 'Windows Terminal did not open the protected PowerShell host within 60 seconds.'}
+        [void]$connection.GetAwaiter().GetResult()
+    }finally{
+        if($null-ne$connection){if(-not$connection.IsCompleted){$cancel.Cancel()};try{[void]$connection.GetAwaiter().GetResult()}catch{}}
+        $cancel.Dispose()
+    }
     [uint32]$clientPid=0
     if(-not[VSO7TerminalPipeNative]::GetNamedPipeClientProcessId($pipe.SafePipeHandle.DangerousGetHandle(),[ref]$clientPid)){throw 'The Windows Terminal child process could not be identified.'}
     $client=[Diagnostics.Process]::GetProcessById([int]$clientPid)
     [void]$client.Handle
     if([IO.Path]::GetFullPath($client.MainModule.FileName)-ine[IO.Path]::GetFullPath($exe)){throw 'The Terminal connection did not originate from the expected PowerShell executable.'}
-    $pipe.WriteByte(1);$pipe.Flush();$pipe.Dispose();$pipe=$null
+    $stage='payload-release';$released=$true;$pipe.WriteByte(1);$pipe.Flush();$pipe.Dispose();$pipe=$null
     $client.WaitForExit()
     exit ([int]$client.ExitCode)
 }catch{
-    [Console]::Error.WriteLine(('VSO7 Windows Terminal startup failed: {0}'-f$_.Exception.Message))
-    exit 1
+    $message=[string]$_.Exception.Message
+    if(-not$released){if($null-ne$pipe){$pipe.Dispose();$pipe=$null};F $message}
+    [Console]::Error.WriteLine(('VSO7 failed after Terminal payload release at {0}: {1}'-f$stage,$message));exit 1
 }finally{
     if($null-ne$pipe){$pipe.Dispose()}
     if($null-ne$client){$client.Dispose()}
@@ -344,6 +376,7 @@ try{
     }
     return $template
 }
+
 
 function Start-VSOTrustedMemoryHostBootstrap {
 
@@ -458,21 +491,21 @@ try{
   exit 1
 }
 "@
-    # Only interactive console menus use Terminal. GUI and diagnostic probes
-    # retain their existing process/PID/result-file contracts.
-    $terminalHost=([string]$DirectAction-eq'Menu'-and[string]$StartupProbe-eq'None')
-    if($terminalHost){
-        $wrapper=New-VSO7TerminalBootstrapCommandVSO -Wrapper $wrapper -PowerShellExe $exe -ExpectedUserSid $ExpectedUserSid
-    }
+    # Interactive Menu prefers Windows Terminal. The visible parent first checks
+    # whether a real stable-package candidate exists. Without one, launch the
+    # verified wrapper directly in a visible classic console. The hidden broker is
+    # reserved for machines where Terminal can actually be attempted; it still has
+    # its guarded pre-payload fallback for validation, launch or handoff failures.
+    $terminalRequested=([string]$DirectAction-eq'Menu'-and[string]$StartupProbe-eq'None')
+    $terminalHost=($terminalRequested-and(Test-VSO7WindowsTerminalCandidateVSO -PowerShellExe $exe))
+    if($terminalHost){$wrapper=New-VSO7TerminalBootstrapCommandVSO -Wrapper $wrapper -PowerShellExe $exe -ExpectedUserSid $ExpectedUserSid}
     $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($wrapper))
     $startInfo=New-Object Diagnostics.ProcessStartInfo
     $startInfo.FileName=$exe
     $startInfo.Arguments=('-NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded)
     $startInfo.WorkingDirectory=[IO.Path]::GetDirectoryName($exe)
     $startInfo.UseShellExecute=$true
-    if($terminalHost){
-        $startInfo.WindowStyle=[Diagnostics.ProcessWindowStyle]::Hidden
-    }
+    if($terminalHost){$startInfo.WindowStyle=[Diagnostics.ProcessWindowStyle]::Hidden}
     if([string]$DirectAction-eq'GUI'){
         $startInfo.WindowStyle=[Diagnostics.ProcessWindowStyle]::Minimized
     }
@@ -960,7 +993,7 @@ trap {
 }
 
 # Visible product version is independent of the existing authenticated state format.
-$script:DisplayVersion = '1.1.1'
+$script:DisplayVersion = '1.2.0'
 $script:Version = '7.0.0' # Protected-state/Recovery compatibility identifier; not a UI label.
 $script:Release = 'RC R80'
 $script:NativeJournalRevision = 26
@@ -8153,11 +8186,20 @@ function Remove-OldTempFiles {
 
 function Enable-GameMode {
 
+    $nativeState=Get-VSO7ExtremeNativeOwnershipStateVSO -TweakId 'gaming.gamemode'
+    if($nativeState-eq'AlreadyApplied'){
+        Write-VSO7Log 'Game Mode ya estaba aplicado y protegido por Recovery nativo; se conserva su rollback original.' 'INFO'
+        return 'AlreadyApplied'
+    }
+    if($nativeState-eq'Conflict'){
+        throw 'Una sesion Recovery nativa posee Game Mode con un estado diferente o ambiguo; restaura o revisa esa sesion antes de modificarlo.'
+    }
     Set-TrackedRegistryValue `
         -Path 'HKCU:\Software\Microsoft\GameBar' `
         -Name 'AutoGameModeEnabled' `
         -Value 1 `
         -Type DWord
+    return 'Applied'
 
 }
 
@@ -12822,10 +12864,25 @@ function Show-SpecificTools {
         switch($choice){
 
             '1'{
-                if(Require-RestorePoint){
-                    Load-State;
-                    Enable-GameMode
-                };
+                try{
+                    $nativeState=Get-VSO7ExtremeNativeOwnershipStateVSO -TweakId 'gaming.gamemode'
+                    if($nativeState-eq'AlreadyApplied'){
+                        Write-CenteredLineVSO -Text $(Get-VSO7ConsoleTextVSO -Es '[OK] Game Mode ya esta aplicado y protegido por Recovery de VSO7.' -En '[OK] Game Mode is already applied and protected by VSO7 Recovery.') -Color $script:ThemeSuccess
+                    }elseif($nativeState-eq'Conflict'){
+                        Write-CenteredLineVSO -Text $(Get-VSO7ConsoleTextVSO -Es 'Game Mode pertenece a una sesion Recovery con estado diferente o ambiguo. Restaurala o revisala antes de modificarlo.' -En 'Game Mode belongs to a Recovery session with a different or ambiguous state. Restore or review it before changing it.') -Color $script:ThemeDanger
+                    }elseif(Require-RestorePoint){
+                        Load-State
+                        $result=Enable-GameMode
+                        if($result-eq'Applied'){
+                            Write-CenteredLineVSO -Text $(Get-VSO7ConsoleTextVSO -Es '[OK] Game Mode activado y registrado para Recovery.' -En '[OK] Game Mode enabled and recorded for Recovery.') -Color $script:ThemeSuccess
+                        }elseif($result-eq'AlreadyApplied'){
+                            Write-CenteredLineVSO -Text $(Get-VSO7ConsoleTextVSO -Es '[OK] Game Mode ya estaba aplicado; se conserva el Recovery original.' -En '[OK] Game Mode was already applied; the original Recovery is preserved.') -Color $script:ThemeSuccess
+                        }
+                    }
+                }catch{
+                    Write-VSO7Log ('No se pudo procesar Game Mode desde Herramientas: '+[string]$_.Exception.Message) 'ERROR'
+                    Write-CenteredLineVSO -Text ([string]$_.Exception.Message) -Color $script:ThemeDanger
+                }
                 Pause-Vico
             }
             '2'{
@@ -16274,6 +16331,44 @@ function Test-PowerSettingAvailableVSO {
 
 }
 
+function Get-VSO7ExtremeNativeOwnershipStateVSO {
+
+    param([Parameter(Mandatory=$true)][string]$TweakId)
+    if($TweakId-ine'gaming.gamemode'){
+        return 'None'
+    }
+    $path='HKEY_CURRENT_USER\Software\Microsoft\GameBar';$name='AutoGameModeEnabled'
+    $canonical=ConvertTo-VSO7CanonicalOwnershipRegistryPathVSO -Path $path
+    $owners=@()
+    foreach($session in @(Get-VSO7NativeBackupSessionsVSO|Where-Object{[string]$_.Status-cne'Restored'})){
+        $owners+=@($session.Entries|Where-Object{
+            [string]$_.Type-ieq'RegistryValue' -and
+            (ConvertTo-VSO7CanonicalOwnershipRegistryPathVSO -Path ([string]$_.Path))-ieq$canonical -and
+            [string]$_.Name-ieq$name
+        })
+    }
+    if($owners.Count-eq0){
+        return 'None'
+    }
+    $desired=ConvertTo-VSO7NativeDesiredRegistrySnapshotVSO -Kind 'DWord' -Value 1
+    foreach($owner in $owners){
+        $recorded=[pscustomobject]@{
+            Exists=($null-ne$owner.AppliedExists-and[bool]$owner.AppliedExists)
+            Kind=$owner.AppliedKind
+            Value=$owner.AppliedValue
+        }
+        if([string]$owner.Status-ine'Applied'-or-not(Test-VSO7NativeRegistrySnapshotEqualVSO -A $recorded -B $desired)){
+            return 'Conflict'
+        }
+    }
+    $current=Get-VSO7NativeRegistrySnapshotVSO -Path $path -Name $name
+    if(Test-VSO7NativeRegistrySnapshotEqualVSO -A $current -B $desired){
+        return 'AlreadyApplied'
+    }
+    return 'Conflict'
+
+}
+
 function Test-TweakAvailableVSO {
 
     param([Parameter(Mandatory=$true)]$Tweak)
@@ -16282,6 +16377,9 @@ function Test-TweakAvailableVSO {
 
         switch ([string]$Tweak.Id) {
 
+            'gaming.gamemode' {
+                return ((Get-VSO7ExtremeNativeOwnershipStateVSO -TweakId 'gaming.gamemode')-eq'None')
+            }
             'search.indexing' {
                 return ($null -ne (Get-VSO7ServiceStatusVSO -Name 'WSearch'))
             }
@@ -16372,6 +16470,12 @@ function Get-TweakUnavailableReasonVSO {
     }
     switch ([string]$Tweak.Id) {
 
+        'gaming.gamemode' {
+            try{$nativeState=Get-VSO7ExtremeNativeOwnershipStateVSO -TweakId 'gaming.gamemode'}catch{return 'No se pudo validar de forma segura el ownership nativo de Game Mode.'}
+            if($nativeState-eq'AlreadyApplied'){return 'Ya aplicado y protegido por una sesion Recovery de VSO7.'}
+            if($nativeState-eq'Conflict'){return 'Una sesion Recovery de VSO7 posee Game Mode con un estado diferente o ambiguo; restaura/revisa esa sesion.'}
+            return 'Game Mode no esta disponible.'
+        }
         'power.usbSuspend' {
             return 'PowerCfg no expone este ajuste en el plan actual.'
         }
@@ -16407,28 +16511,87 @@ function Get-TweakUnavailableReasonVSO {
 
 }
 
+function Get-VSO7PendingRebootStateVSO {
+
+    $reasons=New-Object 'Collections.Generic.List[string]'
+    $ignored=New-Object 'Collections.Generic.List[string]'
+    try{
+        if(Test-Path -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending' -ErrorAction Stop){
+            [void]$reasons.Add('CBS:RebootPending')
+        }
+        if(Test-Path -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired' -ErrorAction Stop){
+            [void]$reasons.Add('WindowsUpdate:RebootRequired')
+        }
+
+        $volatile=Get-RegistrySnapshot -Path 'HKLM:\SOFTWARE\Microsoft\Updates' -Name 'UpdateExeVolatile'
+        if([bool]$volatile.Exists){
+            [int64]$volatileValue=0
+            if(-not[int64]::TryParse([string]$volatile.Value,[ref]$volatileValue)){
+                throw 'UpdateExeVolatile contiene un valor no numerico.'
+            }
+            if($volatileValue-ne0){[void]$reasons.Add(('UpdateExeVolatile:{0}'-f$volatileValue))}
+        }
+
+        $activeName=Get-RegistrySnapshot -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName' -Name 'ComputerName'
+        $configuredName=Get-RegistrySnapshot -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName' -Name 'ComputerName'
+        if([bool]$activeName.Exists-and[bool]$configuredName.Exists){
+            $active=([string]$activeName.Value).Trim();$configured=([string]$configuredName.Value).Trim()
+            if(-not[string]::IsNullOrWhiteSpace($active)-and-not[string]::IsNullOrWhiteSpace($configured)-and$active-ine$configured){
+                [void]$reasons.Add('ComputerName:PendingRename')
+            }
+        }
+
+        foreach($valueName in @('PendingFileRenameOperations','PendingFileRenameOperations2')){
+            $pendingRename=Get-RegistrySnapshot -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager' -Name $valueName
+            if(-not[bool]$pendingRename.Exists){continue}
+            if([string]$pendingRename.Kind-ine'MultiString'){
+                throw ($valueName+' existe pero no es REG_MULTI_SZ.')
+            }
+            $values=@($pendingRename.Value)
+            $sourceCount=0
+            for($i=0;$i-lt$values.Count;$i+=2){
+                if(-not[string]::IsNullOrWhiteSpace([string]$values[$i])){$sourceCount++}
+            }
+            if($sourceCount-gt0){
+                [void]$reasons.Add(('{0}:{1}'-f$valueName,$sourceCount))
+            }else{
+                [void]$ignored.Add(($valueName+':Empty'))
+            }
+        }
+
+        return [pscustomobject]@{
+            IsPending=($reasons.Count-gt0)
+            Reasons=@($reasons)
+            Ignored=@($ignored)
+            Error=''
+        }
+    }catch{
+        return [pscustomobject]@{
+            IsPending=$null
+            Reasons=@($reasons)
+            Ignored=@($ignored)
+            Error=[string]$_.Exception.Message
+        }
+    }
+
+}
+
 function Test-PendingRebootVSO {
 
-    try {
-
-        if (Test-Path -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending' -ErrorAction Stop) {
-            return $true
-        }
-        if (Test-Path -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired' -ErrorAction Stop) {
-            return $true
-        }
-        $pendingRename=Get-RegistrySnapshot -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager' -Name 'PendingFileRenameOperations'
-        if([bool]$pendingRename.Exists){
-            return $true
-        }
-        return $false
-
-    } catch {
-
-        Write-VSO7Log ("No se pudo determinar de forma fiable si Windows tiene un reinicio pendiente: {0}" -f $_.Exception.Message) 'WARN'
+    $state=Get-VSO7PendingRebootStateVSO
+    $script:LastPendingRebootStateVSO=$state
+    if($null-eq$state.IsPending){
+        Write-VSO7Log ('No se pudo determinar de forma fiable si Windows tiene un reinicio pendiente: '+[string]$state.Error) 'WARN'
         return $null
-
     }
+    if([bool]$state.IsPending){
+        Write-VSO7Log ('Reinicio pendiente confirmado por: '+(@($state.Reasons)-join', ')) 'INFO'
+        return $true
+    }
+    if(@($state.Ignored).Count-gt0){
+        Write-VSO7Log ('Marcadores de reinicio vacios ignorados: '+(@($state.Ignored)-join', ')) 'INFO'
+    }
+    return $false
 
 }
 
@@ -16459,7 +16622,8 @@ function Invoke-VSO7Preflight {
     $pendingReboot=Test-PendingRebootVSO
     Complete-VSO7LifecycleStageVSO -AfterName 'AFTER_PREFLIGHT_PENDING_REBOOT' -StartedMs $preflightStage -Detail ('State='+[string]$pendingReboot)
     if ($true -eq $pendingReboot) {
-        $warnings += 'Windows tiene un reinicio pendiente. VSO7 permitira diagnostico/limpieza, pero no es recomendable aplicar ALTO/MUCHO PELIGRO hasta reiniciar.'
+        $reasonSummary=if($null-ne$script:LastPendingRebootStateVSO){@($script:LastPendingRebootStateVSO.Reasons)-join', '}else{'Unknown'}
+        $warnings += Get-VSO7ConsoleTextVSO -Es ('Windows tiene un reinicio pendiente. VSO7 permitira diagnostico/limpieza, pero no es recomendable aplicar ALTO/MUCHO PELIGRO hasta reiniciar. Senales: {0}.'-f$reasonSummary) -En ('Windows has a pending restart. VSO7 allows diagnostics/cleanup, but HIGH/VERY DANGEROUS changes are not recommended until restart. Signals: {0}.'-f$reasonSummary)
     }
     elseif ($null -eq $pendingReboot) {
         $warnings += 'No se pudo determinar de forma fiable el estado de reinicio pendiente; ALTO/MUCHO PELIGRO se bloqueara de forma conservadora.'
@@ -19228,7 +19392,10 @@ function Invoke-ApplyExtremeSelection {
     if($maxRisk-ge3){
         $pendingRiskState=Test-PendingRebootVSO
         if($true-eq$pendingRiskState){
-            Write-VSOHost 'Windows tiene un reinicio pendiente. VSO7 bloquea ALTO/MUCHO PELIGRO hasta reiniciar.' -ForegroundColor Red
+            Write-VSOHost (Get-VSO7ConsoleTextVSO -Es 'Windows tiene un reinicio pendiente. VSO7 bloquea ALTO/MUCHO PELIGRO hasta reiniciar.' -En 'Windows has a pending restart. VSO7 blocks HIGH/VERY DANGEROUS changes until restart.') -ForegroundColor Red
+            if($null-ne$script:LastPendingRebootStateVSO-and@($script:LastPendingRebootStateVSO.Reasons).Count-gt0){
+                Write-VSOHost ((Get-VSO7ConsoleTextVSO -Es 'Senales: ' -En 'Signals: ')+(@($script:LastPendingRebootStateVSO.Reasons)-join', ')) -ForegroundColor Yellow
+            }
             Pause-Vico
             return New-VSO7OperationOutcomeR76VSO -Operation 'Extreme.Apply' -Status Failed -Error 'Hay un reinicio pendiente.'
         }
@@ -19278,6 +19445,15 @@ function Invoke-ApplyExtremeSelection {
         foreach($tweak in $items){
             Write-VSOHost '';Write-VSOHost (">> {0}" -f$tweak.Name) -ForegroundColor Cyan
             $step=[ordered]@{Id=[string]$tweak.Id;Name=[string]$tweak.Name;Status='Pending';Applied=$false;Rollback='NotApplicable';Error=''}
+            $nativeState='None'
+            if([string]$tweak.Id-ieq'gaming.gamemode'){
+                try{$nativeState=Get-VSO7ExtremeNativeOwnershipStateVSO -TweakId 'gaming.gamemode'}catch{$nativeState='Conflict'}
+            }
+            if($nativeState-eq'AlreadyApplied'){
+                $step.Status='AlreadyApplied';$step.Applied=$true;$step.Rollback='PreservedNative';[void]$steps.Add([pscustomobject]$step);$okCount++
+                Write-VSO7Log ("Ya aplicado por Recovery nativo; se conserva el rollback original: {0}."-f$tweak.Name) 'WARN'
+                continue
+            }
             if(-not(Test-TweakAvailableVSO -Tweak $tweak)){
                 $step.Status='Failed';$step.Error=(Get-TweakUnavailableReasonVSO -Tweak $tweak);[void]$steps.Add([pscustomobject]$step);$failCount++;Write-VSO7Log ("Se detiene: {0} ya no esta disponible. {1}" -f$tweak.Name,$step.Error) 'ERROR';break
             }
@@ -19400,11 +19576,18 @@ function Show-ExtremeOptimizer {
         for($i=0;$i-lt$all.Count;$i++){
 
             $tweak=$all[$i];
+            $nativeState='None'
+            if([string]$tweak.Id-ieq'gaming.gamemode'){
+                try{$nativeState=Get-VSO7ExtremeNativeOwnershipStateVSO -TweakId 'gaming.gamemode'}catch{$nativeState='Conflict'}
+            }
+            $alreadyNative=($nativeState-eq'AlreadyApplied')
             $available=Test-TweakAvailableVSO -Tweak $tweak;
             if(-not$available-and$selected.ContainsKey($tweak.Id)){
                 $selected.Remove($tweak.Id)
             }
-            $mark=if(-not$available){
+            $mark=if($alreadyNative){
+                'OK'
+            }elseif(-not$available){
                 '-'
             }elseif($selected.ContainsKey($tweak.Id)){
                 'X'
@@ -19412,12 +19595,16 @@ function Show-ExtremeOptimizer {
                 ' '
             };
             $riskName=Get-RiskNameVSO -Risk $tweak.Risk;
-            $suffix=if($available){
+            $suffix=if($alreadyNative){
+                $(Get-VSO7ConsoleTextVSO -Es ' [YA APLICADO]' -En ' [ALREADY APPLIED]')
+            }elseif($available){
                 ''
             }else{
                 $(Get-VSO7ConsoleTextVSO -Es ' [NO DISPONIBLE]' -En ' [UNAVAILABLE]')
             };
-            $color=if($available){
+            $color=if($alreadyNative){
+                'Green'
+            }elseif($available){
                 Get-RiskColorVSO -Risk $tweak.Risk
             }else{
                 'DarkGray'
@@ -25584,7 +25771,7 @@ function Show-VSO7GraphicsDiagnosticsVSO {
     }else{
         'HDR/WCG sigue read-only en R44. VRR, Auto HDR, Auto SR y MPO siguen diagnostic/conditional; no se escribe registry magic opaco.'
     }) -ForegroundColor Yellow
-    Pause-Console
+    Pause-Vico
 
 }
 
@@ -25613,7 +25800,7 @@ function Show-VSO7PerAppGraphicsMenuVSO {
             $exe=Get-VSO7GraphicsExecutablePathVSO -InputPath $path
         }catch{
             Write-CenteredLineVSO -Text $_.Exception.Message -Color $script:ThemeDanger;
-            Pause-Console;
+            Pause-Vico;
             continue
         }
         $snap=Get-VSO7NativeRegistrySnapshotVSO -Path $script:VSO7GraphicsUserPreferencePath -Name $exe;
@@ -25628,7 +25815,7 @@ function Show-VSO7PerAppGraphicsMenuVSO {
             $hdr=Get-VSO7GraphicsCompositeTokenVSO -Raw $raw -Key 'AutoHDREnable'
         }catch{
             Write-CenteredLineVSO -Text $_.Exception.Message -Color $script:ThemeDanger;
-            Pause-Console;
+            Pause-Vico;
             continue
         }
         Write-VSOHost '';
@@ -25704,7 +25891,7 @@ function Show-VSO7PerAppGraphicsMenuVSO {
         }catch{
             Write-CenteredLineVSO -Text $_.Exception.Message -Color $script:ThemeDanger
         };
-        Pause-Console
+        Pause-Vico
 
     }
 
@@ -29397,7 +29584,7 @@ function Invoke-VSO7PresetPlanCoreR52VSO {
     Load-State
     foreach($item in @($Plan.Selected|Where-Object{[string]::IsNullOrWhiteSpace([string]$_.FeatureId)})){
         switch([string]$item.OperationId){
-            'EnableGameMode'{Enable-GameMode}
+            'EnableGameMode'{[void](Enable-GameMode)}
             'DisableBackgroundGameCapture'{Disable-BackgroundGameCapture}
             'SetHighPerformanceIfSafe'{Set-HighPerformanceIfSafe}
             'ApplyAggressiveVisualSettings'{Apply-AggressiveVisualSettings}
@@ -33420,7 +33607,7 @@ namespace VSO7.Interop {
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Margin="0,0,0,16">
       <TextBlock Text="VSO7" FontSize="36" FontWeight="Bold" Foreground="#E3A35D"/>
-      <TextBlock Text="VICO SAFE OPTIMIZER · 1.1.1" FontSize="14" Foreground="#BDA98D"/>
+      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.0" FontSize="14" Foreground="#BDA98D"/>
       <TextBlock Name="HomeSubtitle" Margin="0,8,0,0" Foreground="#D8C7AE" FontSize="14"/>
     </StackPanel>
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><WrapPanel Name="Cards" Orientation="Horizontal"/></ScrollViewer>
