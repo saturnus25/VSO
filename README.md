@@ -19,6 +19,12 @@ AI tools have been used for code generation, debugging, testing, documentation, 
 
 **VSO7 1.2.0**
 
+## Documentation
+
+- [Technical user guide and complete functional reference (English)](VSO7_TECHNICAL_USER_GUIDE_EN.md)
+
+- [Manual tecnico y referencia funcional completa (Espanol)](VSO7_MANUAL_TECNICO_ES.md)
+
 ## Current interface
 
 The current public version uses the console interface.
