@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.1
 <#
-VSO7 - Vico Safe Optimizer 1.2.0
+VSO7 - Vico Safe Optimizer 1.2.1
 ======================================
 Optimizador modular para Windows 10/11 centrado en cambios medibles, explicitos
 y reversibles. Incluye medicion A/B, VSO Score y sesiones Gaming temporales.
@@ -332,7 +332,7 @@ try{
     $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($greeting+[Environment]::NewLine+$payload))
     $info=New-Object Diagnostics.ProcessStartInfo
     $info.FileName=$terminal
-    $info.Arguments='-w new new-tab --title "VSO7 1.2.0" "'+$exe+'" -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded
+    $info.Arguments='-w new new-tab --title "VSO7 1.2.1" "'+$exe+'" -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded
     $info.WorkingDirectory=[IO.Path]::GetDirectoryName($exe)
     $info.UseShellExecute=$false
     $info.CreateNoWindow=$true
@@ -993,7 +993,7 @@ trap {
 }
 
 # Visible product version is independent of the existing authenticated state format.
-$script:DisplayVersion = '1.2.0'
+$script:DisplayVersion = '1.2.1'
 $script:Version = '7.0.0' # Protected-state/Recovery compatibility identifier; not a UI label.
 $script:Release = 'RC R80'
 $script:NativeJournalRevision = 26
@@ -15545,11 +15545,11 @@ function Initialize-VSO7PowerReadApiVSO {
 using System;
 using System.Runtime.InteropServices;
 namespace VSO7 {
-    internal static class PowerReadNative {
+    public static class PowerReadNative {
         [DllImport("powrprof.dll", SetLastError=false)]
-        internal static extern UInt32 PowerReadACValueIndex(IntPtr RootPowerKey, ref Guid SchemeGuid, ref Guid SubGroupOfPowerSettingsGuid, ref Guid PowerSettingGuid, out UInt32 AcValueIndex);
+        public static extern UInt32 PowerReadACValueIndex(IntPtr RootPowerKey, ref Guid SchemeGuid, ref Guid SubGroupOfPowerSettingsGuid, ref Guid PowerSettingGuid, out UInt32 AcValueIndex);
         [DllImport("powrprof.dll", SetLastError=false)]
-        internal static extern UInt32 PowerReadDCValueIndex(IntPtr RootPowerKey, ref Guid SchemeGuid, ref Guid SubGroupOfPowerSettingsGuid, ref Guid PowerSettingGuid, out UInt32 DcValueIndex);
+        public static extern UInt32 PowerReadDCValueIndex(IntPtr RootPowerKey, ref Guid SchemeGuid, ref Guid SubGroupOfPowerSettingsGuid, ref Guid PowerSettingGuid, out UInt32 DcValueIndex);
     }
 }
 "@
@@ -19874,7 +19874,7 @@ function Get-VSO7NativeRegistryKeyFingerprintVSO {
         $builder=New-Object Text.StringBuilder
         $appendValue={
 
-            param([Parameter(Mandatory=$true)][Microsoft.Win32.RegistryKey]$Key,[Parameter(Mandatory=$true)][string]$RelativePath)
+            param([Parameter(Mandatory=$true)][Microsoft.Win32.RegistryKey]$Key,[Parameter(Mandatory=$true)][AllowEmptyString()][string]$RelativePath)
             [string[]]$valueNames=@($Key.GetValueNames());
             [Array]::Sort($valueNames,[StringComparer]::OrdinalIgnoreCase)
             foreach($valueName in $valueNames){
@@ -33607,7 +33607,7 @@ namespace VSO7.Interop {
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Margin="0,0,0,16">
       <TextBlock Text="VSO7" FontSize="36" FontWeight="Bold" Foreground="#E3A35D"/>
-      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.0" FontSize="14" Foreground="#BDA98D"/>
+      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.1" FontSize="14" Foreground="#BDA98D"/>
       <TextBlock Name="HomeSubtitle" Margin="0,8,0,0" Foreground="#D8C7AE" FontSize="14"/>
     </StackPanel>
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><WrapPanel Name="Cards" Orientation="Horizontal"/></ScrollViewer>
@@ -36155,7 +36155,7 @@ function Get-VSO7StorageHealthVSO {
         }
 
     }
-    return $out.ToArray()
+    return $out
 
 }
 
@@ -36510,7 +36510,7 @@ function Get-VSO7ServiceDependencyInventoryVSO {
         }
 
     }
-    return $out.ToArray()
+    return $out
 
 }
 
@@ -40128,9 +40128,9 @@ function Get-VSO7TuningSanityFindingsVSO {
     try{
 
         $mp=Get-MpPreference -ErrorAction Stop;
-        $exPath=@($mp.ExclusionPath).Count;
-        $exProc=@($mp.ExclusionProcess).Count;
-        $exExt=@($mp.ExclusionExtension).Count
+        $exPath=@($mp.ExclusionPath|Where-Object{-not[string]::IsNullOrWhiteSpace([string]$_)}).Count;
+        $exProc=@($mp.ExclusionProcess|Where-Object{-not[string]::IsNullOrWhiteSpace([string]$_)}).Count;
+        $exExt=@($mp.ExclusionExtension|Where-Object{-not[string]::IsNullOrWhiteSpace([string]$_)}).Count
         if(($exPath+$exProc+$exExt)-gt0){
             $findings+=New-VSO7TuningFindingVSO -Risk 3 -Area 'Security / Defender' -Item 'Defender exclusions' -Configured ('paths={0}; processes={1}; extensions={2}'-f$exPath,$exProc,$exExt) -Effective 'Excluded from applicable Defender scanning scopes' -State 'Configured' -Evidence 'E1' -Maturity 'Diagnostic' -WhyEs 'VSO7 solo muestra contadores y no revela las rutas/procesos excluidos. Las exclusiones reducen cobertura y no son un tweak gaming generico.' -WhyEn 'VSO7 shows counts only and does not reveal excluded paths/processes. Exclusions reduce coverage and are not a generic gaming tweak.'
         }

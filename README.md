@@ -17,13 +17,13 @@ AI tools have been used for code generation, debugging, testing, documentation, 
 
 ## Current version
 
-**VSO7 1.2.0**
+**VSO7 1.2.1**
 
 ## Documentation
 
-- [Technical user guide and complete functional reference (English)](VSO7_TECHNICAL_USER_GUIDE_EN.md)
+- [Technical user guide and complete functional reference (English)](https://github.com/saturnus25/VSO/blob/main/VSO7_TECHNICAL_USER_GUIDE_EN.md)
 
-- [Manual tecnico y referencia funcional completa (Espanol)](VSO7_MANUAL_TECNICO_ES.md)
+- [Manual tecnico y referencia funcional completa (Espanol)](https://github.com/saturnus25/VSO/blob/main/VSO7_MANUAL_TECNICO_ES.md)
 
 ## Current interface
 
@@ -44,7 +44,7 @@ The graphical interface is still under development. It is not included as a supp
 VSO7 can also be downloaded and extracted directly with PowerShell:
 
 ```powershell
-$zip="$env:TEMP\VSO7-1.2.0.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO/releases/latest/download/VSO7-1.2.0.zip" -OutFile $zip -ErrorAction Stop; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
+$zip="$env:TEMP\VSO7-1.2.1.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO/releases/latest/download/VSO7-1.2.1.zip" -OutFile $zip -ErrorAction Stop; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
 ```
 
 This downloads the release package and extracts it into a VSO7 folder in the current directory.
@@ -146,7 +146,7 @@ If Windows blocks the downloaded PowerShell files, run `UNBLOCK VSO7.bat` once a
 The release includes a SHA-256 file next to the ZIP. Verify the downloaded archive with PowerShell:
 
 ```powershell
-Get-FileHash -LiteralPath '.\VSO7-1.2.0.zip' -Algorithm SHA256
+Get-FileHash -LiteralPath '.\VSO7-1.2.1.zip' -Algorithm SHA256
 ```
 
 The expected SHA-256 for this release is:
