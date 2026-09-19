@@ -1,4 +1,4 @@
-# VSO7 1.2.1 — Technical User Guide and Functional Reference
+# VSO7 1.2.2 — Technical User Guide and Functional Reference
 
 **Supported interface:** console  
 **Documented source:** `VSO7-current/VSO7.ps1`  
@@ -7,7 +7,7 @@
 
 This guide explains how to use VSO7, how to reach each group of settings, what every workflow can change, and its risks, consequences, restart requirements, and recovery limits. It is also written so another AI can reconstruct VSO7's behavior in human language without inferring it only from function names.
 
-The source and catalogs take precedence if a later version contradicts this guide. Menu numbers apply to VSO7 1.2.1.
+The source and catalogs take precedence if a later version contradicts this guide. Menu numbers apply to VSO7 1.2.2.
 
 ## 1. Safe use
 
@@ -598,7 +598,7 @@ The appendices below are generated statically from this build's JSON. `Selectabl
 
 ### Practical guide to the 120 selectable tweaks
 
-This subsection preserves the user-oriented explanations from the initial documentation and cross-checks them against the `FeatureId` and metadata in the VSO7 1.2.1 catalog. The technical matrix above remains authoritative for applicability, relationships, operations, and Recovery. This guide explains in direct language what each tweak does, when it makes sense, and what the user may lose.
+This subsection preserves the user-oriented explanations from the initial documentation and cross-checks them against the `FeatureId` and metadata in the VSO7 1.2.2 catalog. The technical matrix above remains authoritative for applicability, relationships, operations, and Recovery. This guide explains in direct language what each tweak does, when it makes sense, and what the user may lose.
 
 #### Special
 

@@ -57,6 +57,27 @@ $keyRestore=Get-FunctionText 'Restore-VSO7NativeBackupSessionVSO'
 Assert-Test ($keyBackup.Contains('Get-VSO7NativeRegistryKeyFingerprintVSO') -and $keyBackup.Contains('Assert-VSO7NativeRegistryExportFileVSO') -and $keyRestore.Contains('Test-VSO7NativeRegistryKeyBaselineMatchVSO') -and $keyRestore.Contains('reg import')) 'DeleteKey: fingerprint, export, and restore paths remain connected'
 $engine=Get-FunctionText 'Invoke-VSO7NativeTweaksVSO'
 Assert-Test ($engine.Contains("$"+'featureResult.Status='+"'Failed'") -and $engine.Contains("$"+'session.Status='+"'Partial'") -and $engine.Contains('Save-VSO7NativeBackupSessionVSO -Session $session')) 'Native batch: subsequent failure persists Failed and Partial state'
+Invoke-Expression (Get-FunctionText 'Test-VSO7NativeFeatureOwnsActiveTargetVSO')
+$emptyPartial=[pscustomobject]@{Status='Partial';Features=@('V7FE007','V7FE011');Entries=@();FeatureResults=@([pscustomobject]@{FeatureId='V7FE007';Status='Failed'})}
+Assert-Test (-not(Test-VSO7NativeFeatureOwnsActiveTargetVSO -Session $emptyPartial -FeatureId 'V7FE007')) 'Native ownership: failed session with zero entries owns no target'
+$pendingWithoutJournal=[pscustomobject]@{Status='Pending';Features=@('V7FE007');Entries=@()}
+Assert-Test (Test-VSO7NativeFeatureOwnsActiveTargetVSO -Session $pendingWithoutJournal -FeatureId 'V7FE007') 'Native ownership: incomplete Pending session remains fail-closed'
+$ownedPartial=[pscustomobject]@{Status='Partial';Features=@('V7FE007');Entries=@([pscustomobject]@{Type='RegistryKey';Path='HKEY_CURRENT_USER\Software\VSO7TestOnly';Status='Applied'})}
+Assert-Test (Test-VSO7NativeFeatureOwnsActiveTargetVSO -Session $ownedPartial -FeatureId 'V7FE007') 'Native ownership: session with a recoverable entry remains protected'
+Invoke-Expression (Get-FunctionText 'Assert-VSO7NativeOwnershipAvailableVSO')
+function Get-VSO7NativeBackupSessionsVSO {return $script:FakeNativeSessions}
+function Get-VSO7NativeFeatureStaticTargetClaimsVSO {return 'REGKEY|HKEY_CURRENT_USER\Software\VSO7TestOnly'}
+function Get-VSO7KnownInternalNativeOwnershipIdsVSO {return @()}
+function Get-VSO7NativeEntryTargetClaimsVSO {return 'REGKEY|HKEY_CURRENT_USER\Software\VSO7TestOnly'}
+function Test-VSO7NativeTargetClaimOverlapVSO {return $true}
+$definition=[pscustomobject]@{FeatureId='V7FE007';Mode='Registry';Apply=@()}
+$catalog=[pscustomobject]@{FeatureId='V7FE007';ConflictsWith=@();MutuallyExclusiveGroup=''}
+$script:FakeNativeSessions=@($emptyPartial)
+Assert-Test (Assert-VSO7NativeOwnershipAvailableVSO -Requested @('V7FE007') -Catalog @($catalog) -Definitions @($definition)) 'Native ownership: previous zero-entry failure allows a retry'
+$script:FakeNativeSessions=@($ownedPartial)
+$ownershipBlocked=$false
+try{[void](Assert-VSO7NativeOwnershipAvailableVSO -Requested @('V7FE007') -Catalog @($catalog) -Definitions @($definition))}catch{$ownershipBlocked=$true}
+Assert-Test $ownershipBlocked 'Native ownership: a session with a target entry still blocks a second owner'
 
 # Compile the exact C# declaration from the source in this isolated test process.
 $init=Get-FunctionText 'Initialize-VSO7PowerReadApiVSO'

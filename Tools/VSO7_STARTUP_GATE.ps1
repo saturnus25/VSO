@@ -63,7 +63,7 @@ function Show-VSO7SupportWindowBanner {
     Write-SupportLine ''
     foreach($row in $logo){Write-SupportLine -Text $row -Rgb '185;110;62' -Fallback DarkYellow}
     Write-SupportLine ''
-    Write-SupportLine 'VICO SAFE OPTIMIZER · 1.2.1' -Rgb '216;164;119' -Fallback Yellow
+    Write-SupportLine 'VICO SAFE OPTIMIZER · 1.2.2' -Rgb '216;164;119' -Fallback Yellow
     Write-SupportLine ''
     Write-SupportLine "DON'T CLOSE THIS WINDOW" -Rgb '235;206;174' -Fallback Yellow
     Write-SupportLine ''

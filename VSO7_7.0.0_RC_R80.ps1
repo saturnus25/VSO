@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.1
 <#
-VSO7 - Vico Safe Optimizer 1.2.1
+VSO7 - Vico Safe Optimizer 1.2.2
 ======================================
 Optimizador modular para Windows 10/11 centrado en cambios medibles, explicitos
 y reversibles. Incluye medicion A/B, VSO Score y sesiones Gaming temporales.
@@ -332,7 +332,7 @@ try{
     $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($greeting+[Environment]::NewLine+$payload))
     $info=New-Object Diagnostics.ProcessStartInfo
     $info.FileName=$terminal
-    $info.Arguments='-w new new-tab --title "VSO7 1.2.1" "'+$exe+'" -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded
+    $info.Arguments='-w new new-tab --title "VSO7 1.2.2" "'+$exe+'" -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded
     $info.WorkingDirectory=[IO.Path]::GetDirectoryName($exe)
     $info.UseShellExecute=$false
     $info.CreateNoWindow=$true
@@ -993,7 +993,7 @@ trap {
 }
 
 # Visible product version is independent of the existing authenticated state format.
-$script:DisplayVersion = '1.2.1'
+$script:DisplayVersion = '1.2.2'
 $script:Version = '7.0.0' # Protected-state/Recovery compatibility identifier; not a UI label.
 $script:Release = 'RC R80'
 $script:NativeJournalRevision = 26
@@ -11814,6 +11814,10 @@ function Test-VSO7NativeFeatureOwnsActiveTargetVSO {
     # These Specials either record historical NonReversible debt or perform no persistent
     # VSO-owned mutation. Their history must not become perpetual ownership.
     if($FeatureId-in@('V7SP003','V7SP004','V7TB007','V7SP008','V7SP005','V7SP001','V7SP002')){
+        return $false
+    }
+    # A failed partial session with no journal entries has no target or baseline to own.
+    if([string]$Session.Status-ceq'Partial'-and@($Session.Entries).Count-eq0){
         return $false
     }
     return $true
@@ -33607,7 +33611,7 @@ namespace VSO7.Interop {
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Margin="0,0,0,16">
       <TextBlock Text="VSO7" FontSize="36" FontWeight="Bold" Foreground="#E3A35D"/>
-      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.1" FontSize="14" Foreground="#BDA98D"/>
+      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.2" FontSize="14" Foreground="#BDA98D"/>
       <TextBlock Name="HomeSubtitle" Margin="0,8,0,0" Foreground="#D8C7AE" FontSize="14"/>
     </StackPanel>
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><WrapPanel Name="Cards" Orientation="Horizontal"/></ScrollViewer>

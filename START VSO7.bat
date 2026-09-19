@@ -1,6 +1,6 @@
 @echo off
 setlocal
-title VSO7 1.2.1 - Support window - DO NOT CLOSE
+title VSO7 1.2.2 - Support window - DO NOT CLOSE
 cd /d "%~dp0"
 set "PS=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
 

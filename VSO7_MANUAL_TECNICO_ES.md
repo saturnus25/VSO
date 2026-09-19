@@ -1,4 +1,4 @@
-# VSO7 1.2.1 — Manual técnico de uso y referencia funcional
+# VSO7 1.2.2 — Manual técnico de uso y referencia funcional
 
 **Interfaz soportada:** consola  
 **Fuente documentada:** `VSO7-current/VSO7.ps1`  
@@ -7,7 +7,7 @@
 
 Este manual explica cómo usar VSO7, cómo llegar a cada familia de ajustes, qué modifica cada flujo y qué riesgos, consecuencias, reinicios y límites de recuperación existen. También está escrito para que otra IA pueda reconstruir el comportamiento de VSO7 en lenguaje humano sin deducirlo únicamente de nombres de funciones.
 
-La fuente y los catálogos mandan si una versión posterior contradice este documento. Los números de menú pertenecen a VSO7 1.2.1.
+La fuente y los catálogos mandan si una versión posterior contradice este documento. Los números de menú pertenecen a VSO7 1.2.2.
 
 ## 1. Uso seguro
 
@@ -598,7 +598,7 @@ Los anexos siguientes se generan estáticamente desde los JSON de esta build. `S
 
 ### Guía práctica de los 120 ajustes seleccionables
 
-Esta subsección conserva la explicación orientada al usuario de la documentación inicial y la cruza con el `FeatureId` y los metadatos del catálogo de VSO7 1.2.1. La matriz técnica anterior sigue siendo la referencia autoritativa para aplicabilidad, relaciones, operaciones y Recovery. Aquí se explica en lenguaje directo qué hace cada ajuste, cuándo tiene sentido y qué se puede perder.
+Esta subsección conserva la explicación orientada al usuario de la documentación inicial y la cruza con el `FeatureId` y los metadatos del catálogo de VSO7 1.2.2. La matriz técnica anterior sigue siendo la referencia autoritativa para aplicabilidad, relaciones, operaciones y Recovery. Aquí se explica en lenguaje directo qué hace cada ajuste, cuándo tiene sentido y qué se puede perder.
 
 #### Especiales
 
