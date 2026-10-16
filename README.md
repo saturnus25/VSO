@@ -42,9 +42,42 @@ The donut, rotating shapes and galaxy keep their native viewport size while thei
 
 The graphical interface is still under development. It is not included as a supported launcher in this release and will probably not work correctly if invoked from the source code. Use `START VSO7.bat` to start the supported console version.
 
-## Install with PowerShell
+## Install with PowerShell (recommended)
 
-VSO7 can also be downloaded and extracted directly with PowerShell:
+The official [VSO PowerShell Module](https://github.com/saturnus25/VSO-PowerShell-Module) is available from [PowerShell Gallery](https://www.powershellgallery.com/packages/VSO).
+
+In PowerShell with PSResourceGet:
+
+```powershell
+Install-PSResource VSO
+Install-VSO
+```
+
+In Windows PowerShell 5.1 with PowerShellGet:
+
+```powershell
+Install-Module VSO
+Install-VSO
+```
+
+The first command installs the module; the second opens VSO's installation wizard. The module's version is separate from the VSO application version. It downloads official releases, supports custom paths and CurrentUser/AllUsers installation, and does not apply Windows tweaks. The module has its own source-available license; the VSO application keeps its MIT license.
+
+```powershell
+Install-VSO -Path "D:\VSO"
+Start-VSO
+Stop-VSO
+Update-VSO
+Get-VSOStatus
+Get-VSOInstallation
+Help-VSO
+Reset-VSO -WhatIf
+```
+
+`Stop-VSO` requires explicit `-Force` to terminate a running instance. `Reset-VSO` removes attributable application files and never restores Windows tweaks. See the module's documentation for removal limits and `-Full`.
+
+### Manual installation from GitHub Releases
+
+You can still download the complete ZIP from [GitHub Releases](https://github.com/saturnus25/VSO/releases), extract it and run `START VSO7.bat`. Alternatively, download and extract it directly with PowerShell:
 
 ```powershell
 $zip="$env:TEMP\VSO7-1.2.2.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO/releases/latest/download/VSO7-1.2.2.zip" -OutFile $zip -ErrorAction Stop; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
