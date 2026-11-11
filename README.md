@@ -11,9 +11,9 @@
 [![PowerShell Gallery](https://img.shields.io/badge/PowerShell-Gallery-394989?style=for-the-badge)](https://www.powershellgallery.com/packages/VSO)
 [![MIT license](https://img.shields.io/badge/License-MIT-38845a?style=for-the-badge)](LICENSE)
 
-[Download VSO7](https://github.com/saturnus25/VSO/releases/latest) · [Quick start](#quick-start) · [English guide](VSO7_TECHNICAL_USER_GUIDE_EN.md) · [Manual en español](VSO7_MANUAL_TECNICO_ES.md) · [Report an issue](https://github.com/saturnus25/VSO/issues/new)
+[Download](https://github.com/saturnus25/VSO/releases/latest) · [Quick start](#quick-start) · [Recovery](#applying-changes-and-using-recovery) · [English guide](VSO7_TECHNICAL_USER_GUIDE_EN.md) · [Manual en español](VSO7_MANUAL_TECNICO_ES.md) · [Ideas](https://github.com/saturnus25/VSO/discussions/categories/ideas) · [Issues](https://github.com/saturnus25/VSO/issues)
 
-## What you can do
+## Tools at a glance
 
 | Tune Windows | Review recommendations |
 | :--- | :--- |
