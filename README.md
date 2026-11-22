@@ -58,6 +58,18 @@ Reset-VSO -WhatIf
 
 </details>
 
+### Download and extract with PowerShell
+
+You can download and extract VSO7 directly from GitHub Releases using a single PowerShell command, without installing the VSO module.
+
+```powershell
+$zip="$env:TEMP\VSO7-1.2.2.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO/releases/latest/download/VSO7-1.2.2.zip" -OutFile $zip -ErrorAction Stop; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
+```
+
+This command downloads VSO7, extracts the archive into a `VSO7` folder in your current directory, and removes the temporary ZIP file.
+
+Once extracted, run **`START VSO7.bat`** from the application folder.
+
 ### Run from the ZIP
 
 1. Download the complete ZIP from [the latest release](https://github.com/saturnus25/VSO/releases/latest).
