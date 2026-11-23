@@ -1,0 +1,5 @@
+# Keep release and checkout bytes consistent for the startup gate and checksums.
+* text=auto eol=lf
+/THIRD_PARTY_NOTICES.md text eol=crlf
+/VSO7.ps1 -text
+/VSO7_7.0.0_RC_R80.ps1 -text

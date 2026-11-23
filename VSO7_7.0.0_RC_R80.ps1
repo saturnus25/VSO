@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.1
 <#
-VSO7 - Vico Safe Optimizer 1.2.2
+VSO7 - Vico Safe Optimizer 1.2.3
 ======================================
 Optimizador modular para Windows 10/11 centrado en cambios medibles, explicitos
 y reversibles. Incluye medicion A/B, VSO Score y sesiones Gaming temporales.
@@ -54,6 +54,7 @@ param(
     [string]$VSOExpectedUserSid,
     [string]$VSOProbeArtifactRoot,
     [string]$VSOProbeOwnerToken,
+    [switch]$ClassicConsole,
     [ValidatePattern('^$|^Global\\VicoreDevelopment\.VSO7\.Probe\.[A-Fa-f0-9]{32}$')][string]$VSOProbeMutexName
 )
 
@@ -266,115 +267,150 @@ function Test-VSO7WindowsTerminalCandidateVSO {
 }
 
 
-function New-VSO7TerminalBootstrapCommandVSO {
+function New-VSO7ConsoleBootstrapCommandVSO {
     param(
         [Parameter(Mandatory=$true)][string]$Wrapper,
         [Parameter(Mandatory=$true)][string]$PowerShellExe,
-        [Parameter(Mandatory=$true)][string]$ExpectedUserSid
+        [Parameter(Mandatory=$true)][string]$ExpectedUserSid,
+        [Parameter(Mandatory=$true)][string]$StagePath,
+        [switch]$PreferTerminal,
+        [int]$LauncherPid,
+        [long]$LauncherStartTicks
     )
     $template=@'
 $ErrorActionPreference='Stop'
-function D([string]$v){[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($v))}
 $ProgressPreference='SilentlyContinue'
-$payload='__PAYLOAD__';$exe=D('__EXE__');$sid=D('__SID__')
+function D([string]$v){[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($v))}
+$payload='__PAYLOAD__';$exe=D('__EXE__');$sid=D('__SID__');$stagePath=D('__STAGE__')
 $exe=$exe -replace '(?i)\\Sysnative\\','\System32\'
-$pipe=$null;$client=$null;$launcher=$null;$released=$false;$stage='identity'
-function F([string]$reason){
-    Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class VSO7ClassicWindow{[DllImport("kernel32.dll")]public static extern IntPtr GetConsoleWindow();[DllImport("user32.dll")]public static extern bool ShowWindow(IntPtr h,int n);}' -ErrorAction Stop
-    [void][VSO7ClassicWindow]::ShowWindow([VSO7ClassicWindow]::GetConsoleWindow(),5)
-    [Console]::Error.WriteLine(('[WARN] Windows Terminal unavailable at {0}: {1}'-f$stage,$reason))
-    [Console]::WriteLine('[INFO] Continuing in the built-in Windows console.')
-    $global:LASTEXITCODE=0;& ([ScriptBlock]::Create($payload))
-    $code=if($null-ne$LASTEXITCODE){[int]$LASTEXITCODE}else{0};exit $code
-}
+$owner=$null;$verifiedUser=$false;$released=$false
 try{
     $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
     try{if($identity.User.Value-cne$sid){throw 'UAC used a different Windows account; VSO7 startup was cancelled.'}}finally{$identity.Dispose()}
-    $modules=Join-Path ([IO.Path]::GetDirectoryName($exe)) 'Modules'
-    [Environment]::SetEnvironmentVariable('PSModulePath',$modules,'Process')
-    $appx=Join-Path $modules 'Appx\Appx.psd1'
-    $package=$null
-    if([IO.File]::Exists($appx)){
-        Import-Module -Name $appx -ErrorAction Stop
-        $package=Appx\Get-AppxPackage -Name Microsoft.WindowsTerminal -ErrorAction Stop |
-            Where-Object {$_.PackageFamilyName-ceq'Microsoft.WindowsTerminal_8wekyb3d8bbwe'} |
-            Select-Object -First 1
+    $verifiedUser=$true
+    if(__OWNER_PID__ -gt 0){
+        try{
+            $owner=[Diagnostics.Process]::GetProcessById(__OWNER_PID__)
+            [void]$owner.Handle
+            if($owner.StartTime.ToUniversalTime().Ticks-ne__OWNER_TICKS__-or$owner.HasExited){exit 0}
+        }catch{exit 0}
     }
-    if($null-eq$package){F 'The stable Windows Terminal package is not installed.'}
-    $terminal=[IO.Path]::GetFullPath((Join-Path ([string]$package.InstallLocation) 'WindowsTerminal.exe'))
-    $apps=Join-Path ([Environment]::GetFolderPath('ProgramFiles')) 'WindowsApps'
-    if(-not$terminal.StartsWith($apps.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase)){
-        throw 'The registered Windows Terminal executable is outside the protected WindowsApps directory.'
-    }
-    $item=Get-Item -LiteralPath $terminal -Force -ErrorAction Stop
-    if($item.PSIsContainer-or($item.Attributes-band[IO.FileAttributes]::ReparsePoint)-ne0){throw 'Windows Terminal is not a regular installed executable.'}
-    $signature=Microsoft.PowerShell.Security\Get-AuthenticodeSignature -LiteralPath $terminal -ErrorAction Stop
-    if($signature.Status-ne'Valid'-or$null-eq$signature.SignerCertificate-or$signature.SignerCertificate.Subject-notmatch'(?:^|,\s*)O=Microsoft Corporation(?:,|$)'){
-        throw 'The installed Windows Terminal executable does not have a valid Microsoft signature.'
-    }
-    Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class VSO7TerminalPipeNative{[DllImport("kernel32.dll",SetLastError=true)]public static extern bool GetNamedPipeClientProcessId(IntPtr pipe,out uint pid);}' -ErrorAction Stop
-    $name='VSO7.Terminal.'+[guid]::NewGuid().ToString('N')
-    $security=New-Object IO.Pipes.PipeSecurity
-    $security.SetAccessRuleProtection($true,$false)
-    $security.AddAccessRule((New-Object IO.Pipes.PipeAccessRule((New-Object Security.Principal.SecurityIdentifier($sid)),[IO.Pipes.PipeAccessRights]::ReadWrite,[Security.AccessControl.AccessControlType]::Allow)))
-    $pipe=New-Object IO.Pipes.NamedPipeServerStream($name,[IO.Pipes.PipeDirection]::InOut,1,[IO.Pipes.PipeTransmissionMode]::Byte,[IO.Pipes.PipeOptions]::Asynchronous,4096,4096,$security)
-    $greeting=@"
+    [void][ScriptBlock]::Create($payload)
+    $env:PSModulePath=Join-Path ([IO.Path]::GetDirectoryName($exe)) 'Modules'
+    Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public static class VSO7ConsolePipeNative{[DllImport("kernel32.dll",SetLastError=true)]public static extern bool GetNamedPipeClientProcessId(IntPtr pipe,out uint pid);}' -ErrorAction Stop
+    $warning=''
+    $consoleModes=if(__PREFER_TERMINAL__){@($true,$false)}else{@($false)}
+    foreach($terminal in $consoleModes){
+        $pipe=$null;$client=$null;$launcher=$null
+        try{
+            $info=New-Object Diagnostics.ProcessStartInfo
+            $info.WorkingDirectory=[IO.Path]::GetDirectoryName($exe)
+            if($terminal){
+                $appx=Join-Path $info.WorkingDirectory 'Modules\Appx\Appx.psd1'
+                Import-Module -Name $appx -ErrorAction Stop
+                $package=Appx\Get-AppxPackage -Name Microsoft.WindowsTerminal -ErrorAction Stop |
+                    Where-Object {$_.PackageFamilyName-ceq'Microsoft.WindowsTerminal_8wekyb3d8bbwe'} |
+                    Select-Object -First 1
+                if($null-eq$package){throw 'The stable Windows Terminal package is not installed.'}
+                $info.FileName=[IO.Path]::GetFullPath((Join-Path ([string]$package.InstallLocation) 'WindowsTerminal.exe'))
+                $apps=Join-Path ([Environment]::GetFolderPath('ProgramFiles')) 'WindowsApps'
+                if(-not$info.FileName.StartsWith($apps.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase)){
+                    throw 'Windows Terminal is outside the protected WindowsApps directory.'
+                }
+                $info.Arguments='-w new new-tab --title "VSO7 1.2.3" '
+                $info.UseShellExecute=$false
+                $info.CreateNoWindow=$true
+                $info.RedirectStandardInput=$true
+                $info.RedirectStandardOutput=$true
+                $info.RedirectStandardError=$true
+            }else{
+                $info.FileName=Join-Path ([Environment]::SystemDirectory) 'conhost.exe'
+                $info.Arguments='-ForceNoHandoff '
+                $info.UseShellExecute=$true
+                $info.WindowStyle=[Diagnostics.ProcessWindowStyle]::Normal
+            }
+            $item=Get-Item -LiteralPath $info.FileName -Force -ErrorAction Stop
+            if($item.PSIsContainer-or($item.Attributes-band[IO.FileAttributes]::ReparsePoint)-ne0){throw 'The console host is not a regular executable.'}
+            if($terminal){
+                $signature=Microsoft.PowerShell.Security\Get-AuthenticodeSignature -LiteralPath $info.FileName -ErrorAction Stop
+                if($signature.Status-ne'Valid'-or$null-eq$signature.SignerCertificate-or$signature.SignerCertificate.Subject-notmatch'(?:^|,\s*)O=Microsoft Corporation(?:,|$)'){
+                    throw 'Windows Terminal does not have a valid Microsoft signature.'
+                }
+            }
+
+            $name='VSO7.Terminal.'+[guid]::NewGuid().ToString('N')
+            $security=New-Object IO.Pipes.PipeSecurity
+            $security.SetAccessRuleProtection($true,$false)
+            $security.AddAccessRule((New-Object IO.Pipes.PipeAccessRule((New-Object Security.Principal.SecurityIdentifier($sid)),[IO.Pipes.PipeAccessRights]::ReadWrite,[Security.AccessControl.AccessControlType]::Allow)))
+            $pipe=New-Object IO.Pipes.NamedPipeServerStream($name,[IO.Pipes.PipeDirection]::InOut,1,[IO.Pipes.PipeTransmissionMode]::Byte,[IO.Pipes.PipeOptions]::Asynchronous,4096,4096,$security)
+            $deadline=[DateTime]::UtcNow.AddSeconds(15)
+            $greeting=@"
 `$ErrorActionPreference='Stop'
+try{`$broker=[Diagnostics.Process]::GetProcessById($PID)}catch{exit 0}
 `$p=New-Object IO.Pipes.NamedPipeClientStream('.','$name',[IO.Pipes.PipeDirection]::InOut,[IO.Pipes.PipeOptions]::Asynchronous)
-`$r=`$null
 try{
-    `$p.Connect(60000)
-    `$b=New-Object byte[] 1;`$r=`$p.ReadAsync(`$b,0,1)
-    if(-not`$r.Wait(60000)){throw 'VSO7 Terminal broker acknowledgement timed out.'}
-    if(`$r.GetAwaiter().GetResult()-ne1-or`$b[0]-ne1){throw 'VSO7 Terminal broker closed before startup.'}
-}finally{`$p.Dispose();if(`$null-ne`$r){try{[void]`$r.GetAwaiter().GetResult()}catch{}}}
-"@
-    $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($greeting+[Environment]::NewLine+$payload))
-    $info=New-Object Diagnostics.ProcessStartInfo
-    $info.FileName=$terminal
-    $info.Arguments='-w new new-tab --title "VSO7 1.2.2" "'+$exe+'" -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded
-    $info.WorkingDirectory=[IO.Path]::GetDirectoryName($exe)
-    $info.UseShellExecute=$false
-    $info.CreateNoWindow=$true
-    $info.RedirectStandardInput=$true
-    $info.RedirectStandardOutput=$true
-    $info.RedirectStandardError=$true
-    if($info.Arguments.Length-gt30000){throw 'The Windows Terminal bootstrap command is too long.'}
-    $cancel=New-Object Threading.CancellationTokenSource;$connection=$null
-    try{
-        $connection=$pipe.WaitForConnectionAsync($cancel.Token)
-        $stage='terminal-launch';$launcher=[Diagnostics.Process]::Start($info)
-        if($null-eq$launcher){throw 'Windows Terminal did not start.'}
-        $launcher.StandardInput.Close();$launcher.StandardOutput.Close();$launcher.StandardError.Close()
-        $stage='terminal-connect';if(-not$connection.Wait(60000)){throw 'Windows Terminal did not open the protected PowerShell host within 60 seconds.'}
-        [void]$connection.GetAwaiter().GetResult()
-    }finally{
-        if($null-ne$connection){if(-not$connection.IsCompleted){$cancel.Cancel()};try{[void]$connection.GetAwaiter().GetResult()}catch{}}
-        $cancel.Dispose()
+    while(-not`$p.IsConnected){
+        if(`$broker.HasExited-or[DateTime]::UtcNow.Ticks-ge$($deadline.Ticks)){exit 0}
+        try{`$p.Connect(200)}catch [TimeoutException]{}
     }
-    [uint32]$clientPid=0
-    if(-not[VSO7TerminalPipeNative]::GetNamedPipeClientProcessId($pipe.SafePipeHandle.DangerousGetHandle(),[ref]$clientPid)){throw 'The Windows Terminal child process could not be identified.'}
-    $client=[Diagnostics.Process]::GetProcessById([int]$clientPid)
-    [void]$client.Handle
-    if([IO.Path]::GetFullPath($client.MainModule.FileName)-ine[IO.Path]::GetFullPath($exe)){throw 'The Terminal connection did not originate from the expected PowerShell executable.'}
-    $stage='payload-release';$released=$true;$pipe.WriteByte(1);$pipe.Flush();$pipe.Dispose();$pipe=$null
-    $client.WaitForExit()
-    exit ([int]$client.ExitCode)
+    `$b=New-Object byte[] 1;`$r=`$p.ReadAsync(`$b,0,1)
+    if(-not`$r.Wait(15000)-or`$r.GetAwaiter().GetResult()-ne1-or`$b[0]-ne1){exit 0}
+}finally{`$p.Dispose();`$broker.Dispose()}
+"@
+            if(-not$terminal){
+                $greeting+=[Environment]::NewLine+'$env:WT_SESSION=$null;$env:WT_PROFILE_ID=$null'
+                if($warning){$greeting+=[Environment]::NewLine+"[Console]::Error.WriteLine('"+$warning.Replace("'","''")+"')"}
+            }
+            $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($greeting+[Environment]::NewLine+$payload))
+            $info.Arguments+='"'+$exe+'" -NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded
+            if($info.Arguments.Length-gt30000){throw 'The protected console command is too long.'}
+            if($owner-and$owner.HasExited){exit 0}
+            $connection=$pipe.WaitForConnectionAsync()
+            $launcher=[Diagnostics.Process]::Start($info)
+            if($null-eq$launcher){throw 'Windows did not start the console host.'}
+            if($terminal){$launcher.StandardInput.Close();$launcher.StandardOutput.Close();$launcher.StandardError.Close()}
+            while(-not$connection.Wait(200)){
+                if($owner-and$owner.HasExited){exit 0}
+                if([DateTime]::UtcNow-ge$deadline){throw 'The console host did not connect within 15 seconds.'}
+            }
+            [void]$connection.GetAwaiter().GetResult()
+            [uint32]$clientPid=0
+            if(-not[VSO7ConsolePipeNative]::GetNamedPipeClientProcessId($pipe.SafePipeHandle.DangerousGetHandle(),[ref]$clientPid)){throw 'The console child process could not be identified.'}
+            $client=[Diagnostics.Process]::GetProcessById([int]$clientPid)
+            [void]$client.Handle
+            if([IO.Path]::GetFullPath($client.MainModule.FileName)-ine$exe){throw 'The console connection did not originate from the expected PowerShell executable.'}
+            if($owner-and$owner.HasExited){exit 0}
+
+            $released=$true
+            $pipe.WriteByte(1);$pipe.Flush();$pipe.Dispose();$pipe=$null
+            $client.WaitForExit()
+            exit ([int]$client.ExitCode)
+        }catch{
+            # The acknowledgement may have reached the core. Never launch a second host after it.
+            if(-not$terminal-or$released){throw}
+            $warning='[WARN] Windows Terminal could not start VSO7. Using Windows Console Host. '+$_.Exception.Message
+        }finally{
+            if($pipe){$pipe.Dispose()}
+            if($client){$client.Dispose()}
+            if($launcher){$launcher.Dispose()}
+        }
+    }
 }catch{
-    $message=[string]$_.Exception.Message
-    if(-not$released){if($null-ne$pipe){$pipe.Dispose();$pipe=$null};F $message}
-    [Console]::Error.WriteLine(('VSO7 failed after Terminal payload release at {0}: {1}'-f$stage,$message));exit 1
+    [Console]::Error.WriteLine(('VSO7 console startup failed: {0}'-f$_.Exception.Message))
+    exit 1
 }finally{
-    if($null-ne$pipe){$pipe.Dispose()}
-    if($null-ne$client){$client.Dispose()}
-    if($null-ne$launcher){$launcher.Dispose()}
+    if($owner){$owner.Dispose()}
+    if($verifiedUser){try{[IO.File]::Delete($stagePath)}catch{}}
 }
 '@
-    $template=$template.Replace('__PAYLOAD__',$Wrapper.Replace("'","''"))
-    foreach($pair in @(@('__EXE__',$PowerShellExe),@('__SID__',$ExpectedUserSid))){
+    foreach($pair in @(@('__EXE__',$PowerShellExe),@('__SID__',$ExpectedUserSid),@('__STAGE__',$StagePath))){
         $template=$template.Replace($pair[0],[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes([string]$pair[1])))
     }
-    return $template
+    # Keep the emitted command within Windows' length limit without altering the payload.
+    $template=$template -replace '(?m)^[ \t]+','' -replace '\r\n',"`n"
+    $preferLiteral=if($PreferTerminal){'$true'}else{'$false'}
+    $template=$template.Replace('__PREFER_TERMINAL__',$preferLiteral).Replace('__OWNER_PID__',[string]$LauncherPid).Replace('__OWNER_TICKS__',[string]$LauncherStartTicks)
+    return $template.Replace('__PAYLOAD__',$Wrapper.Replace("'","''"))
 }
 
 
@@ -393,6 +429,7 @@ function Start-VSOTrustedMemoryHostBootstrap {
         [string]$DirectAction='Menu',
         [ValidateSet('None','Core','GUI','GUIButton','GUILanguage','GUILayout','GUIPipelineStop','GUILoggingFailure','GUIStopTranscriptFailure','GUI_FULL_STARTUP','GUI_NO_TRANSCRIPT','GUI_WELCOME_FULL_STARTUP','GUI_NAVIGATION_MATRIX','GUI_TASKBAR','GUI_PERFORMANCE','GUI_CALLBACKS')][string]$StartupProbe='None',
         [switch]$InternalHandoff,
+        [switch]$ClassicConsole,
         [string]$ProbeArtifactRoot,
         [string]$ProbeOwnerToken,
         [ValidatePattern('^$|^Global\\VicoreDevelopment\.VSO7\.Probe\.[A-Fa-f0-9]{32}$')][string]$ProbeMutexName,
@@ -458,6 +495,16 @@ function Start-VSOTrustedMemoryHostBootstrap {
         '$false'
     }
 
+    $interactive=([string]$DirectAction-eq'Menu'-and[string]$StartupProbe-eq'None')
+    $preferTerminal=($interactive-and-not$ClassicConsole-and(Test-VSO7WindowsTerminalCandidateVSO -PowerShellExe $exe))
+    $launcherPid=0;$launcherStartTicks=0L
+    if($interactive-and$Wait-and-not$InternalHandoff){
+        $launcherPid=$PID
+        $current=[Diagnostics.Process]::GetCurrentProcess()
+        try{$launcherStartTicks=$current.StartTime.ToUniversalTime().Ticks}finally{$current.Dispose()}
+    }
+    $classicLiteral=if($ClassicConsole){'$true'}else{'$false'}
+
     # El proceso elevado NO ejecuta el .ps1 mutable con -File. Primero lee el staging como
     # datos, comprueba el SHA-256 del texto que este proceso ya habia cargado y solo entonces
     # crea/ejecuta un ScriptBlock desde ese texto verificado. Asi se cierra el TOCTOU UAC.
@@ -473,6 +520,7 @@ try{
   `$global:VSO7TrustedLoadedText=`$text
   try{[IO.File]::Delete(`$stage)}catch{}
   `$invoke=@{VSOTrustedHost=`$true;VSOTrustedMemoryHost=`$true;VSOOriginalSourcePath=`$source;VSOExpectedSourceSha256=`$expected;VSOExpectedUserSid=`$sid;DirectAction=`$action;StartupProbe=`$probe}
+  if($classicLiteral){`$invoke.ClassicConsole=`$true}
   if($handoffLiteral){`$invoke.VSOInternalHandoff=`$true};if($skipLiteral){`$invoke.SkipOrganize=`$true};if(-not[string]::IsNullOrWhiteSpace(`$cleanup)){`$invoke.CleanupSource=`$cleanup};if(-not[string]::IsNullOrWhiteSpace(`$restore)){`$invoke.RestoreFromBundle=`$restore};if(-not[string]::IsNullOrWhiteSpace(`$lang)){`$invoke.Language=`$lang};if(-not[string]::IsNullOrWhiteSpace(`$probeRoot)){`$invoke.VSOProbeArtifactRoot=`$probeRoot};if(-not[string]::IsNullOrWhiteSpace(`$probeToken)){`$invoke.VSOProbeOwnerToken=`$probeToken};if(-not[string]::IsNullOrWhiteSpace(`$probeMutex)){`$invoke.VSOProbeMutexName=`$probeMutex}
   if(`$probe-like'GUI*'-and-not[string]::IsNullOrWhiteSpace(`$probeRoot)-and`$probeToken-match'^[A-Fa-f0-9]{32}$'){try{[IO.File]::AppendAllText((Join-Path `$probeRoot ('VSO7_R80_BOOTSTRAP_{0}.log'-f`$probeToken)),('['+(Get-Date).ToString('o')+'] PID='+`$PID+' Stage=BEFORE_INVOKE')+[Environment]::NewLine,(New-Object Text.UTF8Encoding(`$false)))}catch{}}
   `$LASTEXITCODE=0
@@ -491,21 +539,16 @@ try{
   exit 1
 }
 "@
-    # Interactive Menu prefers Windows Terminal. The visible parent first checks
-    # whether a real stable-package candidate exists. Without one, launch the
-    # verified wrapper directly in a visible classic console. The hidden broker is
-    # reserved for machines where Terminal can actually be attempted; it still has
-    # its guarded pre-payload fallback for validation, launch or handoff failures.
-    $terminalRequested=([string]$DirectAction-eq'Menu'-and[string]$StartupProbe-eq'None')
-    $terminalHost=($terminalRequested-and(Test-VSO7WindowsTerminalCandidateVSO -PowerShellExe $exe))
-    if($terminalHost){$wrapper=New-VSO7TerminalBootstrapCommandVSO -Wrapper $wrapper -PowerShellExe $exe -ExpectedUserSid $ExpectedUserSid}
+    if($interactive){
+        $wrapper=New-VSO7ConsoleBootstrapCommandVSO -Wrapper $wrapper -PowerShellExe $exe -ExpectedUserSid $ExpectedUserSid -StagePath $stage -PreferTerminal:$preferTerminal -LauncherPid $launcherPid -LauncherStartTicks $launcherStartTicks
+    }
     $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($wrapper))
     $startInfo=New-Object Diagnostics.ProcessStartInfo
     $startInfo.FileName=$exe
     $startInfo.Arguments=('-NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand '+$encoded)
     $startInfo.WorkingDirectory=[IO.Path]::GetDirectoryName($exe)
     $startInfo.UseShellExecute=$true
-    if($terminalHost){$startInfo.WindowStyle=[Diagnostics.ProcessWindowStyle]::Hidden}
+    if($interactive){$startInfo.WindowStyle=[Diagnostics.ProcessWindowStyle]::Hidden}
     if([string]$DirectAction-eq'GUI'){
         $startInfo.WindowStyle=[Diagnostics.ProcessWindowStyle]::Minimized
     }
@@ -517,6 +560,10 @@ try{
     try{
 
         if($encoded.Length-gt30000){throw 'The protected VSO7 bootstrap command is too long.'}
+        if($interactive-and$Wait){
+            $consoleName=if($preferTerminal){'Windows Terminal'}else{'Windows Console Host'}
+            [Console]::WriteLine(('[INFO] Opening {0}. Closing this window before the handoff cancels startup.'-f$consoleName))
+        }
         Write-VSO7EarlyStartupTimelineVSO -Name 'TRUSTED_HOST_BOOTSTRAP_BEGIN' -Detail ('Elevate='+[string][bool]$Elevate)
         $child=[Diagnostics.Process]::Start($startInfo)
         if($null-eq$child){
@@ -724,7 +771,7 @@ function Initialize-VSOTrustedHostBootstrap {
         # visible durante toda la sesión y permite mostrar cualquier error del hijo; en GUI el host
         # WPF final usa una consola minimizada, no un proceso Hidden, siguiendo el patrón de host de Win11Debloat.
         # El relevo interno de organización sigue siendo no bloqueante y libera el mutex por separado.
-        $childExit=[int](Start-VSOTrustedMemoryHostBootstrap -PowerShellExe $powerShellExe -LoadedScriptText ([string]$script:BootstrapLoadedScriptContents) -OriginalSourcePath $sourceFull -ExpectedUserSid $sourceUserSid -Elevate:(-not$isAdmin) -SkipOrganize:$SkipOrganize -CleanupSource ([string]$CleanupSource) -RestoreFromBundle ([string]$RestoreFromBundle) -Language ([string]$Language) -DirectAction ([string]$DirectAction) -StartupProbe ([string]$StartupProbe) -ProbeArtifactRoot ([string]$VSOProbeArtifactRoot) -ProbeOwnerToken ([string]$VSOProbeOwnerToken) -ProbeMutexName ([string]$VSOProbeMutexName) -Wait)
+        $childExit=[int](Start-VSOTrustedMemoryHostBootstrap -PowerShellExe $powerShellExe -LoadedScriptText ([string]$script:BootstrapLoadedScriptContents) -OriginalSourcePath $sourceFull -ExpectedUserSid $sourceUserSid -ClassicConsole:$ClassicConsole -Elevate:(-not$isAdmin) -SkipOrganize:$SkipOrganize -CleanupSource ([string]$CleanupSource) -RestoreFromBundle ([string]$RestoreFromBundle) -Language ([string]$Language) -DirectAction ([string]$DirectAction) -StartupProbe ([string]$StartupProbe) -ProbeArtifactRoot ([string]$VSOProbeArtifactRoot) -ProbeOwnerToken ([string]$VSOProbeOwnerToken) -ProbeMutexName ([string]$VSOProbeMutexName) -Wait)
         exit $childExit
 
     }catch{
@@ -993,7 +1040,7 @@ trap {
 }
 
 # Visible product version is independent of the existing authenticated state format.
-$script:DisplayVersion = '1.2.2'
+$script:DisplayVersion = '1.2.3'
 $script:Version = '7.0.0' # Protected-state/Recovery compatibility identifier; not a UI label.
 $script:Release = 'RC R80'
 $script:NativeJournalRevision = 26
@@ -5592,7 +5639,7 @@ function Copy-VSO7PackageDirectoryVSO {
 function Copy-VSO7PackageResourcesVSO {
 
     param([Parameter(Mandatory=$true)][string]$SourceRoot,[Parameter(Mandatory=$true)][string]$TargetRoot)
-    $allow=@('Resources','Tools','VSO7_7.0.0_RC_R80.ps1','START VSO7.bat','UNBLOCK VSO7.bat','INICIAR VSO7.vbs','INICIAR VSO7 CONSOLA.cmd','COMPROBAR VSO7.cmd','DESBLOQUEAR VSO7.bat','README.md','CHANGELOG.md','RC_STATUS.txt','LICENSE.txt','LICENSE.Win11Debloat.txt','THIRD_PARTY_NOTICES.md','SHA256SUMS.txt','SHA256.txt','RELEASE_SHA256_MANIFEST.txt','VSO7_AUDIT_7.0.0_RC_R80.json')
+    $allow=@('Resources','Tools','VSO7_7.0.0_RC_R80.ps1','START VSO7.bat','START-VSO7-Compatibility-Mode.bat','UNBLOCK VSO7.bat','INICIAR VSO7.vbs','INICIAR VSO7 CONSOLA.cmd','COMPROBAR VSO7.cmd','DESBLOQUEAR VSO7.bat','README.md','CHANGELOG.md','RC_STATUS.txt','LICENSE.txt','LICENSE.Win11Debloat.txt','THIRD_PARTY_NOTICES.md','SHA256SUMS.txt','SHA256.txt','RELEASE_SHA256_MANIFEST.txt','VSO7_AUDIT_7.0.0_RC_R80.json')
     foreach($name in $allow){
 
         $src=Join-Path $SourceRoot $name
@@ -5804,7 +5851,7 @@ function Invoke-FirstRunOrganization {
         $sid=[string](Get-VSO7CurrentUserSidVSO).Value
         # El hijo se inicia mientras este proceso conserva el mutex. Como relevo interno, espera
         # en Enter-VSO7SingleInstance; el bloqueo solo se libera cuando el nuevo host ya arrancó.
-        $childStarted=Start-VSOTrustedMemoryHostBootstrap -PowerShellExe $exe -LoadedScriptText ([string]$script:BootstrapLoadedScriptContents) -OriginalSourcePath $targetScript -ExpectedUserSid $sid -SkipOrganize -CleanupSource $source -Language ([string]$script:Language) -DirectAction ([string]$DirectAction) -StartupProbe ([string]$StartupProbe) -ProbeArtifactRoot ([string]$VSOProbeArtifactRoot) -ProbeOwnerToken ([string]$VSOProbeOwnerToken) -ProbeMutexName ([string]$VSOProbeMutexName) -InternalHandoff
+        $childStarted=Start-VSOTrustedMemoryHostBootstrap -PowerShellExe $exe -LoadedScriptText ([string]$script:BootstrapLoadedScriptContents) -OriginalSourcePath $targetScript -ExpectedUserSid $sid -ClassicConsole:$ClassicConsole -SkipOrganize -CleanupSource $source -Language ([string]$script:Language) -DirectAction ([string]$DirectAction) -StartupProbe ([string]$StartupProbe) -ProbeArtifactRoot ([string]$VSOProbeArtifactRoot) -ProbeOwnerToken ([string]$VSOProbeOwnerToken) -ProbeMutexName ([string]$VSOProbeMutexName) -InternalHandoff
         if(-not[bool]$childStarted){
             throw 'Windows no confirmó el relanzamiento de VSO7 desde su carpeta organizada.'
         }
@@ -33611,7 +33658,7 @@ namespace VSO7.Interop {
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Margin="0,0,0,16">
       <TextBlock Text="VSO7" FontSize="36" FontWeight="Bold" Foreground="#E3A35D"/>
-      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.2" FontSize="14" Foreground="#BDA98D"/>
+      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.3" FontSize="14" Foreground="#BDA98D"/>
       <TextBlock Name="HomeSubtitle" Margin="0,8,0,0" Foreground="#D8C7AE" FontSize="14"/>
     </StackPanel>
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><WrapPanel Name="Cards" Orientation="Horizontal"/></ScrollViewer>

@@ -1,8 +1,9 @@
 @echo off
 setlocal
-title VSO7 1.2.2 - Support window - DO NOT CLOSE
+title VSO7 1.2.3 - Support window - DO NOT CLOSE
 cd /d "%~dp0"
 set "PS=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
+set "PSModulePath=%SystemRoot%\System32\WindowsPowerShell\v1.0\Modules"
 
 if not exist "%PS%" (
   echo [ERROR] Windows PowerShell was not found.
@@ -19,7 +20,9 @@ if errorlevel 1 (
   exit /b 1
 )
 
-"%PS%" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0VSO7.ps1"
+set "VSO7_CONSOLE_ARG="
+if defined VSO7_COMPATIBILITY_LAUNCH set "VSO7_CONSOLE_ARG=-ClassicConsole"
+"%PS%" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0VSO7.ps1" %VSO7_CONSOLE_ARG%
 set "VSO7_EXIT=%ERRORLEVEL%"
 if not "%VSO7_EXIT%"=="0" (
   echo.
