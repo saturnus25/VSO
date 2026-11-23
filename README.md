@@ -38,7 +38,7 @@ Install-PSResource VSO
 Install-VSO
 ```
 
-With PowerShellGet on Windows PowerShell 5.1, use `Install-Module VSO` followed by `Install-VSO`. The installer supports custom paths and per-user or all-user installs. Installation and Windows optimization are separate steps.
+With PowerShellGet on Windows PowerShell 5.1, use `Install-Module VSO` followed by `Install-VSO`. VSO7 1.2.4 requires version 1.0.3 or later of the module. If you already have the module, update it with `Update-PSResource VSO` or `Update-Module VSO` before running `Update-VSO`. The installer supports custom paths and per-user or all-user installs. Installation and Windows optimization are separate steps.
 
 <details>
 <summary><strong>PowerShell lifecycle commands</strong></summary>
@@ -63,7 +63,7 @@ Reset-VSO -WhatIf
 You can download and extract VSO7 directly from GitHub Releases using a single PowerShell command, without installing the VSO module.
 
 ```powershell
-$zip="$env:TEMP\VSO7-1.2.3.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO/releases/latest/download/VSO7-1.2.3.zip" -OutFile $zip -ErrorAction Stop; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
+$zip="$env:TEMP\VSO7-1.2.4.zip"; Invoke-WebRequest "https://github.com/saturnus25/VSO/releases/latest/download/VSO7-1.2.4.zip" -OutFile $zip -ErrorAction Stop; Expand-Archive $zip -DestinationPath ".\VSO7" -Force; Remove-Item $zip
 ```
 
 This command downloads VSO7, extracts the archive into a `VSO7` folder in your current directory, and removes the temporary ZIP file.
@@ -76,7 +76,7 @@ Once extracted, run **`START VSO7.bat`** from the application folder.
 2. Extract the entire `VSO7` folder to a local drive.
 3. Run **`START VSO7.bat`** for the supported console interface. If Windows blocks the downloaded scripts, run **`UNBLOCK VSO7.bat`** once and then start VSO7.
 
-Use the batch launcher from the extracted folder so it can check the source files and start the elevated PowerShell host. VSO7 tries Windows Terminal first and falls back to Windows Console Host if the handoff fails. Closing the support window during the handoff cancels startup. To force Windows Console Host, download the **`START-VSO7-Compatibility-Mode.bat`** asset from the release page, save it next to `START VSO7.bat` and run it. The graphical interface is still in development.
+Use the batch launcher from the extracted folder so it can check the source files and start the elevated PowerShell host. VSO7 tries Windows Terminal first and falls back to Windows Console Host if the handoff fails. Closing the support window during the handoff cancels startup. To force Windows Console Host, run **`START-VSO7-Compatibility-Mode.bat`** from the same extracted folder. The graphical interface is still in development.
 
 <details>
 <summary><strong>Verify the downloaded archive</strong></summary>
@@ -84,7 +84,7 @@ Use the batch launcher from the extracted folder so it can check the source file
 Download the matching `.sha256` file next to the ZIP under [release assets](https://github.com/saturnus25/VSO/releases/latest). Compare its value with the result of `Get-FileHash`, using the name of the archive you downloaded.
 
 ```powershell
-Get-FileHash -LiteralPath '.\VSO7-1.2.3.zip' -Algorithm SHA256
+Get-FileHash -LiteralPath '.\VSO7-1.2.4.zip' -Algorithm SHA256
 ```
 
 The extracted release also includes `SHA256SUMS.txt` for the packaged files.

@@ -1,6 +1,6 @@
 @echo off
 setlocal
-title VSO7 1.2.3 - Support window - DO NOT CLOSE
+title VSO7 1.2.4 - Support window - DO NOT CLOSE
 cd /d "%~dp0"
 set "PS=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
 set "PSModulePath=%SystemRoot%\System32\WindowsPowerShell\v1.0\Modules"

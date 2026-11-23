@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.1
 <#
-VSO7 - Vico Safe Optimizer 1.2.3
+VSO7 - Vico Safe Optimizer 1.2.4
 ======================================
 Optimizador modular para Windows 10/11 centrado en cambios medibles, explicitos
 y reversibles. Incluye medicion A/B, VSO Score y sesiones Gaming temporales.
@@ -317,7 +317,7 @@ try{
                 if(-not$info.FileName.StartsWith($apps.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase)){
                     throw 'Windows Terminal is outside the protected WindowsApps directory.'
                 }
-                $info.Arguments='-w new new-tab --title "VSO7 1.2.3" '
+                $info.Arguments='-w new new-tab --title "VSO7 1.2.4" '
                 $info.UseShellExecute=$false
                 $info.CreateNoWindow=$true
                 $info.RedirectStandardInput=$true
@@ -1040,7 +1040,7 @@ trap {
 }
 
 # Visible product version is independent of the existing authenticated state format.
-$script:DisplayVersion = '1.2.3'
+$script:DisplayVersion = '1.2.4'
 $script:Version = '7.0.0' # Protected-state/Recovery compatibility identifier; not a UI label.
 $script:Release = 'RC R80'
 $script:NativeJournalRevision = 26
@@ -33658,7 +33658,7 @@ namespace VSO7.Interop {
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Margin="0,0,0,16">
       <TextBlock Text="VSO7" FontSize="36" FontWeight="Bold" Foreground="#E3A35D"/>
-      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.3" FontSize="14" Foreground="#BDA98D"/>
+      <TextBlock Text="VICO SAFE OPTIMIZER · 1.2.4" FontSize="14" Foreground="#BDA98D"/>
       <TextBlock Name="HomeSubtitle" Margin="0,8,0,0" Foreground="#D8C7AE" FontSize="14"/>
     </StackPanel>
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><WrapPanel Name="Cards" Orientation="Horizontal"/></ScrollViewer>
